@@ -60,7 +60,7 @@ These are the original values, unchanged.
 |---|---|---|
 | `dark` | `#272727` | |
 | `textDarkPrimary` | `#F6F6F6` | |
-| `textDarkSecondary` | `#F6F6F6` at 50% (`#F6F6F680`) | |
+| `textDarkSecondary` | `#F6F6F6` at **60%** (`#F6F6F699`) | Was 50% (`#F6F6F680`). At 50% it measured below 4.5:1 on the `surfaceMuted` rows in dark mode (axe check in the shop-web e2e test), so it was raised to 60% (about 5.2:1). |
 | `darkScaffoldBackground` | `#000000` at 10% (`#0000001A`) | **Transparent.** Can't be a page background on its own (see §2). |
 | `darkContainer` | `#FFFFFF` at 10% (`#FFFFFF1A`) | Card surface, laid over the page background |
 | `borderSecondary` | `#313131` | |
@@ -77,6 +77,7 @@ These are new values, needed for the web and for accessibility.
 | `primaryStrong` | `#3A56F0` | `primary` on white has a contrast of **4.45:1**, just under the 4.5:1 WCAG AA minimum for small text. Use `primaryStrong` for small blue text and links on light backgrounds (5.6:1). |
 | `onSecondary` | `#272727` (= `textPrimary`) | Text on the yellow `secondary` |
 | `status*Tint` | each status colour at 12% | Background for status chips (§5) |
+| `errorText` | light `#D32F2F` · dark `#FF8A80` | `error` on a dark card is only about 2.9:1, so error **text** (like the Reject button) uses a lighter red in dark mode (about 6.3:1). Fills and icons still use `error`. |
 
 ---
 
@@ -90,17 +91,18 @@ Components use these **role** names, never the palette names above. Swapping the
 | `surface` (cards, sheets) | `white` `#FFFFFF` | `darkContainer` over page → `#2A2A2A` |
 | `surfaceMuted` (inputs, table stripes) | `lightContainer` `#F6F6F6` | `#FFFFFF0D` (5% white) |
 | `text` | `textPrimary` `#272727` | `textDarkPrimary` `#F6F6F6` |
-| `textMuted` | `textSecondary` `#656565` | `textDarkSecondary` `#F6F6F680` |
+| `textMuted` | `textSecondary` `#656565` | `textDarkSecondary` `#F6F6F699` |
 | `textOnPrimary` | `textWhite` | `textWhite` |
 | `border` | `borderPrimary` `#D9D9D9` | `borderSecondary` `#313131` |
 | `icon` | `iconPrimary` `#8D8D8D` | `darkGrey` `#939393` |
 | `primary` (fills) | `buttonPrimary` `#4B68FF` | `primary` `#4B68FF` |
 | `link` (small blue text) | `primaryStrong` `#3A56F0` | `accent` `#B0C7FF` |
 | `buttonSecondary` | `#6C757D` | `#6C757D` |
-| `buttonDisabled` | `#C4C4C4` (text `#656565`) | `#FFFFFF1F` (text `#F6F6F680`) |
+| `buttonDisabled` | `#C4C4C4` (text `#656565`) | `#FFFFFF1F` (text `#F6F6F699`) |
 | `highlight` | `secondary` `#FFE24B` | `secondary` `#FFE24B` |
 | `focusRing` | `accent` `#B0C7FF` | `accent` `#B0C7FF` |
 | `error` / `success` / `warning` / `info` | palette values | same values |
+| `errorText` (error text and the Reject text button) | `error` `#D32F2F` | `#FF8A80` |
 
 ---
 
@@ -127,7 +129,7 @@ export const palette = {
   textPrimary: '#272727', textSecondary: '#656565', textWhite: '#FFFFFF',
   light: '#F6F6F6', primaryBackground: '#F5F5F5', lightContainer: '#F6F6F6',
   buttonPrimary: '#4B68FF', buttonSecondary: '#6C757D', buttonDisabled: '#C4C4C4', borderPrimary: '#D9D9D9',
-  dark: '#272727', textDarkPrimary: '#F6F6F6', textDarkSecondary: '#F6F6F680',
+  dark: '#272727', textDarkPrimary: '#F6F6F6', textDarkSecondary: '#F6F6F699',
   darkScaffoldBackground: '#0000001A', darkContainer: '#FFFFFF1A', borderSecondary: '#313131',
   darkPage: '#121212',
 } as const;
@@ -201,7 +203,7 @@ export const useTheme = () => (useColorScheme() === 'dark' ? dark : light);
   --popover: #2A2A2A;     --popover-foreground: #F6F6F6;
   --primary: #4B68FF;     --primary-foreground: #FFFFFF;
   --secondary: #FFE24B;   --secondary-foreground: #272727;
-  --muted: rgba(255,255,255,.05); --muted-foreground: rgba(246,246,246,.5);
+  --muted: rgba(255,255,255,.05); --muted-foreground: rgba(246,246,246,.6);
   --accent: #B0C7FF;      --accent-foreground: #272727;
   --destructive: #D32F2F; --destructive-foreground: #FFFFFF;
   --border: #313131;  --input: #313131;  --ring: #B0C7FF;

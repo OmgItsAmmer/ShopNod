@@ -1,0 +1,13 @@
+{
+  "name": "@shopnod/theme",
+  "version": "0.1.0",
+  "private": true,
+  "main": "tokens.ts",
+  "types": "tokens.ts",
+  "exports": {
+    ".": "./tokens.ts",
+    "./theme.css": "./theme.css"
+  },
+  "scripts": { "test": "vitest run" },
+  "devDependencies": { "vitest": "3.2.7", "typescript": "5.9.3" }
+}

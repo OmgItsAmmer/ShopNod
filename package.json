@@ -1,0 +1,14 @@
+{
+  "name": "shopnod",
+  "private": true,
+  "workspaces": ["apps/shop-web", "packages/*", "tests/e2e"],
+  "scripts": {
+    "types": "python infra/scripts/gen_openapi.py && npm run generate -w @shopnod/shared-types",
+    "types:check": "python infra/scripts/gen_openapi.py && npm run generate -w @shopnod/shared-types && git diff --exit-code packages/shared-types",
+    "test:theme": "npm test -w @shopnod/theme",
+    "dev:web": "npm run dev -w shop-web",
+    "build:web": "npm run build -w shop-web",
+    "test:web": "npm test -w shop-web"
+  },
+  "engines": { "node": ">=20" }
+}

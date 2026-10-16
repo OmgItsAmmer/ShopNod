@@ -1,0 +1,166 @@
+{
+  "meta": { "title": "ShopNod", "description": "La IA de tu tienda prepara ofertas. Tú las apruebas. Nada se publica sin tu permiso." },
+  "common": {
+    "skipToContent": "Saltar al contenido",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "reset": "Restablecer",
+    "actions": "Acciones",
+    "logout": "Cerrar sesión",
+    "language": "Idioma",
+    "darkMode": "Modo oscuro",
+    "lightMode": "Modo claro",
+    "demoShop": "Tienda de prueba",
+    "copied": "Copiado"
+  },
+  "nav": {
+    "main": "Menú principal",
+    "openMenu": "Abrir menú",
+    "dashboard": "Inicio",
+    "offers": "Ofertas",
+    "scan": "Escanear",
+    "items": "Artículos",
+    "guardrails": "Mis límites",
+    "insights": "Aprendizaje",
+    "agentTrace": "Actividad de la IA",
+    "audit": "Registro de aprobaciones",
+    "billing": "Facturación",
+    "settings": "Ajustes",
+    "admin": "Herramientas de demo"
+  },
+  "live": {
+    "live": "En vivo",
+    "connecting": "Conectando",
+    "polling": "Actualizando",
+    "newProposal": "Nueva oferta por aprobar",
+    "confirmationRequested": "Tu asistente de IA espera tu confirmación",
+    "redemption": "Un cliente acaba de canjear una oferta"
+  },
+  "landing": {
+    "headline": "La IA prepara la oferta. Tú decides.",
+    "subhead": "Cuando tu tienda está tranquila o hay stock a punto de caducar, ShopNod propone un descuento dentro de los límites que fijas. Nada se publica hasta que lo apruebes.",
+    "tryAsJudge": "Probar como jurado",
+    "signIn": "Iniciar sesión",
+    "judgeNote": "Sin contraseña ni tarjeta. Crea una tienda de prueba en unos 90 segundos.",
+    "howTitle": "Cómo funciona",
+    "step1Title": "Tu tienda está tranquila",
+    "step2Title": "La IA propone dentro de tus límites",
+    "step3Title": "Tú apruebas",
+    "step4Title": "Escanea en el mostrador"
+  },
+  "login": {
+    "title": "Iniciar sesión",
+    "subtitle": "Te enviamos un enlace de un solo uso. Sin contraseña.",
+    "email": "Correo electrónico",
+    "sendLink": "Enviarme un enlace de acceso",
+    "or": "o",
+    "checkEmail": "Revisa tu correo"
+  },
+  "onboarding": {
+    "progress": "Progreso de la configuración",
+    "next": "Continuar",
+    "back": "Atrás",
+    "steps": { "shop": "Tu tienda", "location": "Ubicación", "review": "Revisión" },
+    "shop": {
+      "title": "Cuéntanos sobre tu tienda",
+      "subtitle": "Paso 1 de 3. Elige el tipo más cercano y rellenamos el resto.",
+      "name": "Nombre de la tienda",
+      "category": "¿Qué tipo de tienda es?"
+    },
+    "location": {
+      "title": "¿Dónde está tu tienda?",
+      "demoMarket": "Usar el Mercado de prueba",
+      "useMyLocation": "Usar mi ubicación",
+      "tapMap": "Toca el mapa para colocar el pin."
+    },
+    "review": { "title": "Revisa tus artículos y límites", "finish": "Terminar configuración" }
+  },
+  "dashboard": {
+    "title": "Inicio",
+    "imQuiet": "Estoy tranquilo",
+    "simulateQuiet": "Simular una hora tranquila",
+    "shopperView": "Mira lo que ven los clientes",
+    "noInstall": "Sin instalar nada"
+  },
+  "inbox": {
+    "title": "Esperando tu decisión",
+    "keyboardHint": "Teclado: J / K mover · A aprobar · E editar · R rechazar",
+    "drafting": "Preparando una oferta para ti…",
+    "emptyTitle": "Nada que aprobar ahora",
+    "emptyBody": "Pulsa «Estoy tranquilo» y ShopNod prepara una oferta dentro de tus límites. Solo se publica cuando la apruebas."
+  },
+  "proposal": {
+    "sourceAi": "IA",
+    "sourceRules": "Basada en reglas",
+    "awaitingConfirmation": "Esperando tu confirmación",
+    "upTo": "hasta {cap} clientes",
+    "guardrailSaved": "El límite te protegió: {from}% → {to}%",
+    "marginHealthy": "{pct}% de margen",
+    "marginLow": "Margen bajo: {pct}%",
+    "belowCost": "Bajo el coste",
+    "approve": "Aprobar",
+    "edit": "Editar",
+    "reject": "Rechazar",
+    "published": "Oferta publicada. Los clientes cercanos pueden verla.",
+    "rejected": "Rechazada. ShopNod aprenderá de esto.",
+    "editTitle": "Edita antes de aprobar",
+    "discount": "Descuento",
+    "from": "Desde",
+    "until": "Hasta",
+    "customersCap": "Clientes permitidos",
+    "approveEdited": "Aprobar con mis cambios",
+    "previewTitle": "Lo que leerán los clientes",
+    "aiWrittenLabel": "Escrito por IA, aprobado por la tienda",
+    "templateLabel": "Texto estándar, aprobado por la tienda",
+    "samePrice": "Todos ven el mismo precio en esta oferta.",
+    "rejectTitle": "¿Por qué no?",
+    "reasons": { "wrong_items": "Artículos incorrectos", "wrong_time": "Hora incorrecta", "too_generous": "Demasiado generosa", "other": "Otro motivo" }
+  },
+  "confirmation": {
+    "title": "Tu asistente de IA está esperando",
+    "fromAssistant": "De tu asistente de IA",
+    "confirm": "Confirmar y publicar",
+    "decline": "Rechazar",
+    "nothingLive": "Nada se publica hasta que confirmes."
+  },
+  "offers": {
+    "title": "Ofertas",
+    "liveTitle": "Ofertas en vivo",
+    "noneLive": "No hay ninguna oferta en vivo ahora.",
+    "tabs": { "active": "En vivo", "ended": "Terminadas", "all": "Todas" },
+    "status": { "active": "En vivo", "ended": "Terminada", "sold_out": "Agotada" },
+    "redeemedOf": "{n} de {cap} canjeadas",
+    "endNow": "Terminar ahora"
+  },
+  "impact": {
+    "title": "Tu impacto hoy",
+    "customersToday": "Clientes hoy",
+    "extraCustomers": "Clientes extra",
+    "wasteAvoided": "Desperdicio evitado",
+    "marginKept": "Margen conservado",
+    "roi": "Retorno",
+    "estimate": "Estimación"
+  },
+  "scan": {
+    "title": "Escanear en el mostrador",
+    "subtitle": "Escanea el código QR del cliente o escribe el código de 6 caracteres de debajo.",
+    "startCamera": "Iniciar cámara",
+    "shortCode": "Código de 6 caracteres",
+    "check": "Comprobar código",
+    "applyPct": "Aplicar {pct}%",
+    "scanNext": "Escanear siguiente",
+    "result": { "invalid": "Código no válido", "expired": "Código caducado", "wrong_shop": "Tienda equivocada", "already_redeemed": "Ya canjeado", "offer_ended": "Oferta terminada" }
+  },
+  "settings": {
+    "title": "Ajustes",
+    "tabs": { "profile": "Tienda", "hours": "Horario", "notifications": "Alertas", "assistant": "Asistente de IA" },
+    "days": { "mon": "Lun", "tue": "Mar", "wed": "Mié", "thu": "Jue", "fri": "Vie", "sat": "Sáb", "sun": "Dom" },
+    "grid": { "busy": "Concurrido", "normal": "Normal", "quiet": "Tranquilo" }
+  },
+  "guardrails": { "title": "Mis límites", "maxDiscount": "Mayor descuento (%)" },
+  "items": { "title": "Artículos", "addItem": "Añadir artículo", "name": "Nombre", "category": "Categoría", "quantity": "En stock" },
+  "billing": { "title": "Facturación" }
+}

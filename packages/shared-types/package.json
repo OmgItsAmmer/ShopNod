@@ -1,0 +1,10 @@
+{
+  "name": "@shopnod/shared-types",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Generated from FastAPI's OpenAPI. Never edit src/api.d.ts by hand: run `npm run types`.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": { "generate": "openapi-typescript openapi.json -o src/api.d.ts" },
+  "devDependencies": { "openapi-typescript": "7.13.0", "typescript": "5.9.3" }
+}

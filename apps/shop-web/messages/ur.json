@@ -1,0 +1,166 @@
+{
+  "meta": { "title": "ShopNod", "description": "آپ کی دکان کا AI آفر تیار کرتا ہے۔ آپ منظور کرتے ہیں۔ آپ کی اجازت کے بغیر کچھ لائیو نہیں ہوتا۔" },
+  "common": {
+    "skipToContent": "مواد پر جائیں",
+    "save": "محفوظ کریں",
+    "cancel": "منسوخ کریں",
+    "close": "بند کریں",
+    "edit": "ترمیم",
+    "delete": "حذف کریں",
+    "reset": "ری سیٹ",
+    "actions": "اقدامات",
+    "logout": "سائن آؤٹ",
+    "language": "زبان",
+    "darkMode": "ڈارک موڈ",
+    "lightMode": "لائٹ موڈ",
+    "demoShop": "ڈیمو دکان",
+    "copied": "کاپی ہو گیا"
+  },
+  "nav": {
+    "main": "مرکزی مینو",
+    "openMenu": "مینو کھولیں",
+    "dashboard": "ہوم",
+    "offers": "آفرز",
+    "scan": "اسکین",
+    "items": "اشیاء",
+    "guardrails": "میری حدود",
+    "insights": "سیکھنا",
+    "agentTrace": "AI سرگرمی",
+    "audit": "منظوری کا ریکارڈ",
+    "billing": "بلنگ",
+    "settings": "ترتیبات",
+    "admin": "ڈیمو ٹولز"
+  },
+  "live": {
+    "live": "لائیو",
+    "connecting": "جڑ رہا ہے",
+    "polling": "تازہ ہو رہا ہے",
+    "newProposal": "منظوری کے لیے نئی آفر",
+    "confirmationRequested": "آپ کا AI اسسٹنٹ آپ کی تصدیق کا منتظر ہے",
+    "redemption": "ایک گاہک نے ابھی آفر استعمال کی"
+  },
+  "landing": {
+    "headline": "AI آفر تیار کرتا ہے۔ فیصلہ آپ کا۔",
+    "subhead": "جب آپ کی دکان پر رش کم ہو یا سامان ایکسپائر ہونے والا ہو، ShopNod آپ کی مقرر کردہ حدود کے اندر ڈسکاؤنٹ تجویز کرتا ہے۔ آپ کی منظوری کے بغیر کچھ بھی لائیو نہیں ہوتا۔",
+    "tryAsJudge": "جج کے طور پر آزمائیں",
+    "signIn": "سائن اِن",
+    "judgeNote": "نہ پاس ورڈ، نہ کارڈ۔ تقریباً 90 سیکنڈ میں ڈیمو دکان بنائیں۔",
+    "howTitle": "یہ کیسے کام کرتا ہے",
+    "step1Title": "آپ کی دکان پر رش کم ہے",
+    "step2Title": "AI آپ کی حدود کے اندر تجویز دیتا ہے",
+    "step3Title": "آپ منظور کرتے ہیں",
+    "step4Title": "کاؤنٹر پر اسکین کریں"
+  },
+  "login": {
+    "title": "سائن اِن",
+    "subtitle": "ہم آپ کو ایک بار کا لنک ای میل کرتے ہیں۔ پاس ورڈ نہیں۔",
+    "email": "ای میل پتہ",
+    "sendLink": "مجھے سائن اِن لنک بھیجیں",
+    "or": "یا",
+    "checkEmail": "اپنی ای میل دیکھیں"
+  },
+  "onboarding": {
+    "progress": "سیٹ اپ کی پیش رفت",
+    "next": "جاری رکھیں",
+    "back": "واپس",
+    "steps": { "shop": "آپ کی دکان", "location": "مقام", "review": "جائزہ" },
+    "shop": {
+      "title": "اپنی دکان کے بارے میں بتائیں",
+      "subtitle": "مرحلہ 1 از 3۔ قریب ترین قسم چنیں، باقی ہم خود بھر دیتے ہیں۔",
+      "name": "دکان کا نام",
+      "category": "یہ کس قسم کی دکان ہے؟"
+    },
+    "location": {
+      "title": "آپ کی دکان کہاں ہے؟",
+      "demoMarket": "ڈیمو مارکیٹ استعمال کریں",
+      "useMyLocation": "میری لوکیشن استعمال کریں",
+      "tapMap": "پن لگانے کے لیے نقشے پر ٹیپ کریں۔"
+    },
+    "review": { "title": "اپنی اشیاء اور حدود دیکھ لیں", "finish": "سیٹ اپ مکمل کریں" }
+  },
+  "dashboard": {
+    "title": "ہوم",
+    "imQuiet": "دکان پر رش کم ہے",
+    "simulateQuiet": "کم رش کا ایک گھنٹہ سمیلیٹ کریں",
+    "shopperView": "دیکھیں گاہک کیا دیکھتے ہیں",
+    "noInstall": "انسٹال کی ضرورت نہیں"
+  },
+  "inbox": {
+    "title": "آپ کے فیصلے کے منتظر",
+    "keyboardHint": "کی بورڈ: J / K حرکت · A منظور · E ترمیم · R مسترد",
+    "drafting": "آپ کے لیے آفر تیار ہو رہی ہے…",
+    "emptyTitle": "ابھی منظوری کے لیے کچھ نہیں",
+    "emptyBody": "\"دکان پر رش کم ہے\" دبائیں تو ShopNod آپ کی حدود کے اندر آفر تیار کرتا ہے۔ یہ صرف آپ کی منظوری پر لائیو ہوتی ہے۔"
+  },
+  "proposal": {
+    "sourceAi": "AI",
+    "sourceRules": "اصول پر مبنی",
+    "awaitingConfirmation": "آپ کی تصدیق کا انتظار",
+    "upTo": "زیادہ سے زیادہ {cap} گاہک",
+    "guardrailSaved": "حد نے آپ کو بچایا: {from}% ← {to}%",
+    "marginHealthy": "{pct}% منافع",
+    "marginLow": "کم منافع: {pct}%",
+    "belowCost": "لاگت سے کم",
+    "approve": "منظور کریں",
+    "edit": "ترمیم",
+    "reject": "مسترد کریں",
+    "published": "آفر شائع ہو گئی۔ قریبی گاہک اسے دیکھ سکتے ہیں۔",
+    "rejected": "مسترد ہو گئی۔ ShopNod اس سے سیکھے گا۔",
+    "editTitle": "منظوری سے پہلے ترمیم کریں",
+    "discount": "ڈسکاؤنٹ",
+    "from": "سے",
+    "until": "تک",
+    "customersCap": "اجازت یافتہ گاہک",
+    "approveEdited": "میری تبدیلیوں کے ساتھ منظور کریں",
+    "previewTitle": "گاہک کیا پڑھیں گے",
+    "aiWrittenLabel": "AI کی لکھی ہوئی، دکان کی منظور شدہ",
+    "templateLabel": "معیاری متن، دکان کا منظور شدہ",
+    "samePrice": "اس آفر پر سب کو ایک ہی قیمت نظر آتی ہے۔",
+    "rejectTitle": "کیوں نہیں؟",
+    "reasons": { "wrong_items": "غلط اشیاء", "wrong_time": "غلط وقت", "too_generous": "بہت زیادہ رعایت", "other": "کوئی اور وجہ" }
+  },
+  "confirmation": {
+    "title": "آپ کا AI اسسٹنٹ منتظر ہے",
+    "fromAssistant": "آپ کے AI اسسٹنٹ کی طرف سے",
+    "confirm": "تصدیق کریں اور شائع کریں",
+    "decline": "مسترد کریں",
+    "nothingLive": "آپ کی تصدیق تک کچھ لائیو نہیں۔"
+  },
+  "offers": {
+    "title": "آفرز",
+    "liveTitle": "لائیو آفرز",
+    "noneLive": "اس وقت کوئی آفر لائیو نہیں۔",
+    "tabs": { "active": "لائیو", "ended": "ختم", "all": "سب" },
+    "status": { "active": "لائیو", "ended": "ختم", "sold_out": "ختم ہو گئی" },
+    "redeemedOf": "{cap} میں سے {n} استعمال ہوئیں",
+    "endNow": "ابھی ختم کریں"
+  },
+  "impact": {
+    "title": "آج آپ کا اثر",
+    "customersToday": "آج کے گاہک",
+    "extraCustomers": "اضافی گاہک",
+    "wasteAvoided": "ضیاع سے بچت",
+    "marginKept": "بچا ہوا منافع",
+    "roi": "منافع کی شرح",
+    "estimate": "اندازہ"
+  },
+  "scan": {
+    "title": "کاؤنٹر پر اسکین کریں",
+    "subtitle": "گاہک کا QR کوڈ اسکین کریں، یا اس کے نیچے 6 حرفی کوڈ لکھیں۔",
+    "startCamera": "کیمرہ شروع کریں",
+    "shortCode": "6 حرفی کوڈ",
+    "check": "کوڈ چیک کریں",
+    "applyPct": "{pct}% لگائیں",
+    "scanNext": "اگلا اسکین",
+    "result": { "invalid": "غلط کوڈ", "expired": "کوڈ کی میعاد ختم", "wrong_shop": "غلط دکان", "already_redeemed": "پہلے ہی استعمال ہو چکا", "offer_ended": "آفر ختم ہو گئی" }
+  },
+  "settings": {
+    "title": "ترتیبات",
+    "tabs": { "profile": "دکان", "hours": "اوقات", "notifications": "الرٹس", "assistant": "AI اسسٹنٹ" },
+    "days": { "mon": "پیر", "tue": "منگل", "wed": "بدھ", "thu": "جمعرات", "fri": "جمعہ", "sat": "ہفتہ", "sun": "اتوار" },
+    "grid": { "busy": "رش", "normal": "عام", "quiet": "کم رش" }
+  },
+  "guardrails": { "title": "میری حدود", "maxDiscount": "زیادہ سے زیادہ ڈسکاؤنٹ (%)" },
+  "items": { "title": "اشیاء", "addItem": "شے شامل کریں", "name": "نام", "category": "زمرہ", "quantity": "اسٹاک" },
+  "billing": { "title": "بلنگ" }
+}

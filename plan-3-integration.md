@@ -198,6 +198,8 @@ EXPO_PUBLIC_API_URL, EXPO_PUBLIC_VAPID_PUBLIC_KEY, EXPO_PUBLIC_EAS_PROJECT_ID
 
 **Contract changelog:** _(date · change · approved by Plan 1 owner + Plan 2 owner)_
 
+- 2026-10-16 · Plan 2 proposed additions: `stripe_events`, `offer_reach_stats`, nullable `claims.install_id`, outbox topics `shop.completed` / `proposal.expired` / `offer.sold_out` / `sim.burst`, theme contrast tokens. Details in [README.md](README.md#contract-changelog-proposed-by-plan-2) · **Plan 1 owner approval: pending**
+
 ---
 
 ## Phase 1: Join the two halves
