@@ -32,7 +32,7 @@ Plan 4 Phases 2–6  →  deploy, test live, get demo-ready
 shopnod/
 ├── apps/
 │   ├── shop-web/              # Plan 2
-│   └── shopper/               # Plan 1 (Expo: Android, iOS, web)
+│   └── shopper/               # Plan 1 (Flutter: Android, iOS, web)
 ├── services/
 │   ├── core/                  # Phase 0 – shared Python package "shopnod_core"
 │   │   (settings, db, models, auth, errors, idempotency, outbox, events,
@@ -47,7 +47,8 @@ shopnod/
 │       ├── shop/              # Plan 2
 │       ├── sim/               # Plan 3
 │       └── ops/               # Phase 0
-├── packages/shared-types/     # generated from OpenAPI – never edit by hand
+├── packages/shared-types/     # TS types generated from OpenAPI (shop-web) – never edit by hand
+├── packages/shopper-api/      # Dart client generated from OpenAPI (shopper) – never edit by hand
 ├── packages/theme/            # Phase 0 – colours for both apps, see theme.md
 ├── infra/{docker/, compose.yaml, seed/}
 └── tests/e2e/                 # Plan 3 (Playwright)
@@ -150,7 +151,7 @@ Events are written to the `outbox` table **in the same transaction** as the chan
 - Live updates use SSE on `GET /v1/shop/stream` and `GET /v1/shopper/stream`.
   - Each message is `{type, data}`, with a heartbeat every 15 s.
   - If the stream drops twice, the client polls every 5 s instead.
-- CI regenerates `packages/shared-types` from FastAPI's OpenAPI and fails if the result differs from the committed copy.
+- CI regenerates `packages/shared-types` and `packages/shopper-api` from FastAPI's OpenAPI and fails if the result differs from the committed copy.
 - Every response has an `X-Request-ID`. The same ID appears in the logs.
 
 ### 0.9 Shared AI wrapper
@@ -171,7 +172,7 @@ DATABASE_URL, REDIS_URL, APP_ENV (local|prod), LOG_LEVEL, SENTRY_DSN
 OPENAI_API_KEY, OPENAI_MODEL_AGENT, OPENAI_MODEL_FAST
 JWT_SIGNING_KEY, QR_SIGNING_KEY (Ed25519 private key, base64)
 VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, VAPID_SUBJECT
-EXPO_ACCESS_TOKEN
+FIREBASE_CREDENTIALS (service-account JSON, base64)
 STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, STRIPE_METER_EVENT_NAME, STRIPE_PRO_PRICE_ID
 EMAIL_PROVIDER_KEY (optional – without it, magic links are printed in the logs)
 SHOP_WEB_URL, SHOPPER_WEB_URL, API_PUBLIC_URL, MCP_PUBLIC_URL
@@ -181,8 +182,9 @@ MCP_AGENT_TOKEN_SECRET
 # shop-web
 API_INTERNAL_URL, NEXT_PUBLIC_VAPID_PUBLIC_KEY, NEXT_PUBLIC_SHOPPER_WEB_URL
 
-# shopper (used at build time)
-EXPO_PUBLIC_API_URL, EXPO_PUBLIC_VAPID_PUBLIC_KEY, EXPO_PUBLIC_EAS_PROJECT_ID
+# shopper (--dart-define values at build time)
+API_URL, VAPID_PUBLIC_KEY
+# (the Firebase client config lives in firebase_options.dart, made by `flutterfire configure`)
 ```
 
 `settings.py` changes a `postgres://` or `postgresql://` URL into `postgresql+asyncpg://`. Alternate Futures gives the plain form.

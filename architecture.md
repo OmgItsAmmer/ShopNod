@@ -91,7 +91,7 @@ flowchart TB
     subgraph AF["☁️ ALTERNATE FUTURES CLOUD"]
         direction TB
         WEB["shop-web<br/>Next.js (SSR)"]
-        CWEB["shopper-web<br/>Expo web build (static)"]
+        CWEB["shopper-web<br/>Flutter web build (static)"]
         API["api<br/>FastAPI · REST + SSE"]
         MCPS["mcp<br/>ShopNod MCP server<br/>(Streamable HTTP)"]
         WORK["worker<br/>agents · notifications · billing"]
@@ -103,7 +103,7 @@ flowchart TB
     subgraph EXT["🔌 External APIs"]
         direction LR
         OAI["OpenAI API"]
-        PUSH["Expo Push / Web Push"]
+        PUSH["FCM / Web Push"]
         STRIPE["Stripe (test mode)"]
         MAPS["Maps / geocoding"]
     end
@@ -133,7 +133,7 @@ flowchart TB
 | `worker` | Runs the agents, notification outbox, billing jobs, nightly learning (task queue on Redis) | Scale with load |
 | `scheduler` | Enqueues periodic jobs: quiet detection (every 5 min), expiry sweep, nightly learning, billing | **Exactly 1 replica** |
 | `shop-web` | Next.js shopkeeper app | Stateless |
-| `shopper-web` | The same React Native app built for the web, so judges can try the shopper side **without installing anything** | Static |
+| `shopper-web` | The same Flutter app built for the web, so judges can try the shopper side **without installing anything** | Static |
 | `postgres`, `redis` | Platform-managed if Alternate Futures offers them, otherwise containers with persistent volumes | n/a |
 
 > **To confirm with the organisers** (I couldn't find public docs for Alternate Futures):

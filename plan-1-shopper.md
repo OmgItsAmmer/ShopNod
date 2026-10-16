@@ -21,11 +21,11 @@ A shopper with **no account** does this:
 ### What this plan owns
 | Part | Where |
 |---|---|
-| Expo app (Android, iOS, web) | `apps/shopper/` |
+| Flutter app (Android, iOS, web) | `apps/shopper/` |
 | Shopper API routes | `services/api/routers/shopper/` |
 | Shopper background tasks | `services/worker/tasks/shopper/` |
 | Matching Agent + rules fallback | `services/worker/tasks/shopper/matching/` |
-| Expo push sender | `services/core/push/expo.py` |
+| FCM push sender | `services/core/push/fcm.py` |
 | Tables this plan writes | `shoppers`, `consents`, `shopper_preferences`, `shopping_lists`, `shopper_push_tokens`, `notifications`, `shopper_events`, `shopper_affinity`, `claims` (create only), and the view `offer_reach_stats` |
 
 ### What this plan does NOT do
@@ -33,38 +33,39 @@ A shopper with **no account** does this:
 - Fake shoppers and the full-loop test are **Plan 3**.
 - Until Plan 2 is ready, use **`infra/seed/dev_offers.py`** (you write it). It adds live offers to the Demo Market and sends `offer.published`.
 
-### App screens (Expo Router)
+### App screens (Flutter, `go_router`)
 
 ```
-apps/shopper/app/
-├── _layout.tsx                 # providers: data, language, theme, right-to-left, error boundary
-├── (onboarding)/
-│   ├── age.tsx                 # "I'm 18 or older" – required
-│   ├── language.tsx
-│   ├── consent.tsx             # one switch per purpose, plain words, privacy link
-│   ├── interests.tsx           # category chips + dietary tags
-│   └── location.tsx            # explain first → OS prompt, or "Join Demo Market"
-├── (tabs)/
-│   ├── index.tsx               # "For you" feed
-│   ├── list.tsx                # shopping list
-│   ├── wallet.tsx              # my claimed offers
-│   └── settings.tsx
-├── offer/[id].tsx              # offer detail + "Get offer"
-├── claim/[id].tsx              # QR + short code + countdown + live "Redeemed"
-├── why/[offerId].tsx           # pop-up: why you see this + 👍/👎
-├── learned.tsx                 # what the app learned about you + reset
-└── my-data.tsx                 # export / delete
+apps/shopper/lib/
+├── main.dart                   # ProviderScope, MaterialApp.router: data, language, theme, right-to-left, error boundary
+├── router.dart                 # go_router routes + redirect to onboarding until consent is saved
+├── onboarding/
+│   ├── age_screen.dart         # "I'm 18 or older" – required
+│   ├── language_screen.dart
+│   ├── consent_screen.dart     # one switch per purpose, plain words, privacy link
+│   ├── interests_screen.dart   # category chips + dietary tags
+│   └── location_screen.dart    # explain first → OS prompt, or "Join Demo Market"
+├── tabs/
+│   ├── feed_screen.dart        # "For you" feed
+│   ├── list_screen.dart        # shopping list
+│   ├── wallet_screen.dart      # my claimed offers
+│   └── settings_screen.dart
+├── offer/offer_screen.dart     # route /offer/:id – offer detail + "Get offer"
+├── claim/claim_screen.dart     # route /claim/:id – QR + short code + countdown + live "Redeemed"
+├── why/why_sheet.dart          # bottom sheet: why you see this + 👍/👎
+├── learned_screen.dart         # what the app learned about you + reset
+└── my_data_screen.dart         # export / delete
 ```
 
 ### Tools used across all phases
 | Need | Tool |
 |---|---|
-| Data fetching | TanStack Query. The feed refreshes on focus and every 60 s. |
-| Session | Zustand. The install token is in `expo-secure-store` on mobile and in `localStorage` on web (wrapped in try/catch). |
-| API calls | Types from `packages/shared-types` + a small fetch wrapper that turns error JSON into friendly messages |
-| Languages | i18next. Start with en, ur, ar, es. Right-to-left through `I18nManager` (mobile) and `dir="rtl"` (web). |
-| Accessibility | WCAG 2.2 AA: 44 px touch targets, labels, good contrast, large text support |
-| Look | Colours and component styles come from [theme.md](theme.md) (`packages/theme`). Big cards with a large % and the shop name, distance and "ends in 40 min". Always show the old price next to the new one. A small but always-visible AI label. Light and dark mode. |
+| Data fetching | Riverpod (`AsyncNotifier`). The feed refreshes when the app returns to the foreground and every 60 s. |
+| Session | Riverpod. The install token is in `flutter_secure_storage` (mobile and web; on web it falls back to `localStorage`, wrapped in try/catch). |
+| API calls | Dart client from `packages/shopper-api` (generated from the OpenAPI spec, `dio`) + an interceptor that turns error JSON into friendly messages |
+| Languages | `flutter_localizations` + `intl` (ARB files). Start with en, ur, ar, es. Right-to-left comes from `Directionality`, which Flutter sets from the locale on mobile and web. |
+| Accessibility | WCAG 2.2 AA: 44 px touch targets, `Semantics` labels, good contrast, large text support |
+| Look | Colours and component styles come from [theme.md](theme.md) (`packages/theme`, which also exports a Dart `ThemeData`). Big cards with a large % and the shop name, distance and "ends in 40 min". Always show the old price next to the new one. A small but always-visible AI label. Light and dark mode. |
 
 ---
 
@@ -158,7 +159,7 @@ How the feed is built:
 - [ ] The short code is 6 characters, unique per offer, with no look-alike characters.
 
 **App tasks:**
-- [ ] QR screen: `react-native-qrcode-svg` showing `qr_payload`, the short code in large text underneath, a countdown, and screen brightness up (`expo-brightness`, mobile only).
+- [ ] QR screen: `qr_flutter` showing `qr_payload`, the short code in large text underneath, a countdown, and screen brightness up (`screen_brightness`, mobile only).
 - [ ] Wallet tab: claimed, redeemed and expired.
 
 **Done when:** claiming twice with the same key returns the same claim, `tokens.verify_claim` accepts the QR text, and claims expire on time.
@@ -173,8 +174,8 @@ How the feed is built:
 
 | Route | Purpose |
 |---|---|
-| `POST/DELETE /push-tokens` | `{kind: expo/webpush, token or subscription}`. Only allowed with the `notifications` consent. |
-| `POST /stream-ticket` → `GET /stream?ticket=` | SSE (`EventSource` can't send headers, so it uses a short-lived ticket). Events: `offer.matched`, `claim.redeemed`, `offer.ended`. |
+| `POST/DELETE /push-tokens` | `{kind: fcm/webpush, token or subscription}`. Only allowed with the `notifications` consent. |
+| `POST /stream-ticket` → `GET /stream?ticket=` | SSE (browser `EventSource` can't send headers, so it uses a short-lived ticket). Events: `offer.matched`, `claim.redeemed`, `offer.ended`. |
 
 Background tasks:
 
@@ -183,15 +184,15 @@ Background tasks:
 | `match_and_notify(offer_id)` | on `offer.published` | 1. Pick shoppers in the offer's cell + the 8 around it who have the `notifications` consent, were seen in the last 7 days, haven't muted it, are under their daily limit, are outside their quiet hours, and weren't already notified.<br>2. Rank them in **batches of 20 in parallel**.<br>3. If score ≥ 0.6 (AI) or ≥ 0.55 (rules): save a `notifications` row, add a push to the outbox, and send SSE `offer.matched`.<br>Push text: "10% on bread at Ali's Bakery · 200 m". |
 | `on_redemption(redemption_id)` | on `redemption.recorded` | Mark the claim redeemed, send SSE `claim.redeemed`, clear the savings cache, raise category interest |
 | `on_offer_ended(offer_id)` | on `offer.ended` | Expire open claims, send SSE `offer.ended`, clear feed caches |
-| Expo push sender | outbox | Uses `exponent-server-sdk`. On `DeviceNotRegistered`, delete the token. Check receipts after 15 min. |
+| FCM push sender | outbox | Uses `firebase-admin`. On `UNREGISTERED` / `InvalidArgument` token errors, delete the token. |
 
 The Web Push sender is shared code from Phase 0. This plan only saves subscriptions and builds the message.
 
 **App tasks:**
-- [ ] Mobile: `expo-notifications` with the EAS project ID.
-- [ ] Web: service worker at `public/sw.js`, plus the Push API with the VAPID key.
+- [ ] Mobile: `firebase_messaging` + `flutter_local_notifications`, set up with `flutterfire configure` (Firebase project ID). Ask for notification permission only after the `notifications` consent.
+- [ ] Web: service worker at `web/sw.js`, plus the Push API (through `package:web`) with the VAPID key.
 - [ ] **iOS Safari without an installed PWA can't get web push.** Hide the push switch there and use the **live banner** (from SSE) instead.
-- [ ] Live updates: `react-native-sse` on mobile, `EventSource` on web. On the QR screen, if SSE fails, poll `GET /claims/{id}` every 5 s.
+- [ ] Live updates: `flutter_client_sse` on mobile, the same package (or `EventSource` via `package:web`) on web. On the QR screen, if SSE fails, poll `GET /claims/{id}` every 5 s.
 - [ ] The QR screen changes to "Redeemed! You saved X" with confetti. Test it with a fake `redemption.recorded` sent by a script.
 
 **Done when:** the dev seed publishes an offer, the Android APK gets a push in under 15 s, the web gets a web push or the live banner, and unit tests confirm daily limits and quiet hours (including time zones).
@@ -236,15 +237,15 @@ The Web Push sender is shared code from Phase 0. This plan only saves subscripti
 
 - [ ] Check right-to-left (Urdu/Arabic) on every screen.
 - [ ] Accessibility pass (screen reader, contrast, touch sizes).
-- [ ] Android APK built with EAS.
-- [ ] `npx expo export --platform web` builds a static `dist/` folder (Plan 4 serves it with nginx).
+- [ ] Android APK built with `flutter build apk --release --dart-define=API_URL=…`.
+- [ ] `flutter build web --release` builds a static `build/web/` folder (Plan 4 serves it with nginx).
 
 ### Tests
 | Type | What to test |
 |---|---|
 | Unit (pytest) | Ranking formula, hard filters, daily limit and quiet hours (with time zones), prompt builder has no ID or coordinates, geohash neighbours, retention sweep |
 | API (pytest + httpx + Testcontainers) | Every route: auth, consent rules (`list`, `push-tokens`), claim idempotency, export and delete |
-| App (Jest + React Native Testing Library) | Consent switches, feed card labels, QR screen reacting to the live event |
+| App (`flutter_test` widget tests + `integration_test`) | Consent switches, feed card labels, QR screen reacting to the live event |
 | Web flow (Playwright, inside Plan 3's test) | Onboarding → feed → claim → QR on the web build |
 
 ### Standalone done checklist
@@ -252,4 +253,4 @@ The Web Push sender is shared code from Phase 0. This plan only saves subscripti
 - [ ] With no OpenAI key, everything still works using rules, and the labels say so.
 - [ ] No route and no log line contains raw coordinates, and the Matching Agent privacy test passes.
 - [ ] Every error message is in plain words, with Retry where it makes sense.
-- [ ] `EXPO_PUBLIC_API_URL` is the only thing that changes for production.
+- [ ] `API_URL` (a `--dart-define` build value) is the only thing that changes for production.

@@ -81,7 +81,7 @@ acc templates info postgres && acc templates info redis
 | `mcp` | docker | `ghcr.io/<org>/shopnod-mcp:<sha>` | 8001 | 0.5 vCPU · 512 Mi | postgres, redis | MCP at `/mcp` |
 | `worker` | docker | `ghcr.io/<org>/shopnod-worker:<sha>` | 8080 (health) | 1 vCPU · 1 Gi | postgres, redis | `celery worker -B --concurrency 4`. **The scheduler (beat) runs inside the worker, and there is only one worker**, so there is exactly one scheduler. |
 | `shop-web` | docker | `ghcr.io/<org>/shopnod-shop-web:<sha>` | 3000 | 0.5 vCPU · 512 Mi | — | Next.js standalone. Its `/api/*` forwards to `API_INTERNAL_URL` (the api's public URL). |
-| `shopper-web` | docker | `ghcr.io/<org>/shopnod-shopper-web:<sha>` | 80 | 0.25 vCPU · 256 Mi | — | nginx serving the Expo web export |
+| `shopper-web` | docker | `ghcr.io/<org>/shopnod-shopper-web:<sha>` | 80 | 0.25 vCPU · 256 Mi | — | nginx serving the Flutter web build |
 
 **Dockerfiles (`infra/docker/`):**
 - [ ] `api`, `mcp`, `worker`:
@@ -92,8 +92,8 @@ acc templates info postgres && acc templates info redis
   - built on `node:22-alpine`, runs `.next/standalone`
   - the `NEXT_PUBLIC_*` values are **build arguments** (fixed at build time)
 - [ ] `shopper-web`:
-  - built with `npx expo export --platform web` on `node:22-alpine`, then served by `nginx:1.27-alpine`
-  - `EXPO_PUBLIC_API_URL` is a **build argument**
+  - built with `flutter build web --release --dart-define=API_URL=… --dart-define=VAPID_PUBLIC_KEY=…` in a Flutter SDK image (pin the version, e.g. `ghcr.io/cirruslabs/flutter:<version>`), then served by `nginx:1.27-alpine`
+  - `API_URL` and `VAPID_PUBLIC_KEY` are **build arguments** passed through as `--dart-define`
   - nginx settings: `try_files $uri /index.html`, gzip, long caching for hashed files, `no-cache` for `index.html` and `sw.js`
 
 **Watch out:** the two frontends need the **api URL at build time**. So create `api` first, read its URL from `acc services list`, and save it as a GitHub Actions variable. The URL never changes, so you only do this once.
@@ -137,10 +137,10 @@ Set them with `acc services env set <service> KEY VALUE`, then redeploy each ser
 | `DATABASE_URL`, `REDIS_URL` | from link | from link | from link | | |
 | `OPENAI_API_KEY`, `OPENAI_MODEL_AGENT`, `OPENAI_MODEL_FAST` | ✓ | | ✓ | | |
 | `JWT_SIGNING_KEY`, `QR_SIGNING_KEY`, `MCP_AGENT_TOKEN_SECRET` | ✓ | ✓ | ✓ | | |
-| `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` | ✓ | | ✓ | `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | `EXPO_PUBLIC_VAPID_PUBLIC_KEY` |
-| `EXPO_ACCESS_TOKEN` | | | ✓ | | `EXPO_PUBLIC_EAS_PROJECT_ID` |
+| `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` | ✓ | | ✓ | `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | `VAPID_PUBLIC_KEY` |
+| `FIREBASE_CREDENTIALS` | | | ✓ | | (none: client config is in `firebase_options.dart`) |
 | `STRIPE_SECRET_KEY` (test), `STRIPE_WEBHOOK_SECRET`, `STRIPE_METER_EVENT_NAME`, `STRIPE_PRO_PRICE_ID` | ✓ | | ✓ | | |
-| `API_PUBLIC_URL`, `MCP_PUBLIC_URL`, `SHOP_WEB_URL`, `SHOPPER_WEB_URL` | ✓ | ✓ | ✓ | `API_INTERNAL_URL`, `NEXT_PUBLIC_SHOPPER_WEB_URL` | `EXPO_PUBLIC_API_URL` |
+| `API_PUBLIC_URL`, `MCP_PUBLIC_URL`, `SHOP_WEB_URL`, `SHOPPER_WEB_URL` | ✓ | ✓ | ✓ | `API_INTERNAL_URL`, `NEXT_PUBLIC_SHOPPER_WEB_URL` | `API_URL` |
 | `CORS_ORIGINS` (= the shopper-web URL) | ✓ | | | | |
 | `SENTRY_DSN`, `APP_ENV=prod`, `DEMO_MODE=true`, `LOG_LEVEL=info` | ✓ | ✓ | ✓ | ✓ | |
 
@@ -165,7 +165,8 @@ acc services create --kind docker --name shopper-web --image ghcr.io/<org>/shopn
 
 ### 3.6 Outside services
 - [ ] **Stripe (test mode):** add the webhook `<API_PUBLIC_URL>/webhooks/stripe`, then put its secret in `STRIPE_WEBHOOK_SECRET`.
-- [ ] **EAS:** build the Android APK pointing at production: `eas build -p android --profile demo` with `EXPO_PUBLIC_API_URL=<API_PUBLIC_URL>`.
+- [ ] **Firebase:** create a Firebase project, add the Android app, run `flutterfire configure`, and put the service-account JSON in `FIREBASE_CREDENTIALS` on the worker.
+- [ ] **Android APK:** build it pointing at production: `flutter build apk --release --dart-define=API_URL=<API_PUBLIC_URL>`.
 
 The CLI is new and still changing, so check the exact flags with `acc services create --help` on the day.
 
@@ -179,7 +180,7 @@ The CLI is new and still changing, so check the exact flags with `acc services c
 
 ```
 on push to main:
-  1. test      lint · types · pytest (Testcontainers) · single Alembic head · OpenAPI types diff
+  1. test      lint · types · pytest (Testcontainers) · `flutter analyze` + `flutter test` · single Alembic head · OpenAPI types diff
   2. build     5 images tagged ghcr.io/<org>/shopnod-<svc>:${{ github.sha }} → push (public)
   3. e2e-local docker compose up → Playwright full-loop test (Plan 3 Phase 3)
   4. deploy    npm i -g @alternatefutures/acc
