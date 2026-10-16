@@ -2,7 +2,7 @@
 
 One colour system for every ShopNod frontend:
 - `apps/shop-web`: Next.js + Tailwind + shadcn/ui
-- `apps/shopper`: Expo app, used for Android, iOS **and** the `shopper-web` build
+- `apps/shopper`: Flutter app, used for Android, iOS **and** the `shopper-web` build
 
 **Rule:** no hard-coded hex values in components. Always use a token from this file.
 
@@ -112,7 +112,9 @@ Components use these **role** names, never the palette names above. Swapping the
 
 ```
 packages/theme/
-├── tokens.ts      # palette + light/dark roles (imported by the Expo app)
+├── tokens.ts      # palette + light/dark roles (source of truth)
+├── tokens.dart    # generated from tokens.ts by gen_dart.mjs (imported by the Flutter app)
+├── gen_dart.mjs   # script that writes tokens.dart
 ├── theme.css      # the same values as CSS variables (imported by shop-web)
 └── tokens.test.ts # fails if theme.css and tokens.ts disagree
 ```
@@ -162,18 +164,52 @@ export const dark: typeof light = {
 export type Theme = typeof light;
 ```
 
-### 4.3 Expo (`apps/shopper`)
+### 4.3 Flutter (`apps/shopper`)
 
-```ts
-// apps/shopper/src/theme.ts
-import { useColorScheme } from 'react-native';
-import { light, dark } from '@shopnod/theme';
-export const useTheme = () => (useColorScheme() === 'dark' ? dark : light);
+`packages/theme/tokens.dart` holds the same values as `tokens.ts`. A script (`packages/theme/gen_dart.mjs`) generates it from `tokens.ts`, so nobody edits it by hand. Colours are `0xAARRGGBB`, so `#4B68FF` becomes `Color(0xFF4B68FF)` and `#D32F2F1F` becomes `Color(0x1FD32F2F)` (the alpha byte moves to the front).
+
+```dart
+// packages/theme/tokens.dart  (generated)
+import 'package:flutter/material.dart';
+
+class AppTheme {
+  const AppTheme({required this.background, required this.surface, required this.surfaceMuted,
+    required this.text, required this.textMuted, required this.textOnPrimary,
+    required this.border, required this.icon, required this.primary, required this.link,
+    required this.highlight, required this.onHighlight, required this.focusRing,
+    required this.error, required this.success, required this.warning, required this.info});
+  final Color background, surface, surfaceMuted, text, textMuted, textOnPrimary,
+      border, icon, primary, link, highlight, onHighlight, focusRing,
+      error, success, warning, info;
+}
+
+const light = AppTheme(background: Color(0xFFF5F5F5), surface: Color(0xFFFFFFFF), /* … */);
+const dark  = AppTheme(background: Color(0xFF121212), surface: Color(0xFF2A2A2A), /* … */);
 ```
 
-- Use it in components as `const t = useTheme(); <View style={{ backgroundColor: t.surface }} />`.
-- Set `"userInterfaceStyle": "automatic"` in `app.json`, so the app follows the phone setting.
-- In the web build, also set `<meta name="theme-color">` to `light.primary`.
+```dart
+// apps/shopper/lib/theme.dart
+import 'package:flutter/material.dart';
+import 'package:shopnod_theme/tokens.dart';
+
+ThemeData buildTheme(AppTheme t, Brightness b) => ThemeData(
+  brightness: b,
+  scaffoldBackgroundColor: t.background,
+  colorScheme: ColorScheme.fromSeed(seedColor: t.primary, brightness: b).copyWith(
+    primary: t.primary, surface: t.surface, onSurface: t.text, error: t.error),
+  extensions: [t],          // lets widgets read the full token set
+);
+
+// in MaterialApp.router:
+//   theme: buildTheme(light, Brightness.light),
+//   darkTheme: buildTheme(dark, Brightness.dark),
+//   themeMode: ThemeMode.system,
+```
+
+- Use it in widgets as `final t = Theme.of(context).colorScheme;` for standard roles, or read the token set with `Theme.of(context).extension<AppTheme>()!` (make `AppTheme` extend `ThemeExtension<AppTheme>`) and write `Container(color: t.surface)`.
+- `ThemeMode.system` makes the app follow the phone setting.
+- In the web build, also set `<meta name="theme-color" content="#4B68FF">` in `web/index.html`, and the same colour in `web/manifest.json`.
+- `tokens.test.ts` also checks the generated `tokens.dart` against `tokens.ts` (regenerate and diff in CI).
 
 ### 4.4 Next.js + Tailwind v4 + shadcn (`apps/shop-web`)
 

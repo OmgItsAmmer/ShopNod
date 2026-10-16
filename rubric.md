@@ -62,7 +62,7 @@ The human is **required by the design**, not added on top:
 | **4 agents** (Shop, Onboarding, Copy, Matching) on the OpenAI Agents SDK | Proposing, setup, copy, ranking |
 | **ShopNod MCP server** | The single tool layer used by **our agents and external MCP clients**. Approval is scope-protected. |
 | **Scheduler + worker** | Quiet detection every 5 minutes, expiry sweeps, nightly learning, billing |
-| **APIs:** OpenAI, Expo/Web Push, Stripe, maps/geocoding | Each one has a clear job, handled errors and a fallback |
+| **APIs:** OpenAI, FCM/Web Push, Stripe, maps/geocoding | Each one has a clear job, handled errors and a fallback |
 
 **Demo moment:** open Claude (or another MCP client), connect the ShopNod MCP server, and ask "what offers are pending for my bakery?", then "approve proposal 12 at 10%". The confirmation appears, and the offer lands on the shopper's phone.
 

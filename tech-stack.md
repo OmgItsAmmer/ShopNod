@@ -15,12 +15,12 @@ Architecture: [architecture.md](architecture.md). **Check the current stable ver
 | **Database** | **PostgreSQL 16** (+ PostGIS if the platform supports it) | Transactions for approvals and redemptions, geo queries |
 | **Cache / queue / locks** | **Redis** | Celery broker, per-area offer cache, locks, rate limits |
 | **Shopkeeper app** | **Next.js (App Router) + TypeScript + Tailwind + shadcn/ui**, installable as a PWA | Fast to build, works on phone and laptop |
-| **Shopper app** | **React Native + Expo (TypeScript)**, built for **Android, iOS and web** from one codebase | Judges use the web build without installing. A mobile app for real users. |
-| **Push** | **Expo Push** (mobile) + **Web Push** (VAPID, for the web shopper and shopkeeper apps) | Notifications in both apps |
+| **Shopper app** | **Flutter (Dart)**, built for **Android, iOS and web** from one codebase | Judges use the web build without installing. A mobile app for real users. |
+| **Push** | **Firebase Cloud Messaging** (Android + iOS via APNs) + **Web Push** (VAPID, for the web shopper and shopkeeper apps) | Notifications in both apps |
 | **Payments** | **Stripe** (test mode): usage-based billing + subscriptions | Metered pay-per-redemption, invoices |
 | **Maps / geocoding** | Leaflet + OpenStreetMap tiles in the UI, and a geocoding API (respect its usage policy, or use Google Places with an API key) | Location pin during onboarding |
 | **Observability** | **Sentry**, structured JSON logs, OpenTelemetry (optional) | Error tracking, traces |
-| **Testing** | pytest + httpx + Testcontainers, **Playwright** end-to-end test | Rubric: "works end to end" |
+| **Testing** | pytest + httpx + Testcontainers, Flutter `flutter_test` + `integration_test`, **Playwright** end-to-end test (shopkeeper web) | Rubric: "works end to end" |
 | **Deployment** | **Docker** images per service → **Alternate Futures cloud**, `docker compose` locally, GitHub Actions CI | Same images everywhere |
 
 ---
@@ -41,7 +41,7 @@ Architecture: [architecture.md](architecture.md). **Check the current stable ver
 | Idempotency | `Idempotency-Key` header middleware with a Redis/Postgres store, plus unique constraints |
 | Outbox | `outbox` table + worker that sends push and email with retries |
 | Tokens | PyJWT (EdDSA) for QR tokens and signed approval links, short expiry, one-time use recorded in Postgres |
-| Push | `exponent-server-sdk` (Expo), `pywebpush` (Web Push) |
+| Push | `firebase-admin` (FCM, mobile), `pywebpush` (Web Push) |
 | Payments | `stripe` SDK: meter events per redemption, webhook handling |
 | Auth | Magic link (email) + **one-click demo login** for judges, JWT in httpOnly cookies. Shoppers use an anonymous install ID. |
 | Rate limiting | `slowapi` or a Redis token bucket |
@@ -66,20 +66,21 @@ Architecture: [architecture.md](architecture.md). **Check the current stable ver
 
 ---
 
-## 4. Shopper app (React Native + Expo, mobile and web)
+## 4. Shopper app (Flutter, mobile and web)
 
 | Need | Library / approach |
 |---|---|
-| Framework | Expo SDK, Expo Router, React Native Web for the browser build |
-| State / data | TanStack Query + Zustand |
-| Location | `expo-location` (foreground on web, optional background geofencing of market areas on mobile) |
-| Notifications | `expo-notifications` (mobile), Web Push (browser) |
-| QR display | `react-native-qrcode-svg` |
-| Local storage | `expo-secure-store` (install ID), `AsyncStorage` / IndexedDB for the cache |
-| i18n | `i18next` |
-| Builds | EAS Build (Android APK for the demo), static web export deployed as `shopper-web` |
+| Framework | Flutter (stable channel), Dart 3, `go_router` for navigation; the same code builds Android, iOS and web |
+| State / data | Riverpod; `dio` HTTP client generated from FastAPI's OpenAPI (`openapi-generator`, `dart-dio`) |
+| Location | `geolocator` (foreground on web, optional background geofencing of market areas on mobile) |
+| Notifications | `firebase_messaging` + `flutter_local_notifications` (mobile), Web Push (browser) |
+| QR display | `qr_flutter` |
+| Live updates | SSE via `flutter_client_sse` (or a small `dio` stream), polling fallback |
+| Local storage | `flutter_secure_storage` (install ID), `shared_preferences` / `hive` for the cache |
+| i18n | `flutter_localizations` + `intl` (ARB files, right-to-left support) |
+| Builds | `flutter build apk` (Android APK for the demo), `flutter build web` deployed as `shopper-web` |
 
-**On-device LLM** (Gemma via llama.rn) is **optional, post-hackathon**. It becomes a "privacy mode" in which ranking runs on the phone. It isn't needed for the demo.
+**On-device LLM** (Gemma via `flutter_gemma` / MediaPipe) is **optional, post-hackathon**. It becomes a "privacy mode" in which ranking runs on the phone. It isn't needed for the demo.
 
 ---
 
@@ -109,13 +110,14 @@ Architecture: [architecture.md](architecture.md). **Check the current stable ver
 shopnod/
 ├── apps/
 │   ├── shop-web/        # Next.js shopkeeper app
-│   └── shopper/         # Expo app (Android, iOS, web)
+│   └── shopper/         # Flutter app (Android, iOS, web)
 ├── services/
 │   ├── api/             # FastAPI
 │   ├── mcp/             # ShopNod MCP server
 │   └── worker/          # Celery workers, agents, scheduler
 ├── packages/
-│   └── shared-types/    # TS types generated from OpenAPI
+│   ├── shared-types/    # TS types generated from OpenAPI (shopkeeper app)
+│   └── shopper-api/     # Dart client generated from OpenAPI (shopper app)
 ├── infra/
 │   ├── docker/          # Dockerfile per service
 │   ├── compose.yaml     # local: all services + Postgres + Redis
@@ -130,7 +132,7 @@ DATABASE_URL, REDIS_URL
 OPENAI_API_KEY, OPENAI_MODEL_AGENT, OPENAI_MODEL_FAST
 MCP_SERVER_URL, MCP_AGENT_TOKEN
 STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, STRIPE_METER_ID
-EXPO_ACCESS_TOKEN, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY
+FIREBASE_CREDENTIALS (service-account JSON), VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY
 JWT_SIGNING_KEY, QR_SIGNING_KEY
 SENTRY_DSN, APP_BASE_URL, DEMO_MODE=true
 ```
