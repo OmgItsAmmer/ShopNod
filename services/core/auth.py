@@ -144,10 +144,10 @@ async def principal_from_bearer(session: AsyncSession, raw: str) -> Principal:
         await session.flush()
         return Principal("pat", row.shop_id, frozenset(row.scopes), row.user_id, row.id)
     try:
-        data = jwt.decode(raw, get_settings().MCP_AGENT_TOKEN_SECRET, algorithms=["HS256"])
+        data = jwt.decode(raw, get_settings().MCP_AGENT_TOKEN_SECRET, algorithms=["HS256"], options={"verify_exp": False})
     except jwt.PyJWTError:
         raise unauthorized("That token is not valid.") from None
-    if data.get("typ") != "agent":
+    if data.get("typ") != "agent" or data.get("exp", 0) <= int(clock.now().timestamp()):
         raise unauthorized("That token is not valid.")
     return Principal("agent", uuid.UUID(data["sid"]), frozenset(data.get("scopes", [])), extra={"run": data.get("run")})
 

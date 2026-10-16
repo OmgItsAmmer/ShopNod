@@ -11,7 +11,7 @@ import logging
 from datetime import timedelta
 from typing import Any, Awaitable, Callable
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from . import clock
@@ -72,46 +72,68 @@ def backoff(attempts: int) -> timedelta:
     return timedelta(seconds=min(5 * (2 ** max(attempts - 1, 0)), 600))
 
 
+LEASE = timedelta(seconds=90)
+
+
 async def process_outbox(limit: int = 50) -> int:
-    """Send due rows. Returns the number of rows fully sent."""
-    sent = 0
+    """Send due rows. Returns the number of rows fully sent.
+
+    Rows are claimed with an atomic lease (UPDATE … WHERE status='pending' AND due), so two workers (or an inline
+    drain and the beat task) never process the same row at once. A crashed worker's lease simply expires.
+    """
+    now = clock.now()
     async with session_scope() as s:
-        stmt = (
-            select(Outbox)
-            .where(Outbox.status == "pending", Outbox.next_attempt_at <= clock.now())
-            .order_by(Outbox.created_at)
-            .limit(limit)
-        )
-        if s.bind is not None and s.bind.dialect.name == "postgresql":
-            stmt = stmt.with_for_update(skip_locked=True)
-        rows = (await s.execute(stmt)).scalars().all()
-        for row in rows:
-            payload = dict(row.payload or {})
-            done: list[str] = list(payload.get("_done", []))
-            failed: str | None = None
-            for name, fn in handlers_for(row.topic):
-                if name in done:
-                    continue
-                try:
-                    await fn({k: v for k, v in payload.items() if k != "_done"})
-                    done.append(name)
-                except Exception as exc:  # noqa: BLE001 - handler failures are retried
-                    failed = f"{name}: {exc}"
-                    log.warning("outbox handler failed", extra={"topic": row.topic, "handler": name})
-            payload["_done"] = done
-            row.payload = payload
-            row.attempts += 1
-            if failed is None:
-                row.status = "sent"
-                row.last_error = None
-                sent += 1
-            else:
-                row.last_error = failed[:500]
-                if row.attempts >= MAX_ATTEMPTS:
-                    row.status = "dead"
-                else:
-                    row.next_attempt_at = clock.now() + backoff(row.attempts)
+        ids = (
+            await s.execute(
+                select(Outbox.id).where(Outbox.status == "pending", Outbox.next_attempt_at <= now).order_by(Outbox.created_at).limit(limit)
+            )
+        ).scalars().all()
+        claimed = []
+        for oid in ids:
+            res = await s.execute(
+                update(Outbox)
+                .where(Outbox.id == oid, Outbox.status == "pending", Outbox.next_attempt_at <= now)
+                .values(next_attempt_at=now + LEASE)
+            )
+            if res.rowcount == 1:
+                claimed.append(oid)
+    sent = 0
+    for oid in claimed:
+        sent += await _process_one(oid)
     return sent
+
+
+async def _process_one(oid) -> int:
+    async with session_scope() as s:
+        row = await s.get(Outbox, oid)
+        if row is None or row.status != "pending":
+            return 0
+        topic, payload = row.topic, dict(row.payload or {})
+    done: list[str] = list(payload.get("_done", []))
+    failed: str | None = None
+    for name, fn in handlers_for(topic):
+        if name in done:
+            continue
+        try:
+            await fn({k: v for k, v in payload.items() if k != "_done"})
+            done.append(name)
+        except Exception as exc:  # noqa: BLE001 - handler failures are retried
+            failed = f"{name}: {exc}"
+            log.warning("outbox handler failed", extra={"topic": topic, "handler": name, "error": str(exc)[:200]})
+    async with session_scope() as s:
+        row = await s.get(Outbox, oid)
+        payload["_done"] = done
+        row.payload = payload
+        row.attempts += 1
+        if failed is None:
+            row.status, row.last_error = "sent", None
+            return 1
+        row.last_error = failed[:500]
+        if row.attempts >= MAX_ATTEMPTS:
+            row.status = "dead"
+        else:
+            row.next_attempt_at = clock.now() + backoff(row.attempts)
+        return 0
 
 
 async def drain(max_rounds: int = 10) -> int:

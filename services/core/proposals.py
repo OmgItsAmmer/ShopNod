@@ -457,7 +457,7 @@ async def end_offer_now(shop_id: uuid.UUID, offer_id: uuid.UUID, *, user_id: uui
         o = (await s.execute(select(Offer).where(Offer.id == offer_id).with_for_update())).scalar_one_or_none()
         if o is None or o.shop_id != shop_id:
             raise not_found("That offer")
-        if o.status == "active":
+        if o.status in ("active", "sold_out"):
             o.status, o.ended_reason = "ended", "shopkeeper"
             await audit.record(s, shop_id=shop_id, action="offer.ended", actor_user_id=user_id, entity_type="offer", entity_id=o.id, channel=CHANNEL_DASHBOARD, data={"reason": "shopkeeper"})
             await outbox.emit(s, outbox.OFFER_ENDED, {"offer_id": o.id, "shop_id": shop_id, "reason": "shopkeeper"})

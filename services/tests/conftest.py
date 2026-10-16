@@ -11,6 +11,7 @@ import pytest_asyncio
 from sqlalchemy.ext.asyncio import create_async_engine
 
 os.environ.setdefault("APP_ENV", "local")
+os.environ.setdefault("OPENAI_AGENTS_DISABLE_TRACING", "1")
 
 
 @pytest_asyncio.fixture
@@ -36,7 +37,7 @@ async def env(tmp_path, monkeypatch):
     redis_util.set_client(None)
     redis_util.reset_local_state()
     breaker.reset_all()
-    clock.reset()
+    clock.set_fixed(DEFAULT_NOW)
     dispatch._pending_inline.clear()
     yield url
     from shopnod_core import outbox
@@ -123,5 +124,17 @@ def utc(*a) -> datetime:
     return datetime(*a, tzinfo=timezone.utc)
 
 
-NOW = utc(2026, 3, 10, 6, 0)  # Tuesday 11:00 in Asia/Karachi (UTC+5)
+DEFAULT_NOW = utc(2026, 3, 10, 6, 0)  # Tuesday 11:00 in Asia/Karachi (UTC+5): inside opening hours, not a quiet hour
+NOW = DEFAULT_NOW
 _ = timedelta
+
+
+async def outbox_errors() -> list[tuple[str, str]]:
+    """Handlers that failed (any row with a last_error) - tests assert this stays empty on happy paths."""
+    from sqlalchemy import select
+
+    from shopnod_core.db import session_scope
+    from shopnod_core.models import Outbox
+
+    async with session_scope() as s:
+        return [(o.topic, o.last_error) for o in (await s.execute(select(Outbox))).scalars() if o.last_error]

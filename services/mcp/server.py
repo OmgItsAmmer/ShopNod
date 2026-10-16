@@ -11,6 +11,7 @@ import logging
 from typing import Any
 
 from mcp.server.mcpserver import Context, MCPServer
+from mcp.server.mcpserver.exceptions import ToolError
 from mcp.server.transport_security import TransportSecuritySettings
 from starlette.requests import Request
 from starlette.responses import JSONResponse
@@ -38,11 +39,11 @@ async def _principal(ctx: Context, session) -> auth.Principal:
     except Exception:  # noqa: BLE001
         raw = ""
     if not raw.lower().startswith("bearer "):
-        raise ValueError("unauthorized: send 'Authorization: Bearer <token>'.")
+        raise ToolError("unauthorized: send 'Authorization: Bearer <token>'.")
     try:
         return await auth.principal_from_bearer(session, raw[7:])
     except AppError as exc:
-        raise ValueError(f"{exc.code.value}: {exc.message}") from None
+        raise ToolError(f"{exc.code.value}: {exc.message}") from None
 
 
 async def _run(ctx: Context, fn, *args, **kwargs) -> Any:
@@ -53,7 +54,7 @@ async def _run(ctx: Context, fn, *args, **kwargs) -> Any:
             return await fn(s, p, *args, **kwargs)
     except AppError as exc:
         details = f" ({exc.details})" if exc.details else ""
-        raise ValueError(f"{exc.code.value}: {exc.message}{details}") from None
+        raise ToolError(f"{exc.code.value}: {exc.message}{details}") from None
 
 
 @mcp.tool()

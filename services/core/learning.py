@@ -10,6 +10,7 @@ from collections import Counter
 from datetime import datetime, timedelta
 
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from . import clock
@@ -41,9 +42,14 @@ def decision_of(p: Proposal) -> str:
 async def get_or_create(session: AsyncSession, shop_id: uuid.UUID) -> ShopLearning:
     row = await session.get(ShopLearning, shop_id)
     if row is None:
-        row = ShopLearning(shop_id=shop_id, category_pct={}, accepted_hours={}, reject_counts={}, weekly=[], applied_ids=[])
-        session.add(row)
-        await session.flush()
+        try:
+            async with session.begin_nested():  # two decisions at once must not both insert
+                row = ShopLearning(shop_id=shop_id, category_pct={}, accepted_hours={}, reject_counts={}, weekly=[], applied_ids=[])
+                session.add(row)
+                await session.flush()
+        except IntegrityError:
+            session.expunge_all()
+            row = await session.get(ShopLearning, shop_id)
     return row
 
 
