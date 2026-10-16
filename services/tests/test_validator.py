@@ -1,16 +1,32 @@
 """Every rule in Plan 2 Phase 2's table, for both the AI path (fix + record a save) and the human path (refuse)."""
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import pytest
 
 from shopnod_core.guardrails import (
-    Context, Draft, ItemFacts, Limits, PricePoint, RuleItem, fit_window, local_day_bounds, local_hour,
-    local_weekday_key, max_pct_for_min_price, parse_hhmm, price_after, reference_price, round_up, rules_proposal,
-    validate_for_agent, validate_for_human, within_allowed,
+    Context,
+    Draft,
+    ItemFacts,
+    Limits,
+    PricePoint,
+    RuleItem,
+    fit_window,
+    local_day_bounds,
+    local_hour,
+    local_weekday_key,
+    max_pct_for_min_price,
+    parse_hhmm,
+    price_after,
+    reference_price,
+    round_up,
+    rules_proposal,
+    validate_for_agent,
+    validate_for_human,
+    within_allowed,
 )
 from shopnod_core.guardrails.validator import per_redemption_discount, remaining_budget
 
-UTC = timezone.utc
+UTC = UTC
 # Tuesday 2026-03-10 11:00 in Karachi (UTC+5) = 06:00 UTC
 NOW = datetime(2026, 3, 10, 6, 0, tzinfo=UTC)
 TZ = "Asia/Karachi"

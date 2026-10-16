@@ -3,27 +3,37 @@ import asyncio
 import json
 import sys
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from types import SimpleNamespace
 
 import httpx
 import pytest
+from conftest import idem, onboard, outbox_errors, settle
 from sqlalchemy import func, select, update
 
-from conftest import idem, onboard, outbox_errors, settle
 from shopnod_core import auth, clock, push, shop_tools, signals, sse
 from shopnod_core.db import session_scope
 from shopnod_core.errors import AppError
 from shopnod_core.models import (
-    ApprovalConfirmation, AuditLog, Claim, Item, Notification, Offer, PersonalAccessToken, Proposal, Redemption, Shop,
-    ShopPushSubscription, Signal,
+    ApprovalConfirmation,
+    AuditLog,
+    Claim,
+    Item,
+    Notification,
+    Offer,
+    PersonalAccessToken,
+    Proposal,
+    Redemption,
+    Shop,
+    ShopPushSubscription,
+    Signal,
 )
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "infra" / "seed"))
 import dev_claim  # noqa: E402
 
-UTC = timezone.utc
+UTC = UTC
 # Tuesday 2026-03-10: 15:30 in Karachi (UTC+5) -> the template grid marks 15:00-17:00 as quiet
 TUE_1530 = datetime(2026, 3, 10, 10, 30, tzinfo=UTC)
 TUE_1200 = datetime(2026, 3, 10, 7, 0, tzinfo=UTC)  # 12:00 local = "busy" in the grid

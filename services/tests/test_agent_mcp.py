@@ -6,8 +6,8 @@ from datetime import timedelta
 
 import httpx
 import pytest
-
 from conftest import onboard, settle
+
 from shopnod_core import auth, clock, flags, shop_tools
 from shopnod_core.agents import shop_agent
 from shopnod_core.db import session_scope

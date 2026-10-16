@@ -24,7 +24,7 @@ async def list_offers(status: str | None = Query(default=None, description="comm
     stmt = select(Offer).where(Offer.shop_id == su.shop_required.id)
     if status:
         stmt = stmt.where(Offer.status.in_([x.strip() for x in status.split(",") if x.strip()]))
-    rows = (await db.execute(stmt.order_by(Offer.created_at.desc()).limit(limit))).scalars().all()
+    rows = (await db.execute(stmt.order_by(Offer.created_at.desc(), Offer.id.desc()).limit(limit))).scalars().all()
     return [offer_out(o) for o in rows]
 
 

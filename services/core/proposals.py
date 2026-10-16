@@ -15,8 +15,7 @@ from . import audit, clock, outbox
 from .copyagent import facts_for, generate_copy, template_copy
 from .db import session_scope
 from .errors import AppError, ErrorCode, not_found
-from .guardrails import Draft, Save, Validated
-from .guardrails import validate_for_agent, validate_for_human
+from .guardrails import Draft, Save, Validated, validate_for_agent, validate_for_human
 from .models import ApprovalConfirmation, Offer, Proposal, Shop
 from .shop_data import build_context, pending_proposal
 
@@ -129,7 +128,7 @@ class ApproveParams:
         }
 
     @classmethod
-    def from_json(cls, d: dict[str, Any]) -> "ApproveParams":
+    def from_json(cls, d: dict[str, Any]) -> ApproveParams:
         def dt(v):
             return datetime.fromisoformat(v) if v else None
 

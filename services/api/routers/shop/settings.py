@@ -8,7 +8,14 @@ from fastapi import APIRouter, Depends, Response
 from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from shopnod_api.schemas import OkOut, PushSubscriptionIn, PushUnsubscribeIn, TokenCreatedOut, TokenCreateIn, TokenOut
+from shopnod_api.schemas import (
+    OkOut,
+    PushSubscriptionIn,
+    PushUnsubscribeIn,
+    TokenCreatedOut,
+    TokenCreateIn,
+    TokenOut,
+)
 from shopnod_core import audit, auth, clock
 from shopnod_core.db import DB
 from shopnod_core.errors import not_found
@@ -28,7 +35,7 @@ def _token_out(t: PersonalAccessToken) -> dict:
 @router.get("/tokens", response_model=list[TokenOut])
 async def list_tokens(su: auth.ShopUser = Depends(auth.shop_user_complete), db: AsyncSession = DB):
     rows = (
-        await db.execute(select(PersonalAccessToken).where(PersonalAccessToken.shop_id == su.shop_required.id).order_by(PersonalAccessToken.created_at.desc()))
+        await db.execute(select(PersonalAccessToken).where(PersonalAccessToken.shop_id == su.shop_required.id).order_by(PersonalAccessToken.created_at.desc(), PersonalAccessToken.id.desc()))
     ).scalars().all()
     return [TokenOut(**_token_out(t)) for t in rows]
 

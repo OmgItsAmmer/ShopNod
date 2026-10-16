@@ -1,7 +1,7 @@
 """Overridable clock so tests (and quiet-detection drills) can use a fake time."""
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 _offset: timedelta | None = None
 _fixed: datetime | None = None
@@ -10,14 +10,14 @@ _fixed: datetime | None = None
 def now() -> datetime:
     if _fixed is not None:
         return _fixed
-    base = datetime.now(timezone.utc)
+    base = datetime.now(UTC)
     return base + _offset if _offset else base
 
 
 def set_fixed(dt: datetime | None) -> None:
     global _fixed
     if dt is not None and dt.tzinfo is None:
-        dt = dt.replace(tzinfo=timezone.utc)
+        dt = dt.replace(tzinfo=UTC)
     _fixed = dt
 
 

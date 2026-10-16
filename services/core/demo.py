@@ -9,8 +9,18 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from . import audit, outbox, templates
 from .errors import AppError, ErrorCode
 from .models import (
-    AgentRun, ApprovalConfirmation, Claim, MeterEvent, Notification, Offer, OfferReachStat, Proposal, Redemption, Shop,
-    ShopLearning, Signal,
+    AgentRun,
+    ApprovalConfirmation,
+    Claim,
+    MeterEvent,
+    Notification,
+    Offer,
+    OfferReachStat,
+    Proposal,
+    Redemption,
+    Shop,
+    ShopLearning,
+    Signal,
 )
 
 

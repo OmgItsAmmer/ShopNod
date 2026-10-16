@@ -1,7 +1,7 @@
 """Time-window helpers. Pure functions; all arithmetic in the shop's local time zone."""
 from __future__ import annotations
 
-from datetime import datetime, time, timedelta, timezone
+from datetime import UTC, datetime, time, timedelta
 from zoneinfo import ZoneInfo
 
 from .types import MIN_WINDOW_MINUTES, Limits
@@ -24,7 +24,7 @@ def local_day_bounds(now: datetime, tz_name: str) -> tuple[datetime, datetime]:
     tz = _tz(tz_name)
     local = now.astimezone(tz)
     start = datetime.combine(local.date(), time(0), tzinfo=tz)
-    return start.astimezone(timezone.utc), (start + timedelta(days=1)).astimezone(timezone.utc)
+    return start.astimezone(UTC), (start + timedelta(days=1)).astimezone(UTC)
 
 
 def _at(local_date, minutes: int, tz: ZoneInfo) -> datetime:
@@ -66,13 +66,13 @@ def fit_window(
         day_start = _at(local.date(), lo, tz)
         day_end = _at(local.date(), hi, tz)
         if local < day_start:
-            s = day_start.astimezone(timezone.utc)
+            s = day_start.astimezone(UTC)
             continue
         if local + timedelta(minutes=MIN_WINDOW_MINUTES) > day_end:
-            s = _at(local.date() + timedelta(days=1), lo, tz).astimezone(timezone.utc)
+            s = _at(local.date() + timedelta(days=1), lo, tz).astimezone(UTC)
             continue
         e = min(local + duration, day_end)
-        return s, e.astimezone(timezone.utc)
+        return s, e.astimezone(UTC)
     return s, s + duration  # pragma: no cover - unreachable in practice
 
 

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import uuid
-from datetime import date, datetime, time, timedelta, timezone
+from datetime import UTC, date, datetime, time, timedelta
 
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -33,7 +33,7 @@ def limits_from(g: Guardrail | None, shop: Shop) -> Limits:
 
 
 def _since_dt(d: date | None) -> datetime | None:
-    return datetime.combine(d, time(0), tzinfo=timezone.utc) if d else None
+    return datetime.combine(d, time(0), tzinfo=UTC) if d else None
 
 
 def item_facts(item: Item, history: list[ItemPriceHistory]) -> ItemFacts:

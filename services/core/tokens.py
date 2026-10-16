@@ -8,7 +8,7 @@ import base64
 import hashlib
 import uuid
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 import jwt
@@ -134,7 +134,7 @@ async def verify_claim(
             return ClaimCheck("invalid")
         if str(offer.id) != claims["oid"] or str(offer.shop_id) != claims["sid"]:
             return ClaimCheck("invalid")
-        if datetime.fromtimestamp(claims["exp"], tz=timezone.utc) <= clock.now() and claim.status != "redeemed":
+        if datetime.fromtimestamp(claims["exp"], tz=UTC) <= clock.now() and claim.status != "redeemed":
             if offer.shop_id != shop_id:
                 return ClaimCheck("wrong_shop", claim, offer)
             return ClaimCheck("offer_ended" if offer.status == "ended" else "expired", claim, offer)

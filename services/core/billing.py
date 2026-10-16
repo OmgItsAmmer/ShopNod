@@ -9,7 +9,7 @@ import asyncio
 import hmac
 import logging
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from sqlalchemy import func, select
@@ -125,8 +125,8 @@ async def meter_redemption(redemption_id: uuid.UUID) -> str:
 
 async def overview(session: AsyncSession, shop: Shop, now: datetime | None = None) -> dict[str, Any]:
     now = now or clock.now()
-    local = now.astimezone(timezone.utc)
-    month_start = datetime(local.year, local.month, 1, tzinfo=timezone.utc)
+    local = now.astimezone(UTC)
+    month_start = datetime(local.year, local.month, 1, tzinfo=UTC)
     billable = int(
         (await session.execute(select(func.count()).select_from(Redemption).where(Redemption.shop_id == shop.id, Redemption.billable.is_(True), Redemption.redeemed_at >= month_start))).scalar_one()
     )

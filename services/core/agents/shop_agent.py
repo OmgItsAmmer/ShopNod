@@ -16,9 +16,9 @@ from sqlalchemy import select
 
 from .. import ai, auth, clock, learning, proposals
 from ..db import session_scope
-from ..ids import uuid7
 from ..guardrails import RuleItem, rules_proposal
 from ..guardrails.validator import remaining_budget
+from ..ids import uuid7
 from ..models import Proposal, Shop, Signal
 from ..redis_util import try_lock
 from ..settings import get_settings

@@ -3,10 +3,9 @@ from __future__ import annotations
 
 import os
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import httpx
-import pytest
 import pytest_asyncio
 from sqlalchemy.ext.asyncio import create_async_engine
 
@@ -121,7 +120,7 @@ async def shopkeeper(client):
 
 
 def utc(*a) -> datetime:
-    return datetime(*a, tzinfo=timezone.utc)
+    return datetime(*a, tzinfo=UTC)
 
 
 DEFAULT_NOW = utc(2026, 3, 10, 6, 0)  # Tuesday 11:00 in Asia/Karachi (UTC+5): inside opening hours, not a quiet hour

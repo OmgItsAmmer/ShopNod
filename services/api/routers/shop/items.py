@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, time, timezone
+from datetime import UTC, datetime, time
 
 from fastapi import APIRouter, Depends, Response
 from sqlalchemy import delete, select
@@ -20,7 +20,7 @@ router = APIRouter(prefix="/items")
 def _out(i: Item) -> ItemOut:
     return ItemOut(
         id=i.id, name=i.name, category=i.category, price_minor=i.price_minor, regular_price_minor=i.regular_price_minor,
-        regular_price_since=datetime.combine(i.regular_price_since, time(0), tzinfo=timezone.utc) if i.regular_price_since else None,
+        regular_price_since=datetime.combine(i.regular_price_since, time(0), tzinfo=UTC) if i.regular_price_since else None,
         cost_minor=i.cost_minor, min_price_minor=i.min_price_minor, expires_at=i.expires_at, quantity=i.quantity, active=i.active,
     )
 

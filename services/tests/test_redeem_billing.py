@@ -4,16 +4,15 @@ import hashlib
 import hmac
 import json
 import sys
-import time
 import uuid
 from datetime import timedelta
 from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
+from conftest import idem, onboard, settle
 from sqlalchemy import func, select
 
-from conftest import idem, onboard, settle
 from shopnod_core import billing, clock, redeem
 from shopnod_core.db import session_scope
 from shopnod_core.models import Claim, MeterEvent, Offer, Redemption, Shop

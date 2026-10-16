@@ -47,7 +47,7 @@ async def audit_log(limit: int = Query(default=100, le=500), action: str | None 
     stmt = select(AuditLog).where(AuditLog.shop_id == su.shop_required.id)
     if action:
         stmt = stmt.where(AuditLog.action.like(f"{action}%"))
-    rows = (await db.execute(stmt.order_by(AuditLog.created_at.desc()).limit(limit))).scalars().all()
+    rows = (await db.execute(stmt.order_by(AuditLog.created_at.desc(), AuditLog.id.desc()).limit(limit))).scalars().all()
     return [AuditOut.model_validate(r, from_attributes=True) for r in rows]
 
 
@@ -64,7 +64,7 @@ async def agent_runs(limit: int = Query(default=50, le=200), agent: str | None =
     stmt = select(AgentRun).where(AgentRun.shop_id == su.shop_required.id)
     if agent:
         stmt = stmt.where(AgentRun.agent == agent)
-    rows = (await db.execute(stmt.order_by(AgentRun.created_at.desc()).limit(limit))).scalars().all()
+    rows = (await db.execute(stmt.order_by(AgentRun.created_at.desc(), AgentRun.id.desc()).limit(limit))).scalars().all()
     return [_run_out(r) for r in rows]
 
 

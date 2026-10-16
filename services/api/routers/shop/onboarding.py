@@ -8,7 +8,14 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from shopnod_api.schemas import (
-    ApplyTemplateIn, CompleteOut, LocationIn, ShopCreateIn, ShopOut, ShopUpdateIn, TemplateItemOut, TemplateOut,
+    ApplyTemplateIn,
+    CompleteOut,
+    LocationIn,
+    ShopCreateIn,
+    ShopOut,
+    ShopUpdateIn,
+    TemplateItemOut,
+    TemplateOut,
 )
 from shopnod_core import audit, auth, geo, outbox, templates
 from shopnod_core.db import DB

@@ -52,8 +52,8 @@ def enqueue(name: str, *args: Any) -> None:
 
 def _import_worker_tasks() -> None:
     try:
-        import shopnod_worker.tasks.shop  # noqa: F401
         import shopnod_worker.tasks.ops  # noqa: F401
+        import shopnod_worker.tasks.shop  # noqa: F401
     except Exception:  # noqa: BLE001
         log.exception("could not import worker tasks")
 

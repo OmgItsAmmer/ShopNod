@@ -20,7 +20,15 @@ from .validator import (
     validate_for_agent,
     validate_for_human,
 )
-from .windows import fit_window, local_day_bounds, local_hour, local_weekday_key, parse_hhmm, round_up, within_allowed
+from .windows import (
+    fit_window,
+    local_day_bounds,
+    local_hour,
+    local_weekday_key,
+    parse_hhmm,
+    round_up,
+    within_allowed,
+)
 
 __all__ = [
     "BANNED_CATEGORIES", "AgentOutcome", "Context", "Draft", "HumanOutcome", "ItemFacts", "Limits", "PricePoint",

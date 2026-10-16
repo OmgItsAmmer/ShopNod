@@ -44,7 +44,7 @@ async def status(su: auth.ShopUser = Depends(auth.admin_user), db: AsyncSession 
             qlen = int(await r.llen("celery"))
         except Exception:  # noqa: BLE001
             qlen = None
-    runs = (await db.execute(select(AgentRun).order_by(AgentRun.created_at.desc()).limit(10))).scalars().all()
+    runs = (await db.execute(select(AgentRun).order_by(AgentRun.created_at.desc(), AgentRun.id.desc()).limit(10))).scalars().all()
     return AdminStatusOut(
         outbox=counts,
         breakers=breaker.all_states(),

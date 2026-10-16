@@ -8,7 +8,13 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from shopnod_api.schemas import (
-    ApproveIn, ApproveOut, ConfirmationOut, OfferOut, ProposalOut, RejectIn, SignalOut,
+    ApproveIn,
+    ApproveOut,
+    ConfirmationOut,
+    OfferOut,
+    ProposalOut,
+    RejectIn,
+    SignalOut,
 )
 from shopnod_core import auth, clock, idempotency, proposals, signals
 from shopnod_core.agents.shop_agent import stop_reason
@@ -63,7 +69,7 @@ async def list_proposals(status: str | None = Query(default=None, description="c
     shop = su.shop_required
     stmt = select(Proposal).where(Proposal.shop_id == shop.id)
     wanted = [x.strip() for x in status.split(",") if x.strip()] if status else ["pending", "awaiting_confirmation"]
-    stmt = stmt.where(Proposal.status.in_(wanted)).order_by(Proposal.created_at.desc()).limit(limit)
+    stmt = stmt.where(Proposal.status.in_(wanted)).order_by(Proposal.created_at.desc(), Proposal.id.desc()).limit(limit)
     rows = (await db.execute(stmt)).scalars().all()
     confs = {}
     ids = [r.id for r in rows if r.status == "awaiting_confirmation"]

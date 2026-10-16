@@ -3,9 +3,9 @@ import asyncio
 import uuid
 from datetime import timedelta
 
+from conftest import DEFAULT_NOW, idem, settle
 from sqlalchemy import func, select
 
-from conftest import DEFAULT_NOW, idem, settle
 from shopnod_core import clock, copyagent, learning
 from shopnod_core.db import session_scope
 from shopnod_core.models import AuditLog, Offer, Outbox, Proposal, ShopLearning
