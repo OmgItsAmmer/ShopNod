@@ -385,22 +385,17 @@ class SummaryOut(BaseModel):
 
 
 class BillingOut(BaseModel):
+    """Pay per redemption. Usage only: no card is taken and no money moves in this demo."""
+
     plan: str
-    stripe_configured: bool
-    stripe_customer: bool
     month: str
     billable_redemptions: int
-    meter_events_sent: int
+    usage_recorded: int
     redemptions_today: int
     fee_per_redemption_usd_cents: int
     upcoming_invoice_usd_cents: int
     pro_unlocks: list[str]
-    subscription_status: str | None
-    test_mode: bool
-
-
-class UrlOut(BaseModel):
-    url: str
+    demo: bool
 
 
 class AuditOut(BaseModel):

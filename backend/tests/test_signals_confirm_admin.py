@@ -17,6 +17,7 @@ from shopnod_core.db import session_scope
 from shopnod_core.errors import AppError
 from shopnod_core.ids import uuid7
 from shopnod_core.models import (
+    AgentRun,
     ApprovalConfirmation,
     AuditLog,
     Claim,
@@ -282,7 +283,7 @@ async def test_no_route_and_no_mcp_tool_can_publish_without_a_shopkeeper_session
 
     app = create_app()
     anon = httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test")
-    public = ("/v1/auth/", "/webhooks/stripe")
+    public = ("/v1/auth/",)
     for route in app.routes:
         path = getattr(route, "path", None)
         for sub in getattr(route, "routes", [route]):
@@ -439,7 +440,7 @@ async def test_redemption_and_sold_out_events_on_stream(client, shopkeeper):
 async def test_admin_status_flags_and_permissions(client, shopkeeper):
     await shopkeeper.quiet(simulated=True)
     st = (await client.get("/v1/admin/status")).json()
-    assert st["outbox"]["sent"] >= 1 and st["outbox"]["dead"] == 0 and st["breakers"] == {"openai": "closed", "push": "closed", "stripe": "closed", "weather": "closed"}
+    assert st["outbox"]["sent"] >= 1 and st["outbox"]["dead"] == 0 and st["breakers"] == {"openai": "closed", "push": "closed", "weather": "closed"}
     assert st["flags"] == {"ai_outage": False, "sim_enabled": False} and st["last_agent_runs"][0]["agent"] == "shop_agent"
     assert (await client.post("/v1/admin/sim", json={"enabled": True})).status_code == 200
     assert (await client.post("/v1/admin/sim", json={"burst": True})).status_code == 200
@@ -500,3 +501,21 @@ async def test_dead_letter_after_five_attempts(client, shopkeeper, monkeypatch):
     async with session_scope() as s:
         row = (await s.execute(select(Outbox).where(Outbox.topic == "test.topic"))).scalars().one()
     assert row.status == "dead" and row.attempts == 5 and "nope" in row.last_error
+
+
+async def test_ask_your_shop_uses_the_tools_and_only_requests_approval(client, shopkeeper):
+    p = await pending(shopkeeper)
+    r = (await client.post("/v1/shop/assistant", json={"message": "what's pending?"})).json()
+    assert [c["tool"] for c in r["tool_calls"]] == ["list_pending_proposals"] and "%" in r["reply"]
+    r = (await client.post("/v1/shop/assistant", json={"message": "approve it at 12%"})).json()
+    assert r["needs_confirmation"] and "approve_proposal" in [c["tool"] for c in r["tool_calls"]]
+    assert await count(Offer) == 0  # still nothing live
+    assert (await client.post("/v1/shop/assistant", json={"message": "hello"})).json()["tool_calls"] == []
+
+
+async def test_rules_fallback_trace_lists_the_read_tools(client, shopkeeper):
+    await pending(shopkeeper)
+    async with session_scope() as s:
+        run = (await s.execute(select(AgentRun).where(AgentRun.fallback_used.is_(True)).order_by(AgentRun.created_at.desc()))).scalars().first()
+    names = [c["tool"] for c in run.tool_calls]
+    assert "get_activity" in names and names[-1] == "submit_proposal"

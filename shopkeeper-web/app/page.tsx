@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowRight, BadgeCheck, Bot, Check, QrCode, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowDown, ArrowRight, BadgeCheck, Bot, Check, Play, QrCode, ShieldCheck, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { DemoLoginButton } from '@/components/demo-login-button';
@@ -50,6 +50,9 @@ export default async function LandingPage() {
               <Button asChild variant="outline" size="sm" className="hidden border-2 border-foreground bg-card md:inline-flex">
                 <Link href="/login">{t('signIn')}</Link>
               </Button>
+              <Button asChild size="sm" variant="secondary" className="border-2 border-foreground">
+                <Link href="/story"><Play className="size-4" aria-hidden /> <span className="hidden sm:inline">{t('watchStory')}</span></Link>
+              </Button>
               <DemoLoginButton size="sm" className="border-2 border-foreground" />
               <a href="#how" className="grid size-11 place-items-center rounded-xl border-2 border-foreground bg-card lg:hidden" aria-label={t('howTitle')}>
                 <ArrowDown className="size-5" aria-hidden />
@@ -79,6 +82,9 @@ export default async function LandingPage() {
         </div>
 
         <section className="landing-quick-actions" aria-label={t('quickActions')}>
+          <Button asChild size="lg" variant="secondary" className="border-2 border-foreground">
+            <Link href="/story" data-testid="watch-story"><Play className="size-5" aria-hidden /> {t('watchStory')}</Link>
+          </Button>
           <DemoLoginButton className="border-2 border-foreground" />
           <Button asChild size="lg" variant="outline" className="border-2 border-foreground bg-card">
             <Link href="/shopper" data-testid="try-shopper">{t('tryAsShopper')}</Link>

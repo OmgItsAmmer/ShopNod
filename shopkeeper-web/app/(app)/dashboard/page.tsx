@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
+import { AskShop } from '@/components/ask-shop';
 import { ImpactTiles, LiveOffers, ShopperQrCard } from '@/components/dashboard-widgets';
 import { Inbox } from '@/components/inbox';
 import { QuietButtons } from '@/components/quiet-buttons';
@@ -40,6 +41,7 @@ export default function DashboardPage() {
         }}
       />
       <Inbox ctx={ctx} drafting={drafting} />
+      <AskShop />
       <LiveOffers timezone={shop.timezone} />
       <ImpactTiles />
       <ShopperQrCard shopId={shop.id} />

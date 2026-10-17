@@ -1,21 +1,16 @@
-"""Phase 5: scan -> redeem (every result), impact tiles, billing, Stripe meter events and webhooks."""
+"""Phase 5: scan -> redeem (every result), impact tiles, and billing (the usage ledger: one row per redemption)."""
 import asyncio
-import hashlib
-import hmac
-import json
 import sys
 import uuid
 from datetime import timedelta
 from pathlib import Path
-from types import SimpleNamespace
 
-import pytest
 from conftest import idem, onboard, settle
-from sqlalchemy import func, select
+from sqlalchemy import select
 
 from shopnod_core import billing, clock, redeem
 from shopnod_core.db import session_scope
-from shopnod_core.models import Claim, MeterEvent, Offer, Redemption, Shop
+from shopnod_core.models import Claim, MeterEvent, Offer, Redemption
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "seed"))
 import dev_claim  # noqa: E402
@@ -55,10 +50,10 @@ async def test_scan_ok_then_already_redeemed_and_billing_counts_one(client, shop
     assert len(await rows(Redemption)) == 1
     await settle()
     meters = await rows(MeterEvent)
-    assert len(meters) == 1 and meters[0].status == "skipped" and meters[0].identifier == res["redemption_id"]
+    assert len(meters) == 1 and meters[0].status == "recorded" and meters[0].identifier == res["redemption_id"]
     b = (await client.get("/v1/shop/billing")).json()
     assert b["billable_redemptions"] == 1 and b["redemptions_today"] == 1 and b["upcoming_invoice_usd_cents"] == 10
-    assert b["stripe_configured"] is False and b["test_mode"] is True
+    assert b["usage_recorded"] == 1 and b["demo"] is True
     offer_after = (await client.get(f"/v1/shop/offers/{offer['id']}")).json()
     assert offer_after["redeemed_count"] == 1
 
@@ -136,126 +131,17 @@ async def test_validation_and_impact_tiles(client, shopkeeper):
     assert t["currency"] == "PKR"
 
 
-# ── Stripe ───────────────────────────────────────────────────────────────
-class FakeStripe:
-    def __init__(self):
-        self.meter_calls, self.customers = [], []
-        self.billing = SimpleNamespace(MeterEvent=SimpleNamespace(create=self._meter))
-        self.Customer = SimpleNamespace(create=self._customer)
-        self.Subscription = SimpleNamespace(create=lambda **kw: {"id": "sub_test_1"})
-        self.checkout = SimpleNamespace(Session=SimpleNamespace(create=lambda **kw: {"url": "https://checkout.stripe.test/s/1", "kw": kw}))
-        self.billing_portal = SimpleNamespace(Session=SimpleNamespace(create=lambda **kw: {"url": "https://portal.stripe.test/p/1"}))
-
-    def _meter(self, **kw):
-        if any(c["identifier"] == kw["identifier"] for c in self.meter_calls):
-            return {"identifier": kw["identifier"], "duplicate": True}  # Stripe ignores duplicates
-        self.meter_calls.append(kw)
-        return {"identifier": kw["identifier"]}
-
-    def _customer(self, **kw):
-        self.customers.append(kw)
-        return {"id": "cus_test_1"}
-
-
-@pytest.fixture
-def fake_stripe(monkeypatch):
-    monkeypatch.setenv("STRIPE_SECRET_KEY", "sk_test_x")
-    monkeypatch.setenv("STRIPE_PRO_PRICE_ID", "price_pro")
-    monkeypatch.setenv("STRIPE_METERED_PRICE_ID", "price_metered")
-    from shopnod_core.settings import reset_settings_cache
-
-    reset_settings_cache()
-    fs = FakeStripe()
-    monkeypatch.setattr(billing, "_stripe", lambda: fs)
-    return fs
-
-
-async def test_stripe_customer_created_on_complete_and_meter_event_once(client, fake_stripe):
-    sk = await onboard(client)  # completes the wizard -> shop.completed -> create_stripe_customer
-    async with session_scope() as s:
-        assert (await s.get(Shop, uuid.UUID(sk.shop_id))).stripe_customer_id == "cus_test_1"
-    assert fake_stripe.customers[0]["metadata"] == {"shop_id": sk.shop_id}
-    offer = await live_offer(sk, 10)
-    c = await dev_claim.make_claim(offer["id"])
-    res = await scan(client, payload=c["qr_text"])
+# ── billing ledger ───────────────────────────────────────────────────────
+async def test_usage_is_recorded_once_per_redemption_even_if_the_handler_runs_twice(client, shopkeeper):
+    offer = await live_offer(shopkeeper, 10)
+    res = await scan(client, payload=(await dev_claim.make_claim(offer["id"]))["qr_text"])
     await settle()
-    assert len(fake_stripe.meter_calls) == 1
-    call = fake_stripe.meter_calls[0]
-    assert call["identifier"] == res["redemption_id"] and call["payload"] == {"stripe_customer_id": "cus_test_1", "value": "1"}
-    assert (await rows(MeterEvent))[0].status == "sent"
-    # replaying the same event/handler changes nothing (Stripe also dedupes on `identifier`)
-    assert await billing.meter_redemption(uuid.UUID(res["redemption_id"])) == "sent"
-    assert len(fake_stripe.meter_calls) == 1
+    assert await billing.meter_redemption(uuid.UUID(res["redemption_id"])) == "recorded"  # the same event again
+    assert len(await rows(MeterEvent)) == 1
     b = (await client.get("/v1/shop/billing")).json()
-    assert b["meter_events_sent"] == 1 and b["billable_redemptions"] == 1 and b["stripe_customer"] is True
+    assert b["billable_redemptions"] == 1 and b["usage_recorded"] == 1 and b["upcoming_invoice_usd_cents"] == 10
 
 
-async def test_meter_failure_is_retried_by_the_outbox(client, fake_stripe, monkeypatch):
-    sk = await onboard(client)
-    offer = await live_offer(sk, 10)
-    boom = {"n": 0}
-    real = fake_stripe._meter
-
-    def flaky(**kw):
-        boom["n"] += 1
-        if boom["n"] == 1:
-            raise RuntimeError("stripe 500")
-        return real(**kw)
-
-    fake_stripe.billing.MeterEvent.create = flaky
-    c = await dev_claim.make_claim(offer["id"])
-    await scan(client, payload=c["qr_text"])
-    await settle()
-    assert (await rows(MeterEvent))[0].status == "failed"
-    from shopnod_core.models import Outbox
-
-    pending = [o for o in await rows(Outbox, Outbox.topic == "redemption.recorded")][0]
-    assert pending.status == "pending" and pending.attempts == 1
-    clock.advance(timedelta(seconds=30))
-    await settle()
-    assert (await rows(MeterEvent))[0].status == "sent" and len(fake_stripe.meter_calls) == 1
-
-
-def sign(payload: bytes, secret="whsec_test_secret", ts=None):
-    ts = ts or int(clock.now().timestamp())
-    sig = hmac.new(secret.encode(), f"{ts}.".encode() + payload, hashlib.sha256).hexdigest()
-    return f"t={ts},v1={sig}"
-
-
-def stripe_event(evt_id, typ, obj):
-    return json.dumps({"id": evt_id, "type": typ, "data": {"object": obj}}).encode()
-
-
-async def test_webhook_signature_replay_and_upgrade(client, shopkeeper):
-    payload = stripe_event("evt_1", "checkout.session.completed", {"customer": "cus_9", "subscription": "sub_9", "metadata": {"shop_id": shopkeeper.shop_id}})
-    bad = await client.post("/webhooks/stripe", content=payload, headers={"stripe-signature": "t=1,v1=deadbeef"})
-    assert bad.status_code == 400 and bad.json()["error"]["code"] == "webhook_signature_invalid"
-    assert (await client.post("/webhooks/stripe", content=payload)).status_code == 400
-    old = await client.post("/webhooks/stripe", content=payload, headers={"stripe-signature": sign(payload, ts=int(clock.now().timestamp()) - 3600)})
-    assert old.status_code == 400
-    ok = await client.post("/webhooks/stripe", content=payload, headers={"stripe-signature": sign(payload)})
-    assert ok.status_code == 200
-    replay = await client.post("/webhooks/stripe", content=payload, headers={"stripe-signature": sign(payload)})
-    assert replay.status_code == 200
-    async with session_scope() as s:
-        shop = await s.get(Shop, uuid.UUID(shopkeeper.shop_id))
-        from shopnod_core.models import Subscription
-
-        subs = (await s.execute(select(func.count()).select_from(Subscription).where(Subscription.stripe_subscription_id == "sub_9"))).scalar_one()
-    assert shop.plan == "pro" and shop.stripe_customer_id == "cus_9" and subs == 1  # replay changed nothing
-    cancel = stripe_event("evt_2", "customer.subscription.deleted", {"id": "sub_9", "status": "canceled"})
-    await client.post("/webhooks/stripe", content=cancel, headers={"stripe-signature": sign(cancel)})
-    async with session_scope() as s:
-        assert (await s.get(Shop, uuid.UUID(shopkeeper.shop_id))).plan == "free"
-
-
-async def test_checkout_and_portal(client, shopkeeper, fake_stripe):
-    r = await client.post("/v1/shop/billing/checkout-pro")
-    assert r.status_code == 200 and r.json()["url"].startswith("https://checkout.stripe.test")
-    assert (await client.post("/v1/shop/billing/portal")).json()["url"].startswith("https://portal.stripe.test")
-
-
-async def test_billing_degrades_without_stripe(client, shopkeeper):
-    r = await client.post("/v1/shop/billing/checkout-pro")
-    assert r.status_code == 503 and r.json()["error"]["code"] == "billing_unavailable"
-    assert (await client.post("/v1/shop/billing/portal")).status_code == 503
+async def test_no_payment_endpoints_or_webhooks(client, shopkeeper):
+    for path in ("/v1/shop/billing/checkout-pro", "/v1/shop/billing/portal", "/webhooks/stripe"):
+        assert (await client.post(path)).status_code in (404, 405)

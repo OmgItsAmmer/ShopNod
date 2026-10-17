@@ -11,6 +11,7 @@ import asyncio
 import logging
 import time
 import uuid
+from contextvars import ContextVar
 from dataclasses import dataclass, field
 from typing import Any, Awaitable, Callable, Generic, TypeVar
 
@@ -39,6 +40,9 @@ class RunTrace:
 
     def tool(self, name: str, args: dict[str, Any] | None = None, result: Any = None, ok: bool = True) -> None:
         self.tool_calls.append({"tool": name, "args": args or {}, "ok": ok, "result": _short(result)})
+
+
+current_trace: ContextVar[RunTrace | None] = ContextVar("current_trace", default=None)
 
 
 def _short(v: Any, n: int = 400) -> Any:
@@ -123,6 +127,7 @@ async def run_structured(
 
     fallback_used = output is None
     if fallback_used:
+        current_trace.set(trace)  # the fallback may record the tools it used
         try:
             output = await _call_fallback(fallback)
         except Exception as exc:  # noqa: BLE001

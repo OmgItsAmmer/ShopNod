@@ -1,6 +1,7 @@
 """Runs an OpenAI Agents SDK agent, optionally with the ShopNod MCP server as its tool source."""
 from __future__ import annotations
 
+import json
 import logging
 from typing import Any
 
@@ -40,9 +41,17 @@ async def run_openai_agent(
 
         async def on_tool_start(self, context, agent, tool) -> None:  # type: ignore[override]
             self.calls += 1
-            trace.tool(getattr(tool, "name", "tool"))
             if self.calls > max_tool_calls:
                 raise ToolBudgetExceeded(f"more than {max_tool_calls} tool calls")
+
+        async def on_tool_end(self, context, agent, tool, result) -> None:  # type: ignore[override]
+            args = getattr(context, "tool_arguments", None)
+            if isinstance(args, str):
+                try:
+                    args = json.loads(args)
+                except ValueError:
+                    args = {"raw": args}
+            trace.tool(getattr(tool, "name", "tool"), args if isinstance(args, dict) else None, result)
 
     hooks = _Hooks()
 

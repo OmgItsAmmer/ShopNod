@@ -1,5 +1,8 @@
 {
-  "meta": { "title": "ShopNod", "description": "La IA de tu tienda prepara ofertas. Tú las apruebas. Nada se publica sin tu permiso." },
+  "meta": {
+    "title": "ShopNod",
+    "description": "La IA de tu tienda prepara ofertas. Tú las apruebas. Nada se publica sin tu permiso."
+  },
   "common": {
     "skipToContent": "Saltar al contenido",
     "save": "Guardar",
@@ -108,7 +111,11 @@
     "progress": "Progreso de la configuración",
     "next": "Continuar",
     "back": "Atrás",
-    "steps": { "shop": "Tu tienda", "location": "Ubicación", "review": "Revisión" },
+    "steps": {
+      "shop": "Tu tienda",
+      "location": "Ubicación",
+      "review": "Revisión"
+    },
     "shop": {
       "title": "Cuéntanos sobre tu tienda",
       "subtitle": "Paso 1 de 3. Elige el tipo más cercano y rellenamos el resto.",
@@ -121,7 +128,10 @@
       "useMyLocation": "Usar mi ubicación",
       "tapMap": "Toca el mapa para colocar el pin."
     },
-    "review": { "title": "Revisa tus artículos y límites", "finish": "Terminar configuración" }
+    "review": {
+      "title": "Revisa tus artículos y límites",
+      "finish": "Terminar configuración"
+    }
   },
   "dashboard": {
     "title": "Inicio",
@@ -162,7 +172,12 @@
     "templateLabel": "Texto estándar, aprobado por la tienda",
     "samePrice": "Todos ven el mismo precio en esta oferta.",
     "rejectTitle": "¿Por qué no?",
-    "reasons": { "wrong_items": "Artículos incorrectos", "wrong_time": "Hora incorrecta", "too_generous": "Demasiado generosa", "other": "Otro motivo" }
+    "reasons": {
+      "wrong_items": "Artículos incorrectos",
+      "wrong_time": "Hora incorrecta",
+      "too_generous": "Demasiado generosa",
+      "other": "Otro motivo"
+    }
   },
   "confirmation": {
     "title": "Tu asistente de IA está esperando",
@@ -175,8 +190,16 @@
     "title": "Ofertas",
     "liveTitle": "Ofertas en vivo",
     "noneLive": "No hay ninguna oferta en vivo ahora.",
-    "tabs": { "active": "En vivo", "ended": "Terminadas", "all": "Todas" },
-    "status": { "active": "En vivo", "ended": "Terminada", "sold_out": "Agotada" },
+    "tabs": {
+      "active": "En vivo",
+      "ended": "Terminadas",
+      "all": "Todas"
+    },
+    "status": {
+      "active": "En vivo",
+      "ended": "Terminada",
+      "sold_out": "Agotada"
+    },
     "redeemedOf": "{n} de {cap} canjeadas",
     "endNow": "Terminar ahora"
   },
@@ -197,15 +220,49 @@
     "check": "Comprobar código",
     "applyPct": "Aplicar {pct}%",
     "scanNext": "Escanear siguiente",
-    "result": { "invalid": "Código no válido", "expired": "Código caducado", "wrong_shop": "Tienda equivocada", "already_redeemed": "Ya canjeado", "offer_ended": "Oferta terminada" }
+    "result": {
+      "invalid": "Código no válido",
+      "expired": "Código caducado",
+      "wrong_shop": "Tienda equivocada",
+      "already_redeemed": "Ya canjeado",
+      "offer_ended": "Oferta terminada"
+    }
   },
   "settings": {
     "title": "Ajustes",
-    "tabs": { "profile": "Tienda", "hours": "Horario", "notifications": "Alertas", "assistant": "Asistente de IA" },
-    "days": { "mon": "Lun", "tue": "Mar", "wed": "Mié", "thu": "Jue", "fri": "Vie", "sat": "Sáb", "sun": "Dom" },
-    "grid": { "busy": "Concurrido", "normal": "Normal", "quiet": "Tranquilo" }
+    "tabs": {
+      "profile": "Tienda",
+      "hours": "Horario",
+      "notifications": "Alertas",
+      "assistant": "Asistente de IA"
+    },
+    "days": {
+      "mon": "Lun",
+      "tue": "Mar",
+      "wed": "Mié",
+      "thu": "Jue",
+      "fri": "Vie",
+      "sat": "Sáb",
+      "sun": "Dom"
+    },
+    "grid": {
+      "busy": "Concurrido",
+      "normal": "Normal",
+      "quiet": "Tranquilo"
+    }
   },
-  "guardrails": { "title": "Mis límites", "maxDiscount": "Mayor descuento (%)" },
-  "items": { "title": "Artículos", "addItem": "Añadir artículo", "name": "Nombre", "category": "Categoría", "quantity": "En stock" },
-  "billing": { "title": "Facturación" }
+  "guardrails": {
+    "title": "Mis límites",
+    "maxDiscount": "Mayor descuento (%)"
+  },
+  "items": {
+    "title": "Artículos",
+    "addItem": "Añadir artículo",
+    "name": "Nombre",
+    "category": "Categoría",
+    "quantity": "En stock"
+  },
+  "billing": {
+    "title": "Facturación"
+  }
 }

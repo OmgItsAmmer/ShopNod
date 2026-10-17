@@ -11,6 +11,7 @@ from sqlalchemy.ext.asyncio import create_async_engine
 
 os.environ.setdefault("APP_ENV", "local")
 os.environ.setdefault("OPENAI_AGENTS_DISABLE_TRACING", "1")
+os.environ["VAPID_PUBLIC_KEY"] = os.environ["VAPID_PRIVATE_KEY"] = ""  # tests never depend on the developer's real push keys
 
 
 @pytest_asyncio.fixture
@@ -27,8 +28,6 @@ async def env(tmp_path, monkeypatch):
     monkeypatch.setenv("DATABASE_URL", url)
     monkeypatch.setenv("REDIS_URL", "")
     monkeypatch.setenv("OPENAI_API_KEY", "")
-    monkeypatch.setenv("STRIPE_SECRET_KEY", "")
-    monkeypatch.setenv("STRIPE_WEBHOOK_SECRET", "whsec_test_secret")
     monkeypatch.setenv("DEMO_MODE", "true")
     monkeypatch.setenv("WEATHER_ENABLED", "false")  # tests never call the network
     monkeypatch.setenv("SIM_REDEEM_MIN_S", "0")

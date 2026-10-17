@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from shopnod_api.schemas import AgentRunOut, AuditOut, BillingOut, SummaryOut, UrlOut
+from shopnod_api.schemas import AgentRunOut, AuditOut, BillingOut, SummaryOut
 from shopnod_core import auth, billing, insights
 from shopnod_core.db import DB
 from shopnod_core.errors import not_found
@@ -31,15 +31,6 @@ async def learning_curve(su: auth.ShopUser = Depends(auth.shop_user_complete), d
 async def get_billing(su: auth.ShopUser = Depends(auth.shop_user_complete), db: AsyncSession = DB):
     return await billing.overview(db, su.shop_required)
 
-
-@router.post("/billing/checkout-pro", response_model=UrlOut)
-async def checkout_pro(su: auth.ShopUser = Depends(auth.shop_user_complete)):
-    return UrlOut(url=await billing.checkout_pro(su.shop_required.id))
-
-
-@router.post("/billing/portal", response_model=UrlOut)
-async def billing_portal(su: auth.ShopUser = Depends(auth.shop_user_complete)):
-    return UrlOut(url=await billing.portal(su.shop_required.id))
 
 
 @router.get("/audit", response_model=list[AuditOut])

@@ -1,5 +1,8 @@
 {
-  "meta": { "title": "ShopNod", "description": "ذكاؤك الاصطناعي يقترح العروض وأنت تقرّر. لا شيء يُنشر دون موافقتك." },
+  "meta": {
+    "title": "ShopNod",
+    "description": "ذكاؤك الاصطناعي يقترح العروض وأنت تقرّر. لا شيء يُنشر دون موافقتك."
+  },
   "common": {
     "skipToContent": "انتقل إلى المحتوى",
     "save": "حفظ",
@@ -108,7 +111,11 @@
     "progress": "تقدّم الإعداد",
     "next": "متابعة",
     "back": "رجوع",
-    "steps": { "shop": "متجرك", "location": "الموقع", "review": "المراجعة" },
+    "steps": {
+      "shop": "متجرك",
+      "location": "الموقع",
+      "review": "المراجعة"
+    },
     "shop": {
       "title": "حدّثنا عن متجرك",
       "subtitle": "الخطوة 1 من 3. اختر أقرب نوع وسنملأ الباقي تلقائيًا.",
@@ -121,7 +128,10 @@
       "useMyLocation": "استخدم موقعي",
       "tapMap": "اضغط على الخريطة لوضع الدبوس."
     },
-    "review": { "title": "راجع منتجاتك وحدودك", "finish": "إنهاء الإعداد" }
+    "review": {
+      "title": "راجع منتجاتك وحدودك",
+      "finish": "إنهاء الإعداد"
+    }
   },
   "dashboard": {
     "title": "الرئيسية",
@@ -162,7 +172,12 @@
     "templateLabel": "نص قياسي، وافق عليه المتجر",
     "samePrice": "يرى الجميع السعر نفسه لهذا العرض.",
     "rejectTitle": "لماذا لا؟",
-    "reasons": { "wrong_items": "منتجات خاطئة", "wrong_time": "وقت خاطئ", "too_generous": "سخيّ أكثر من اللازم", "other": "سبب آخر" }
+    "reasons": {
+      "wrong_items": "منتجات خاطئة",
+      "wrong_time": "وقت خاطئ",
+      "too_generous": "سخيّ أكثر من اللازم",
+      "other": "سبب آخر"
+    }
   },
   "confirmation": {
     "title": "مساعدك الذكي بالانتظار",
@@ -175,8 +190,16 @@
     "title": "العروض",
     "liveTitle": "العروض المباشرة",
     "noneLive": "لا يوجد عرض مباشر الآن.",
-    "tabs": { "active": "مباشر", "ended": "منتهٍ", "all": "الكل" },
-    "status": { "active": "مباشر", "ended": "منتهٍ", "sold_out": "نفد" },
+    "tabs": {
+      "active": "مباشر",
+      "ended": "منتهٍ",
+      "all": "الكل"
+    },
+    "status": {
+      "active": "مباشر",
+      "ended": "منتهٍ",
+      "sold_out": "نفد"
+    },
     "redeemedOf": "{n} من {cap} استُخدمت",
     "endNow": "إنهاء الآن"
   },
@@ -197,15 +220,49 @@
     "check": "تحقق من الرمز",
     "applyPct": "طبّق {pct}%",
     "scanNext": "المسح التالي",
-    "result": { "invalid": "رمز غير صالح", "expired": "انتهت صلاحية الرمز", "wrong_shop": "متجر خاطئ", "already_redeemed": "استُخدم من قبل", "offer_ended": "انتهى العرض" }
+    "result": {
+      "invalid": "رمز غير صالح",
+      "expired": "انتهت صلاحية الرمز",
+      "wrong_shop": "متجر خاطئ",
+      "already_redeemed": "استُخدم من قبل",
+      "offer_ended": "انتهى العرض"
+    }
   },
   "settings": {
     "title": "الإعدادات",
-    "tabs": { "profile": "المتجر", "hours": "الساعات", "notifications": "التنبيهات", "assistant": "المساعد الذكي" },
-    "days": { "mon": "الاثنين", "tue": "الثلاثاء", "wed": "الأربعاء", "thu": "الخميس", "fri": "الجمعة", "sat": "السبت", "sun": "الأحد" },
-    "grid": { "busy": "مزدحم", "normal": "عادي", "quiet": "هادئ" }
+    "tabs": {
+      "profile": "المتجر",
+      "hours": "الساعات",
+      "notifications": "التنبيهات",
+      "assistant": "المساعد الذكي"
+    },
+    "days": {
+      "mon": "الاثنين",
+      "tue": "الثلاثاء",
+      "wed": "الأربعاء",
+      "thu": "الخميس",
+      "fri": "الجمعة",
+      "sat": "السبت",
+      "sun": "الأحد"
+    },
+    "grid": {
+      "busy": "مزدحم",
+      "normal": "عادي",
+      "quiet": "هادئ"
+    }
   },
-  "guardrails": { "title": "حدودي", "maxDiscount": "أعلى خصم (%)" },
-  "items": { "title": "المنتجات", "addItem": "إضافة منتج", "name": "الاسم", "category": "الفئة", "quantity": "المخزون" },
-  "billing": { "title": "الفوترة" }
+  "guardrails": {
+    "title": "حدودي",
+    "maxDiscount": "أعلى خصم (%)"
+  },
+  "items": {
+    "title": "المنتجات",
+    "addItem": "إضافة منتج",
+    "name": "الاسم",
+    "category": "الفئة",
+    "quantity": "المخزون"
+  },
+  "billing": {
+    "title": "الفوترة"
+  }
 }

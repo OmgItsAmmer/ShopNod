@@ -1,5 +1,8 @@
 {
-  "meta": { "title": "ShopNod", "description": "آپ کی دکان کا AI آفر تیار کرتا ہے۔ آپ منظور کرتے ہیں۔ آپ کی اجازت کے بغیر کچھ لائیو نہیں ہوتا۔" },
+  "meta": {
+    "title": "ShopNod",
+    "description": "آپ کی دکان کا AI آفر تیار کرتا ہے۔ آپ منظور کرتے ہیں۔ آپ کی اجازت کے بغیر کچھ لائیو نہیں ہوتا۔"
+  },
   "common": {
     "skipToContent": "مواد پر جائیں",
     "save": "محفوظ کریں",
@@ -108,7 +111,11 @@
     "progress": "سیٹ اپ کی پیش رفت",
     "next": "جاری رکھیں",
     "back": "واپس",
-    "steps": { "shop": "آپ کی دکان", "location": "مقام", "review": "جائزہ" },
+    "steps": {
+      "shop": "آپ کی دکان",
+      "location": "مقام",
+      "review": "جائزہ"
+    },
     "shop": {
       "title": "اپنی دکان کے بارے میں بتائیں",
       "subtitle": "مرحلہ 1 از 3۔ قریب ترین قسم چنیں، باقی ہم خود بھر دیتے ہیں۔",
@@ -121,7 +128,10 @@
       "useMyLocation": "میری لوکیشن استعمال کریں",
       "tapMap": "پن لگانے کے لیے نقشے پر ٹیپ کریں۔"
     },
-    "review": { "title": "اپنی اشیاء اور حدود دیکھ لیں", "finish": "سیٹ اپ مکمل کریں" }
+    "review": {
+      "title": "اپنی اشیاء اور حدود دیکھ لیں",
+      "finish": "سیٹ اپ مکمل کریں"
+    }
   },
   "dashboard": {
     "title": "ہوم",
@@ -162,7 +172,12 @@
     "templateLabel": "معیاری متن، دکان کا منظور شدہ",
     "samePrice": "اس آفر پر سب کو ایک ہی قیمت نظر آتی ہے۔",
     "rejectTitle": "کیوں نہیں؟",
-    "reasons": { "wrong_items": "غلط اشیاء", "wrong_time": "غلط وقت", "too_generous": "بہت زیادہ رعایت", "other": "کوئی اور وجہ" }
+    "reasons": {
+      "wrong_items": "غلط اشیاء",
+      "wrong_time": "غلط وقت",
+      "too_generous": "بہت زیادہ رعایت",
+      "other": "کوئی اور وجہ"
+    }
   },
   "confirmation": {
     "title": "آپ کا AI اسسٹنٹ منتظر ہے",
@@ -175,8 +190,16 @@
     "title": "آفرز",
     "liveTitle": "لائیو آفرز",
     "noneLive": "اس وقت کوئی آفر لائیو نہیں۔",
-    "tabs": { "active": "لائیو", "ended": "ختم", "all": "سب" },
-    "status": { "active": "لائیو", "ended": "ختم", "sold_out": "ختم ہو گئی" },
+    "tabs": {
+      "active": "لائیو",
+      "ended": "ختم",
+      "all": "سب"
+    },
+    "status": {
+      "active": "لائیو",
+      "ended": "ختم",
+      "sold_out": "ختم ہو گئی"
+    },
     "redeemedOf": "{cap} میں سے {n} استعمال ہوئیں",
     "endNow": "ابھی ختم کریں"
   },
@@ -197,15 +220,49 @@
     "check": "کوڈ چیک کریں",
     "applyPct": "{pct}% لگائیں",
     "scanNext": "اگلا اسکین",
-    "result": { "invalid": "غلط کوڈ", "expired": "کوڈ کی میعاد ختم", "wrong_shop": "غلط دکان", "already_redeemed": "پہلے ہی استعمال ہو چکا", "offer_ended": "آفر ختم ہو گئی" }
+    "result": {
+      "invalid": "غلط کوڈ",
+      "expired": "کوڈ کی میعاد ختم",
+      "wrong_shop": "غلط دکان",
+      "already_redeemed": "پہلے ہی استعمال ہو چکا",
+      "offer_ended": "آفر ختم ہو گئی"
+    }
   },
   "settings": {
     "title": "ترتیبات",
-    "tabs": { "profile": "دکان", "hours": "اوقات", "notifications": "الرٹس", "assistant": "AI اسسٹنٹ" },
-    "days": { "mon": "پیر", "tue": "منگل", "wed": "بدھ", "thu": "جمعرات", "fri": "جمعہ", "sat": "ہفتہ", "sun": "اتوار" },
-    "grid": { "busy": "رش", "normal": "عام", "quiet": "کم رش" }
+    "tabs": {
+      "profile": "دکان",
+      "hours": "اوقات",
+      "notifications": "الرٹس",
+      "assistant": "AI اسسٹنٹ"
+    },
+    "days": {
+      "mon": "پیر",
+      "tue": "منگل",
+      "wed": "بدھ",
+      "thu": "جمعرات",
+      "fri": "جمعہ",
+      "sat": "ہفتہ",
+      "sun": "اتوار"
+    },
+    "grid": {
+      "busy": "رش",
+      "normal": "عام",
+      "quiet": "کم رش"
+    }
   },
-  "guardrails": { "title": "میری حدود", "maxDiscount": "زیادہ سے زیادہ ڈسکاؤنٹ (%)" },
-  "items": { "title": "اشیاء", "addItem": "شے شامل کریں", "name": "نام", "category": "زمرہ", "quantity": "اسٹاک" },
-  "billing": { "title": "بلنگ" }
+  "guardrails": {
+    "title": "میری حدود",
+    "maxDiscount": "زیادہ سے زیادہ ڈسکاؤنٹ (%)"
+  },
+  "items": {
+    "title": "اشیاء",
+    "addItem": "شے شامل کریں",
+    "name": "نام",
+    "category": "زمرہ",
+    "quantity": "اسٹاک"
+  },
+  "billing": {
+    "title": "بلنگ"
+  }
 }

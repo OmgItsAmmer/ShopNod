@@ -80,7 +80,8 @@ export default function AgentRunPage() {
                   <StatusChip tone={c.ok === false ? 'error' : 'success'} icon={c.ok === false ? X : Check}>
                     {String(c.tool)}
                   </StatusChip>
-                  {c.result != null && <code className="min-w-0 break-all text-sm text-muted-foreground">{String(c.result)}</code>}
+                  {c.args != null && Object.keys(c.args as object).length > 0 ? <code className="min-w-0 break-all text-sm">{JSON.stringify(c.args)}</code> : null}
+                  {c.result != null && <code className="min-w-0 break-all text-sm text-muted-foreground">→ {String(c.result)}</code>}
                 </li>
               ))}
             </ol>

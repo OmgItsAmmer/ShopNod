@@ -410,17 +410,18 @@
         "type": "object"
       },
       "BillingOut": {
+        "description": "Pay per redemption. Usage only: no card is taken and no money moves in this demo.",
         "properties": {
           "billable_redemptions": {
             "title": "Billable Redemptions",
             "type": "integer"
           },
+          "demo": {
+            "title": "Demo",
+            "type": "boolean"
+          },
           "fee_per_redemption_usd_cents": {
             "title": "Fee Per Redemption Usd Cents",
-            "type": "integer"
-          },
-          "meter_events_sent": {
-            "title": "Meter Events Sent",
             "type": "integer"
           },
           "month": {
@@ -442,47 +443,25 @@
             "title": "Redemptions Today",
             "type": "integer"
           },
-          "stripe_configured": {
-            "title": "Stripe Configured",
-            "type": "boolean"
-          },
-          "stripe_customer": {
-            "title": "Stripe Customer",
-            "type": "boolean"
-          },
-          "subscription_status": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Subscription Status"
-          },
-          "test_mode": {
-            "title": "Test Mode",
-            "type": "boolean"
-          },
           "upcoming_invoice_usd_cents": {
             "title": "Upcoming Invoice Usd Cents",
+            "type": "integer"
+          },
+          "usage_recorded": {
+            "title": "Usage Recorded",
             "type": "integer"
           }
         },
         "required": [
           "plan",
-          "stripe_configured",
-          "stripe_customer",
           "month",
           "billable_redemptions",
-          "meter_events_sent",
+          "usage_recorded",
           "redemptions_today",
           "fee_per_redemption_usd_cents",
           "upcoming_invoice_usd_cents",
           "pro_unlocks",
-          "subscription_status",
-          "test_mode"
+          "demo"
         ],
         "title": "BillingOut",
         "type": "object"
@@ -3270,19 +3249,6 @@
         "title": "TokenOut",
         "type": "object"
       },
-      "UrlOut": {
-        "properties": {
-          "url": {
-            "title": "Url",
-            "type": "string"
-          }
-        },
-        "required": [
-          "url"
-        ],
-        "title": "UrlOut",
-        "type": "object"
-      },
       "UserOut": {
         "properties": {
           "email": {
@@ -3989,48 +3955,6 @@
           }
         },
         "summary": "Get Billing",
-        "tags": [
-          "shop"
-        ]
-      }
-    },
-    "/v1/shop/billing/checkout-pro": {
-      "post": {
-        "operationId": "checkout_pro_v1_shop_billing_checkout_pro_post",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UrlOut"
-                }
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "Checkout Pro",
-        "tags": [
-          "shop"
-        ]
-      }
-    },
-    "/v1/shop/billing/portal": {
-      "post": {
-        "operationId": "billing_portal_v1_shop_billing_portal_post",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UrlOut"
-                }
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "Billing Portal",
         "tags": [
           "shop"
         ]
@@ -6479,28 +6403,6 @@
         "summary": "Stream Ticket",
         "tags": [
           "shopper"
-        ]
-      }
-    },
-    "/webhooks/stripe": {
-      "post": {
-        "description": "Verify the signature, then process each Stripe event id only once (replays change nothing).",
-        "operationId": "stripe_webhook_webhooks_stripe_post",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OkOut"
-                }
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "Stripe Webhook",
-        "tags": [
-          "webhooks"
         ]
       }
     }

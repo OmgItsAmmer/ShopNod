@@ -102,7 +102,9 @@
     "step4Title": "Scan at the counter",
     "step4Body": "Nearby shoppers get the offer. They show a QR code, you scan it, and you pay only per redemption.",
     "footer": "ShopNod. Same price for everyone, honest discounts, and a human always in charge.",
-    "tryAsShopper": "Try as a shopper"
+    "tryAsShopper": "Try as a shopper",
+    "watchStory": "Watch the 60-second story",
+    "watchStoryNote": "Both sides, live, in one minute"
   },
   "login": {
     "title": "Sign in",
@@ -499,22 +501,19 @@
   "billing": {
     "title": "Billing",
     "subtitle": "You pay per redemption: no customer, no fee.",
-    "testMode": "Test mode. No real money moves.",
+    "testMode": "Demo: usage only. No card is taken and no money moves.",
     "billable": "Billable redemptions, {month}",
     "perRedemption": "{fee} per redemption",
     "upcoming": "Upcoming invoice",
     "estimateNote": "Estimate for this month",
     "includedInPro": "Included in Pro",
-    "meterEvents": "Usage sent to Stripe",
-    "sentToStripe": "Recorded for your invoice",
-    "stripeOff": "Stripe isn't connected in this demo",
+    "meterEvents": "Usage recorded",
+    "usageNote": "One entry per customer ShopNod brought you",
     "plan": "Plan",
     "payPerUse": "Pay per redemption",
     "pro": "Pro",
-    "freeHelp": "Upgrade for more:",
-    "proHelp": "You're on Pro. Thank you!",
-    "upgrade": "Upgrade to Pro",
-    "manage": "Manage billing"
+    "freeHelp": "Pro (coming soon) adds:",
+    "proHelp": "You're on Pro. Thank you!"
   },
   "settings": {
     "title": "Settings",
@@ -817,6 +816,159 @@
         "hot": "Hot",
         "cold": "Cold"
       }
+    }
+  },
+  "story": {
+    "title": "The 60-second story",
+    "liveMode": "Live: real API calls",
+    "replayMode": "Replay (the API didn't answer)",
+    "timeline": "Story chapters",
+    "shopScreen": "The shopkeeper's screen",
+    "phoneScreen": "A shopper nearby",
+    "step": "Chapter {n} of {total}",
+    "underTheHood": "Under the hood",
+    "waiting": "Waiting for the real app to answer…",
+    "back": "Previous chapter",
+    "pause": "Pause",
+    "play": "Play",
+    "next": "Next",
+    "openShop": "Open this shop's dashboard",
+    "openShopper": "Open this shopper's app",
+    "replay": "Play again",
+    "footer": "Demo Market, Lahore · everything above just happened in the real app, with a demo shop and an anonymous shopper.",
+    "lane": {
+      "offer": "Offer → nearby shoppers",
+      "redeemed": "Redeemed ✓",
+      "qr": "QR → counter"
+    },
+    "chapters": {
+      "intro": {
+        "short": "A quiet day",
+        "title": "Tuesday, 4 pm. Ali's Bakery is quiet.",
+        "body": "Two customers in the last hour, when there are usually nine. Twelve croissants expire tonight. Ali is busy baking, not watching numbers."
+      },
+      "quiet": {
+        "short": "Noticed",
+        "title": "ShopNod notices before Ali does.",
+        "body": "It compares this hour with the same hour on past Tuesdays. 78% quieter than usual, with stock about to go to waste: worth an offer."
+      },
+      "ai": {
+        "short": "AI drafts",
+        "title": "The AI drafts an offer, inside Ali's limits.",
+        "body": "The Shop Agent reads opening hours, stock and expiry, what Ali approved before, and his limits, through tools. Then it writes the offer and explains why, in plain words."
+      },
+      "guardrails": {
+        "short": "Guardrails",
+        "title": "Every draft is checked against hard limits.",
+        "body": "Minimum price, maximum discount, budget, number of customers, items never to discount. The AI can read these limits but never change them, and it has no way to publish anything."
+      },
+      "approve": {
+        "short": "Ali decides",
+        "title": "Nothing goes live until Ali taps Approve.",
+        "body": "One tap, or edit or reject. It is his money, so it is his decision, and every decision is logged."
+      },
+      "match": {
+        "short": "Who's told",
+        "title": "Only the neighbours it suits are told.",
+        "body": "ShopNod predicts who would want this right now: the rainy evening, a shopping list with croissants on it, what they liked before. Out of everyone nearby, only those people get a notification. No names or locations leave the server."
+      },
+      "offer": {
+        "short": "Get offer",
+        "title": "A shopper sees why, and gets a QR code.",
+        "body": "Every offer says why it is shown, and that everyone sees the same price. One tap gives a signed, one-time QR code (and a short code if the camera fails)."
+      },
+      "scan": {
+        "short": "At the counter",
+        "title": "Ali scans it at the counter.",
+        "body": "The code is checked, locked and redeemed exactly once. A second scan, a code for another shop or an expired code is refused, in plain words."
+      },
+      "redeemed": {
+        "short": "Redeemed",
+        "title": "Redeemed. The shopper saved money.",
+        "body": "The phone updates by itself the moment Ali scans. Croissants that would have been thrown away are eaten instead."
+      },
+      "impact": {
+        "short": "Impact",
+        "title": "A quiet hour turned into customers, and it learns.",
+        "body": "More neighbours redeem on their own. Ali pays only per customer ShopNod actually brings. Next time, ShopNod remembers what Ali approved and when, and drafts even better offers."
+      }
+    },
+    "shop": {
+      "where": "Demo Market · Tuesday 16:10",
+      "live": "Live",
+      "replay": "Replay",
+      "customersHour": "Customers per hour",
+      "usual": "now · usually {n}",
+      "quieter": "78% quieter than usual",
+      "stock": "Croissants × 12",
+      "expires": "Expire tonight",
+      "drafting": "ShopNod AI is drafting…",
+      "drafted": "Draft ready for you",
+      "toolHours": "Opening hours and how busy it usually is",
+      "toolStock": "Stock and what expires soon",
+      "toolHistory": "What you approved before",
+      "toolLimits": "Your limits",
+      "byAi": "Drafted by AI, inside your limits",
+      "byRules": "Drafted by rules (no AI key), inside your limits",
+      "checkMinPrice": "Never below your minimum price",
+      "checkMaxDiscount": "At most {pct}% off",
+      "checkBudget": "Within today's discount budget",
+      "checkCap": "Up to {cap} customers",
+      "checkProtected": "Protected items left alone",
+      "aiCantPublish": "The AI can't publish. Only you can.",
+      "approve": "Approve",
+      "approved": "Approved",
+      "edit": "Edit",
+      "reject": "Reject",
+      "audit": "Logged: approved by you, from the dashboard",
+      "matched": "{reach} shoppers nearby · {notified} suit this offer right now",
+      "privacy": "Predicted on our server. No names or exact locations, and numbers shown only with 10+ people.",
+      "offerLive": "{pct}% offer is live",
+      "claims": "{n, plural, =0 {No claims yet} one {# claim} other {# claims}}",
+      "scan": "Scan at the counter",
+      "applyPct": "Valid. Apply {pct}%",
+      "mRedemptions": "Redeemed",
+      "mReached": "Shoppers reached",
+      "fewer10": "fewer than 10",
+      "mWaste": "Waste avoided",
+      "mWasteValue": "{n, plural, one {# item} other {# items}}",
+      "mFee": "You pay",
+      "mFeeValue": "Only per customer",
+      "learnedTitle": "Learned for next time",
+      "learnedBody": "You approved {pct}% on a quiet, rainy afternoon. Next time ShopNod starts there, and sends warm treats first when it rains.",
+      "neighbours": "Simulated neighbours keep redeeming in the background, so the numbers grow while you watch."
+    },
+    "phone": {
+      "weather": "Rainy evening · 22°C",
+      "quietPhone": "Nothing yet. ShopNod only speaks up when an offer really suits you.",
+      "now": "now",
+      "push": "{pct}% on {item} at {shop}",
+      "samePrice": "Everyone sees the same price",
+      "getOffer": "Get offer",
+      "showAt": "Show this at {shop}",
+      "waiting": "Waiting for the shop to scan…",
+      "signed": "Signed and single-use",
+      "redeemed": "Redeemed!",
+      "saved": "You saved {amount}",
+      "wallet": "Saved this month",
+      "nextTime": "Next time: warm treats first when it rains."
+    }
+  },
+  "ask": {
+    "title": "Ask your shop",
+    "subtitle": "Plain questions, answered with the same tools our AI agent uses. Approvals still need your tap.",
+    "placeholder": "e.g. what's pending?",
+    "send": "Send",
+    "error": "I couldn't reach the shop just now.",
+    "used": "Tools used:",
+    "lastRun": "Last agent run used:",
+    "seeTrace": "See full trace",
+    "confirmNote": "Check the confirmation card above to finish.",
+    "chips": {
+      "pending": "What's pending?",
+      "busy": "How busy are we?",
+      "expiring": "What expires soon?",
+      "limits": "What are my limits?"
     }
   }
 }

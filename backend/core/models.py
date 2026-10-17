@@ -151,7 +151,6 @@ class Shop(Base):
     is_demo: Mapped[bool] = mapped_column(Boolean, default=False)
     template_key: Mapped[str | None] = mapped_column(String(40), nullable=True)
     onboarding_status: Mapped[str] = mapped_column(String(16), default="draft")  # draft|complete
-    stripe_customer_id: Mapped[str | None] = mapped_column(String(80), nullable=True)
     created_at: Mapped[datetime] = created()
     __table_args__ = (Index("ix_shops_geohash6", "geohash6"),)
 
@@ -329,38 +328,18 @@ class PersonalAccessToken(Base):
     created_at: Mapped[datetime] = created()
 
 
-class Subscription(Base):
-    __tablename__ = "subscriptions"
-    id: Mapped[uuid.UUID] = pk()
-    shop_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("shops.id"), index=True)
-    stripe_subscription_id: Mapped[str | None] = mapped_column(String(80), unique=True, nullable=True)
-    stripe_customer_id: Mapped[str | None] = mapped_column(String(80), nullable=True)
-    plan: Mapped[str] = mapped_column(String(16), default="free")
-    status: Mapped[str] = mapped_column(String(24), default="active")
-    current_period_end: Mapped[datetime | None] = mapped_column(UTCDateTime(), nullable=True)
-    created_at: Mapped[datetime] = created()
-
-
 class MeterEvent(Base):
+    """Usage ledger: one row per billable redemption (what the billing page counts)."""
+
     __tablename__ = "meter_events"
     id: Mapped[uuid.UUID] = pk()
     shop_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("shops.id"), index=True)
     redemption_id: Mapped[uuid.UUID] = mapped_column(unique=True)
     identifier: Mapped[str] = mapped_column(String(80), unique=True)
-    status: Mapped[str] = mapped_column(String(16), default="pending")  # pending|sent|skipped|failed
-    stripe_ref: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    status: Mapped[str] = mapped_column(String(16), default="recorded")
     error: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = created()
     sent_at: Mapped[datetime | None] = mapped_column(UTCDateTime(), nullable=True)
-
-
-class StripeEvent(Base):
-    """Webhook replay protection: each Stripe event id is processed once."""
-
-    __tablename__ = "stripe_events"
-    id: Mapped[str] = mapped_column(String(120), primary_key=True)
-    type: Mapped[str] = mapped_column(String(80))
-    received_at: Mapped[datetime] = mapped_column(UTCDateTime(), default=_now)
 
 
 class ShopPushSubscription(Base):

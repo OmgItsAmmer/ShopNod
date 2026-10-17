@@ -4,7 +4,7 @@
   real pushes, but they do count toward the "at least 10 people" minimum.
 - When a demo shop publishes an offer (and `sim_enabled` is on), each fake shopper claims it with a chance based on
   its match score, then redeems 30–120 s later through `shopnod_core.redeem(..., is_simulated=True)`.
-  Simulated redemptions are billable, so Stripe test mode shows real numbers.
+  Simulated redemptions are billable, so the billing page shows real numbers.
 - `burst` creates 5 redemptions in 20 s for one shop (the admin page's "burst" button).
 """
 from __future__ import annotations

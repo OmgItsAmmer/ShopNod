@@ -60,11 +60,11 @@ The human is **required by the design**, not added on top:
 | Piece | Used for |
 |---|---|
 | **4 agents** (Shop, Onboarding, Copy, Matching) on the OpenAI Agents SDK | Proposing, setup, copy, ranking |
-| **ShopNod MCP server** | The single tool layer used by **our agents and external MCP clients**. Approval is scope-protected. |
-| **Scheduler + worker** | Quiet detection every 5 minutes, expiry sweeps, nightly learning, billing |
-| **APIs:** OpenAI, FCM/Web Push, Stripe, maps/geocoding | Each one has a clear job, handled errors and a fallback |
+| **ShopNod MCP server** | The tool layer for the Shop Agent **and the dashboard's "Ask your shop" box**; any MCP client can also connect. Approval is scope-protected: tools can only *request* it. |
+| **Scheduler + worker** | Quiet detection every 5 minutes, expiry sweeps, nightly learning, usage metering |
+| **APIs:** OpenAI, Web Push, Open-Meteo weather, maps/geocoding | Each one has a clear job, handled errors and a fallback |
 
-**Demo moment:** open Claude (or another MCP client), connect the ShopNod MCP server, and ask "what offers are pending for my bakery?", then "approve proposal 12 at 10%". The confirmation appears, and the offer lands on the shopper's phone.
+**Demo moment:** the story's "AI drafts" step lists the real MCP tools the agent called (`get_activity → get_expiring_items → … → submit_proposal`), the dashboard shows the same calls in "Last agent run used", and "Ask your shop" ("what's pending?", "approve it at 10%") runs the same tools and ends at the confirmation card.
 
 ## 6. User experience & presentation (10)
 

@@ -1,4 +1,4 @@
-"""A small circuit breaker per external provider (OpenAI, push, Stripe)."""
+"""A small circuit breaker per external provider (OpenAI, push, weather)."""
 from __future__ import annotations
 
 import time
@@ -63,7 +63,7 @@ def get_breaker(name: str) -> CircuitBreaker:
 
 
 def all_states() -> dict[str, str]:
-    for n in ("openai", "push", "stripe", "weather"):
+    for n in ("openai", "push", "weather"):
         get_breaker(n)
     return {n: b.state for n, b in _breakers.items()}
 

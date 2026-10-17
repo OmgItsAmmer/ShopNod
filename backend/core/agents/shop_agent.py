@@ -14,7 +14,7 @@ from typing import Any
 from pydantic import BaseModel
 from sqlalchemy import select
 
-from .. import ai, auth, clock, learning, proposals
+from .. import ai, auth, clock, learning, proposals, shop_tools
 from ..db import session_scope
 from ..guardrails import RuleItem, rules_proposal
 from ..guardrails.validator import remaining_budget
@@ -85,6 +85,11 @@ async def rules_fallback(shop_id: uuid.UUID, signal_id: uuid.UUID | None, run_id
         if existing is not None:
             return ShopAgentOutput(proposal_submitted=True, proposal_id=str(existing.id), summary="ai")
         sig = await s.get(Signal, signal_id) if signal_id else None
+        trace = ai.current_trace.get()
+        if trace is not None:  # same read tools the AI would call, so the trace shows what the proposal was based on
+            agent_p = auth.Principal("agent", shop_id, frozenset({auth.SCOPE_AGENT_PROPOSE}))
+            for name in ("get_shop_profile", "get_guardrails", "get_activity", "get_expiring_items", "get_decision_history"):
+                trace.tool(name, {"via": "rules fallback"}, await getattr(shop_tools, name)(s, agent_p))
         items = await load_items(s, shop_id)
         rule_items = [RuleItem(item_facts(i, []), i.expires_at, i.quantity) for i in items]
         ctx = await build_context(s, shop, now)
@@ -100,6 +105,8 @@ async def rules_fallback(shop_id: uuid.UUID, signal_id: uuid.UUID | None, run_id
         )
         if created.proposal is None:
             return ShopAgentOutput(proposal_submitted=False, summary=f"blocked by guardrails: {created.rejected_reason}")
+        if trace is not None:
+            trace.tool("submit_proposal", {"via": "rules fallback", "pct": result.draft.pct}, {"status": "pending", "proposal_id": str(created.proposal.id)})
         return ShopAgentOutput(proposal_submitted=True, proposal_id=str(created.proposal.id), summary="rules")
 
 

@@ -257,40 +257,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/shop/billing/checkout-pro": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Checkout Pro */
-        post: operations["checkout_pro_v1_shop_billing_checkout_pro_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/shop/billing/portal": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Billing Portal */
-        post: operations["billing_portal_v1_shop_billing_portal_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/v1/shop/confirmations": {
         parameters: {
             query?: never;
@@ -1267,26 +1233,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/webhooks/stripe": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Stripe Webhook
-         * @description Verify the signature, then process each Stripe event id only once (replays change nothing).
-         */
-        post: operations["stripe_webhook_webhooks_stripe_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1425,14 +1371,17 @@ export interface components {
              */
             id: string;
         };
-        /** BillingOut */
+        /**
+         * BillingOut
+         * @description Pay per redemption. Usage only: no card is taken and no money moves in this demo.
+         */
         BillingOut: {
             /** Billable Redemptions */
             billable_redemptions: number;
+            /** Demo */
+            demo: boolean;
             /** Fee Per Redemption Usd Cents */
             fee_per_redemption_usd_cents: number;
-            /** Meter Events Sent */
-            meter_events_sent: number;
             /** Month */
             month: string;
             /** Plan */
@@ -1441,16 +1390,10 @@ export interface components {
             pro_unlocks: string[];
             /** Redemptions Today */
             redemptions_today: number;
-            /** Stripe Configured */
-            stripe_configured: boolean;
-            /** Stripe Customer */
-            stripe_customer: boolean;
-            /** Subscription Status */
-            subscription_status: string | null;
-            /** Test Mode */
-            test_mode: boolean;
             /** Upcoming Invoice Usd Cents */
             upcoming_invoice_usd_cents: number;
+            /** Usage Recorded */
+            usage_recorded: number;
         };
         /** ClaimListItem */
         ClaimListItem: {
@@ -2394,11 +2337,6 @@ export interface components {
             /** Scopes */
             scopes: string[];
         };
-        /** UrlOut */
-        UrlOut: {
-            /** Url */
-            url: string;
-        };
         /** UserOut */
         UserOut: {
             /** Email */
@@ -2838,46 +2776,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BillingOut"];
-                };
-            };
-        };
-    };
-    checkout_pro_v1_shop_billing_checkout_pro_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UrlOut"];
-                };
-            };
-        };
-    };
-    billing_portal_v1_shop_billing_portal_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UrlOut"];
                 };
             };
         };
@@ -4661,26 +4559,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["TicketOut"];
-                };
-            };
-        };
-    };
-    stripe_webhook_webhooks_stripe_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["OkOut"];
                 };
             };
         };

@@ -35,7 +35,7 @@ OFFER_PUBLISHED = "offer.published"
 OFFER_ENDED = "offer.ended"
 CLAIM_CREATED = "claim.created"
 REDEMPTION_RECORDED = "redemption.recorded"
-SHOP_COMPLETED = "shop.completed"  # Plan 2 internal: creates the Stripe customer
+SHOP_COMPLETED = "shop.completed"  # a shop finished the setup wizard
 
 
 def handler(topic: str, name: str):

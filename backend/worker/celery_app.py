@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import ssl
 
 from celery import Celery
 from celery.schedules import crontab
@@ -14,7 +15,8 @@ from shopnod_core.settings import get_settings
 log = logging.getLogger("shopnod.worker")
 _s = get_settings()
 
-celery_app = Celery("shopnod", broker=_s.REDIS_URL or "memory://", backend=None, include=[
+_ssl = {"ssl_cert_reqs": ssl.CERT_REQUIRED} if _s.REDIS_URL.startswith("rediss://") else None  # hosted Redis (Upstash) is TLS
+celery_app = Celery("shopnod", broker=_s.REDIS_URL or "memory://", backend=None, broker_use_ssl=_ssl, include=[
     "shopnod_worker.tasks.ops.tasks",
     "shopnod_worker.tasks.shop.tasks",
     "shopnod_worker.tasks.shopper.tasks",

@@ -87,12 +87,9 @@ async def learn(p: dict) -> None:
 # ── billing ──────────────────────────────────────────────────────────────
 @outbox.handler(outbox.REDEMPTION_RECORDED, "meter")
 async def meter(p: dict) -> None:
+    """One row in the usage ledger per billable redemption."""
     await billing.meter_redemption(uuid.UUID(str(p["redemption_id"])))
 
-
-@outbox.handler(outbox.SHOP_COMPLETED, "stripe_customer")
-async def stripe_customer(p: dict) -> None:
-    await billing.create_stripe_customer(_sid(p))
 
 
 # ── shopkeeper push (notify_shopkeeper sender) ───────────────────────────

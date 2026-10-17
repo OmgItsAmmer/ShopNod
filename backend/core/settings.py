@@ -17,7 +17,6 @@ class Settings(BaseSettings):
     REDIS_URL: str = ""
     APP_ENV: str = "local"
     LOG_LEVEL: str = "INFO"
-    SENTRY_DSN: str = ""
 
     OPENAI_API_KEY: str = ""
     OPENAI_MODEL_AGENT: str = "gpt-4o"
@@ -42,12 +41,6 @@ class Settings(BaseSettings):
     WEATHER_URL: str = "https://api.open-meteo.com/v1/forecast"
     WEATHER_TIMEOUT_S: float = 2.0
 
-    STRIPE_SECRET_KEY: str = ""
-    STRIPE_WEBHOOK_SECRET: str = ""
-    STRIPE_METER_EVENT_NAME: str = "shopnod_redemption"
-    STRIPE_PRO_PRICE_ID: str = ""
-    STRIPE_METERED_PRICE_ID: str = ""
-
     EMAIL_PROVIDER_KEY: str = ""
     SHOP_WEB_URL: str = "http://localhost:3000"
     SHOPPER_WEB_URL: str = "http://localhost:3000/shopper"  # the shopper view lives in the same web app
@@ -65,15 +58,26 @@ class Settings(BaseSettings):
     COPY_TIMEOUT_S: float = 5.0
     DEMO_LOGIN_PER_MINUTE: int = 30
     REDEMPTION_FEE_MINOR: int = 1000  # approx. fee per redemption in shop currency, for the ROI estimate
-    REDEMPTION_FEE_USD_CENTS: int = 10  # shown on the billing page (Stripe test mode)
+    REDEMPTION_FEE_USD_CENTS: int = 10  # shown on the billing page (no money moves in the demo)
 
     @field_validator("DATABASE_URL")
     @classmethod
     def _async_url(cls, v: str) -> str:
         if v.startswith("postgres://"):
-            return "postgresql+asyncpg://" + v[len("postgres://"):]
+            v = "postgresql://" + v[len("postgres://"):]
         if v.startswith("postgresql://"):
-            return "postgresql+asyncpg://" + v[len("postgresql://"):]
+            v = "postgresql+asyncpg://" + v[len("postgresql://"):]
+        if v.startswith("postgresql+asyncpg://") and "?" in v:
+            # hosted Postgres (Neon, ...) gives libpq options; asyncpg wants `ssl=` and rejects the rest
+            base, query = v.split("?", 1)
+            keep = []
+            for part in query.split("&"):
+                k = part.split("=", 1)[0]
+                if k == "sslmode":
+                    keep.append("ssl=" + part.split("=", 1)[1])
+                elif k not in ("channel_binding", "options"):
+                    keep.append(part)
+            v = base + ("?" + "&".join(keep) if keep else "")
         return v
 
     @property

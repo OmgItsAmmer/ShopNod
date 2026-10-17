@@ -26,13 +26,6 @@ def _allowed_origins() -> set[str]:
 async def lifespan(app: FastAPI):
     s = get_settings()
     setup_logging(s.LOG_LEVEL)
-    if s.SENTRY_DSN:
-        try:
-            import sentry_sdk
-
-            sentry_sdk.init(dsn=s.SENTRY_DSN, environment=s.APP_ENV, traces_sample_rate=0.1)
-        except ImportError:
-            log.warning("SENTRY_DSN set but sentry-sdk is not installed")
     # In inline mode (no Redis) the API process also runs the outbox handlers and tasks.
     import shopnod_worker.tasks.ops  # noqa: F401
     import shopnod_worker.tasks.shop  # noqa: F401
@@ -49,7 +42,6 @@ def create_app() -> FastAPI:
     from shopnod_api.routers.auth import router as auth_router
     from shopnod_api.routers.shop import router as shop_router
     from shopnod_api.routers.shopper import router as shopper_router
-    from shopnod_api.routers.webhooks import router as webhooks_router
 
     app = FastAPI(title="ShopNod API", version="0.1.0", lifespan=lifespan)
     install_error_handlers(app)
@@ -79,7 +71,6 @@ def create_app() -> FastAPI:
     app.include_router(shop_router, prefix="/v1/shop", tags=["shop"])
     app.include_router(shopper_router, prefix="/v1/shopper", tags=["shopper"])
     app.include_router(admin_router, prefix="/v1/admin", tags=["admin"])
-    app.include_router(webhooks_router, prefix="/webhooks", tags=["webhooks"])
     return app
 
 

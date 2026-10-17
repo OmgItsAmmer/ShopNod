@@ -15,3 +15,24 @@ coverage/
 test-results/
 playwright-report/
 celerybeat-schedule*
+
+# secrets and local state (never commit)
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.sqlite*
+*.log
+.next-e2e/
+.vercel/
+.DS_Store
+Thumbs.db
+service-account*.json
+firebase-adminsdk*.json
+google-services.json
+GoogleService-Info.plist
+.claude/settings.local.json
+
+.secrets/
