@@ -18,7 +18,7 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 from pydantic import BaseModel, Field
-from sqlalchemy import delete, func, select, update
+from sqlalchemy import delete, func, or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from . import ai, clock, context, flags, geo, outbox, predict, tokens
@@ -307,10 +307,17 @@ async def candidates(s: AsyncSession, shopper: Shopper, *, lat: float | None = N
     now = clock.now()
     prefs = prefs or await get_prefs(s, shopper.install_id)
     cells = geo.neighbours(shopper.geohash6)
+    # A shopper who joined a market sees every shop of that market, not only the 9 cells around them (demo shops are
+    # spread over several cells). Everyone else gets the 9 cells.
+    where_area = Offer.geohash6.in_(cells)
+    if shopper.area_slug:
+        area_id = (await s.execute(select(MarketArea.id).where(MarketArea.slug == shopper.area_slug))).scalar_one_or_none()
+        if area_id is not None:
+            where_area = or_(where_area, Shop.area_id == area_id)
     stmt = (
         select(Offer, Shop)
         .join(Shop, Shop.id == Offer.shop_id)
-        .where(Offer.status == "active", Offer.ends_at > now, Offer.geohash6.in_(cells))  # incl. windows starting soon
+        .where(Offer.status == "active", Offer.ends_at > now, where_area)  # incl. windows starting soon
     )
     if offer_ids is not None:
         stmt = stmt.where(Offer.id.in_(offer_ids))
