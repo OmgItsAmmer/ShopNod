@@ -46,7 +46,7 @@ test('a shopper who typed nothing: the feed follows the moment, learns from taps
   await expect(me.getByTestId('shopper-context')).toBeVisible();
 
   // Demo switch: pretend it is a rainy evening. The reason is about the moment, not about anything they typed.
-  await me.getByTestId('shopper-context').getByText('Pretend it’s… (demo)').click();
+  await me.getByTestId('shopper-context').getByText(/Pretend it['’]s… \(demo\)/).click();
   await me.getByTestId('pretend-evening').click();
   await me.getByTestId('pretend-rain').click();
   await expect(me.getByTestId('shopper-context-summary')).toContainText('Rainy evening');

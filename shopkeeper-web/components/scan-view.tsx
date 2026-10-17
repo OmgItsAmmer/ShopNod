@@ -269,13 +269,16 @@ export function ScanView() {
 
       <Card className="p-5">
         <form
-          className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end"
+          className="grid gap-2"
           onSubmit={(e) => {
             e.preventDefault();
             if (codeValid) redeem.mutate({ short_code: code });
           }}
         >
-          <Field id="short-code" label={t('shortCode')} hint={t('shortCodeHint')}>
+          <label htmlFor="short-code" className="text-base font-semibold">
+            {t('shortCode')}
+          </label>
+          <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
             <Input
               id="short-code"
               value={code}
@@ -286,13 +289,24 @@ export function ScanView() {
               spellCheck={false}
               maxLength={6}
               placeholder="K7M4PX"
+              aria-describedby="short-code-hint"
               className="text-center text-3xl font-bold tracking-[0.3em] uppercase"
               data-testid="short-code-input"
             />
-          </Field>
-          <Button type="submit" size="lg" disabled={!codeValid} loading={redeem.isPending} data-testid="redeem-code">
-            {t('check')}
-          </Button>
+            <Button
+              type="submit"
+              size="lg"
+              disabled={!codeValid}
+              loading={redeem.isPending}
+              data-testid="redeem-code"
+              className="min-h-12"
+            >
+              {t('check')}
+            </Button>
+          </div>
+          <p id="short-code-hint" className="text-sm text-muted-foreground">
+            {t('shortCodeHint')}
+          </p>
         </form>
       </Card>
 

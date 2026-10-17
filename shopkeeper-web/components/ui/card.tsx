@@ -3,7 +3,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div data-ui="card" className={cn('rounded-[1.5rem] border-2 border-border bg-card text-card-foreground shadow-none', className)} {...props} />;
+  return <div data-ui="card" className={cn('overflow-hidden rounded-[1.5rem] border border-border bg-card text-card-foreground shadow-sm', className)} {...props} />;
 }
 
 export function CardHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {

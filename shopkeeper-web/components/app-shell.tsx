@@ -80,9 +80,9 @@ export function AppShell({ children, isAdmin, shopName, isDemo }: { children: Re
   return (
     <LiveProvider>
       <ServiceWorkerRegister />
-      <div className="app-shell-root min-h-dvh bg-background lg:grid lg:grid-cols-[18rem_1fr]">
-        <aside className="app-sidebar hidden border-e-2 border-foreground bg-editorial p-5 text-editorial-foreground lg:block" aria-label={t('main')}>
-          <div className="sticky top-5 grid gap-8">
+      <div className="app-shell-root min-h-dvh bg-background lg:grid lg:grid-cols-[17.5rem_1fr]">
+        <aside className="app-sidebar hidden border-e border-border bg-editorial p-5 text-editorial-foreground lg:sticky lg:top-0 lg:block lg:h-dvh lg:self-start lg:overflow-y-auto" aria-label={t('main')}>
+          <div className="grid gap-8">
             <Link href="/dashboard" className="flex items-center gap-2 px-3 text-2xl font-extrabold tracking-[-0.05em]">
               <span className="grid size-9 place-items-center rounded-lg border-2 border-current bg-primary-strong text-sm text-primary-foreground">SN</span> ShopNod
             </Link>
@@ -90,13 +90,13 @@ export function AppShell({ children, isAdmin, shopName, isDemo }: { children: Re
           </div>
         </aside>
 
-        <div className="min-w-0">
-          <header className="sticky top-0 z-30 flex min-h-20 items-center gap-3 border-b-2 border-border bg-card/95 px-4 py-3 backdrop-blur sm:px-6">
+        <div className="flex min-h-dvh min-w-0 flex-col">
+          <header className="sticky top-0 z-30 flex min-h-20 shrink-0 items-center gap-3 border-b border-border bg-card/95 px-6 py-3 backdrop-blur lg:px-8">
             <Button variant="outline" size="icon" className="lg:hidden" onClick={() => setOpen(true)} aria-label={t('openMenu')} aria-expanded={open}>
               <Menu className="size-5" aria-hidden />
             </Button>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-xl font-bold tracking-[-0.03em]" data-testid="shop-name">{shopName}</p>
+              <p className="truncate text-xl font-bold tracking-[-0.03em]" data-testid="shop-name">{shopName || 'ShopNod'}</p>
               {isDemo && <p className="text-xs font-semibold text-muted-foreground">{tc('demoShop')}</p>}
             </div>
             <LiveBadge />
@@ -137,7 +137,7 @@ export function AppShell({ children, isAdmin, shopName, isDemo }: { children: Re
             </div>
           )}
 
-          <main id="main" tabIndex={-1} className="app-workspace mx-auto grid w-full max-w-[75rem] gap-8 px-4 py-8 sm:px-8 lg:py-10">
+          <main id="main" tabIndex={-1} className="app-workspace mx-auto grid w-full max-w-6xl gap-8 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
             {children}
           </main>
         </div>

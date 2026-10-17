@@ -30,7 +30,7 @@ export default function DashboardPage() {
 
   return (
     <div className="grid gap-8">
-      <div className="app-page-intro"><p className="app-page-kicker">ShopNod</p><h1>{t('title')}</h1></div>
+      <h1 className="sr-only">{t('title')}</h1>
       <QuietButtons
         isDemo={shop.is_demo}
         onStart={(expected) => {

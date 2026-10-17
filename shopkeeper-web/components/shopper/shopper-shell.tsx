@@ -56,7 +56,7 @@ export function ShopperShell({ children }: { children: React.ReactNode }) {
             </span>
           </Link>
           <div className="ms-auto flex items-center gap-2">
-            <LanguageSwitcher className="hidden sm:block" />
+            <LanguageSwitcher className="hidden sm:inline-flex" />
             <ThemeToggle />
             <Link
               href="/dashboard"
