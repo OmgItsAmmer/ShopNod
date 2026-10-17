@@ -18,7 +18,7 @@ COPY alembic.ini ./
 COPY migrations ./migrations
 COPY seed ./seed
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh && useradd --create-home --uid 10001 app && chown -R app /app
+RUN sed -i 's/\r$//' /entrypoint.sh && chmod +x /entrypoint.sh && useradd --create-home --uid 10001 app && chown -R app /app
 USER app
 
 # ── api: REST + SSE ──────────────────────────────────────────────────────
