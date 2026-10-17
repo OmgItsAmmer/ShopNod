@@ -1,0 +1,23 @@
+# Fly.io config for the ShopNod MCP server (the tool server the AI agent calls).
+# Deploys the same image we build for Alternate Futures: see docs/deployment-runbook.md.
+# Cheapest machine (shared-cpu-1x, 512 MB), always on: the agent only waits 8 s for this server.
+app = "shopnod-mcp"
+primary_region = "sin"          # Singapore: next to the Neon database (aws-ap-southeast-1)
+
+[http_service]
+  internal_port = 8001
+  force_https = true
+  auto_stop_machines = "off"    # never sleep
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    grace_period = "25s"
+    interval = "30s"
+    timeout = "5s"
+    method = "GET"
+    path = "/healthz"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"              # cheapest size that is safe for the Python MCP server
