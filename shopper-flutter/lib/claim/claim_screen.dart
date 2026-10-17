@@ -20,7 +20,7 @@ class ClaimScreen extends ConsumerStatefulWidget {
 }
 
 class _ClaimScreenState extends ConsumerState<ClaimScreen> {
-  Timer? timer;
+  Timer? timer, poll;
   late final ConfettiController confetti;
   bool celebrated = false;
   @override
@@ -30,11 +30,18 @@ class _ClaimScreenState extends ConsumerState<ClaimScreen> {
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (mounted) setState(() {});
     });
+    // Live "Redeemed": poll the claim while it is open (Plan 3 §0.8 polling fallback).
+    if (AppController.apiUrl.isNotEmpty) {
+      poll = Timer.periodic(const Duration(seconds: 3), (_) {
+        if (mounted) ref.read(appControllerProvider).syncClaim(widget.id);
+      });
+    }
   }
 
   @override
   void dispose() {
     timer?.cancel();
+    poll?.cancel();
     confetti.dispose();
     super.dispose();
   }

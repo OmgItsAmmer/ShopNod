@@ -13,6 +13,11 @@
   --icon: #8D8D8D;
   --button-secondary: #6C757D;  --button-disabled: #C4C4C4;
   --link: #3A56F0;
+  --editorial: #232323; --editorial-foreground: #FFFFFF;
+  --section-gutter: clamp(1.5rem, 8.333vw, 7.5rem);
+  --section-space: clamp(5rem, 9vw, 8rem);
+  --radius-frame: 1.75rem;
+  --ease-editorial: cubic-bezier(.22, 1, .36, 1);
   --destructive-text: #D32F2F;
   --success-tint: #388E3C1F;  --warning-tint: #F57C001F;  --error-tint: #D32F2F1F;  --info-tint: #1976D21F;
 }
@@ -30,6 +35,7 @@
   --icon: #939393;
   --button-disabled: rgba(255,255,255,.12);
   --link: #B0C7FF;
+  --editorial: #000000; --editorial-foreground: #F6F6F6;
   --destructive-text: #FF8A80;
 }
 
@@ -47,6 +53,7 @@
   --color-success: var(--success);  --color-warning: var(--warning);  --color-info: var(--info);
   --color-border: var(--border);  --color-input: var(--input);  --color-ring: var(--ring);
   --color-icon: var(--icon);  --color-link: var(--link);
+  --color-editorial: var(--editorial); --color-editorial-foreground: var(--editorial-foreground);
   --color-button-secondary: var(--button-secondary);  --color-button-disabled: var(--button-disabled);
   --color-success-tint: var(--success-tint);  --color-warning-tint: var(--warning-tint);
   --color-error-tint: var(--error-tint);  --color-info-tint: var(--info-tint);

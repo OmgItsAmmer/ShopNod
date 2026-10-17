@@ -63,7 +63,7 @@ def get_breaker(name: str) -> CircuitBreaker:
 
 
 def all_states() -> dict[str, str]:
-    for n in ("openai", "push", "stripe"):
+    for n in ("openai", "push", "stripe", "weather"):
         get_breaker(n)
     return {n: b.state for n, b in _breakers.items()}
 

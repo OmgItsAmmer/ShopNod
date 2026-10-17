@@ -38,7 +38,7 @@ shopnod/
 │   │   ├── shopper/               # Plan 1
 │   │   ├── shop/ auth/ admin/ webhooks/   # Plan 2
 │   │   └── health.py              # Phase 0
-│   ├── mcp/                       # Plan 2
+│   ├── mcp_server/                # Plan 2
 │   ├── worker/tasks/
 │   │   ├── shopper/               # Plan 1
 │   │   ├── shop/                  # Plan 2
@@ -206,6 +206,16 @@ API_URL, VAPID_PUBLIC_KEY
 - 2026-10-16 · Plan 2 proposed additions: `stripe_events`, `offer_reach_stats`, nullable `claims.install_id`, outbox topics `shop.completed` / `proposal.expired` / `offer.sold_out` / `sim.burst`, theme contrast tokens. Details in [README.md](README.md#contract-changelog-proposed-by-plan-2) · **Plan 1 owner approval: pending**
 
 ---
+
+## Status (2026-10-17)
+
+- **Plan 1 backend** (it was missing) is built: `backend/api/routers/shopper/`, `backend/core/shopper.py`, `backend/worker/tasks/shopper/` (match + notify, push sender, redeemed / offer-ended handlers, nightly retention + affinity).
+- **Phase 1:** S1–S12 are in `backend/tests/test_integration.py` and pass on SQLite. The Postgres run happens in CI.
+- **Phase 2:** simulated shoppers live in `backend/worker/tasks/sim/`. The seed creates 40; `sim_enabled` and the burst button work.
+- **Shopper app = web, in the same site.** The shopper view now lives at `/shopper` in `shopkeeper-web`, so judges test both sides on one website. The dashboard QR/link and a "Shopper view" button open it; the landing page has "Try as a shopper". It calls `/api/v1/shopper/*` through the same proxy, using a Bearer install token. Live updates come over SSE, with polling as a fallback. The Flutter app (`shopper-flutter/`) is shelved: it is no longer in compose or CI.
+- **Auto-predict:** the feed and notifications use a context-first prediction model (time of day, weather, basket completion, market priors, expiring stock, then learning from behaviour). A shopper who types nothing still gets a sensible feed, every card says why, and a "Pretend it's…" demo switch makes it visible. See [prediction.md](prediction.md).
+- **Phase 3:** `shopkeeper-web/e2e/full-loop.spec.ts` runs two browsers on one site (dashboard + `/shopper`) and passes 3 times in a row locally. The whole e2e suite passes (10 tests).
+- **Open:** FCM needs `FIREBASE_CREDENTIALS` and `pip install ".[push]"`. The Docker images and the Postgres test run haven't been run locally. Phase 4 drills and Phase 5 are still to do.
 
 ## Phase 1: Join the two halves
 

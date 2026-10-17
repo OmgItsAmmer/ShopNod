@@ -8,12 +8,9 @@ import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import AxeBuilder from '@axe-core/playwright';
 import { type Page, expect, test } from '@playwright/test';
+import { BACKEND as backend, DB, PY } from './env';
 
-const backend = path.resolve(__dirname, '../../backend');
-const DB = process.env.E2E_DATABASE_URL ?? `sqlite+aiosqlite:///${path.join(backend, 'e2e.db').replaceAll('\\', '/')}`;
-const PY = process.env.E2E_PYTHON ?? path.join(backend, '.venv', process.platform === 'win32' ? 'Scripts/python.exe' : 'bin/python');
-
-/** Plan 1 is not built yet: `dev_claim.py` makes a claim and prints its QR text and short code. */
+/** `dev_claim.py` makes a claim and prints its QR text and short code (stands in for a shopper). */
 function devClaim(shopId: string): { short_code: string; qr_text: string } {
   const out = execFileSync(PY, [path.join(backend, 'seed/dev_claim.py'), '--shop', shopId], {
     cwd: backend,
@@ -33,7 +30,7 @@ async function shopIdOf(page: Page): Promise<string> {
 async function completeWizard(page: Page, name = 'E2E Bakery', category = /Bakery/): Promise<number> {
   const t0 = Date.now();
   await page.goto('/');
-  await page.getByTestId('demo-login').click();
+  await page.getByTestId('demo-login').first().click();
   await expect(page).toHaveURL(/onboarding\/shop/);
   await page.getByLabel('Shop name').fill(name);
   await page.getByRole('radio', { name: category }).check({ force: true });
@@ -219,7 +216,7 @@ test('Urdu switches the page to right-to-left', async ({ page }) => {
   await page.getByTestId('language-switcher').selectOption('ur');
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
   await expect(page.locator('html')).toHaveAttribute('lang', 'ur');
-  await expect(page.getByTestId('demo-login')).toContainText('جج');
+  await expect(page.getByTestId('demo-login').first()).toContainText('جج');
   await page.getByTestId('language-switcher').selectOption('en');
   await expect(page.locator('html')).toHaveAttribute('dir', 'ltr');
 });

@@ -7,8 +7,7 @@ When a local shop is quiet or has stock about to expire, an AI agent drafts an o
 | Folder | What | Stack |
 |---|---|---|
 | [backend/](backend/) | API, MCP server, worker, migrations, seed data, `compose.yaml` for the whole stack | Python 3.12, FastAPI, Celery, PostgreSQL, Redis |
-| [shopkeeper-web/](shopkeeper-web/) | Shopkeeper app, plus the `theme` and `shared-types` packages and the Playwright tests | Next.js, TypeScript, Tailwind |
-| [shopper-flutter/](shopper-flutter/) | Shopper app for Android, iOS and web | Flutter |
+| [shopkeeper-web/](shopkeeper-web/) | The web app: shop dashboard and the shopper view (`/shopper`), plus the `theme` and `shared-types` packages and the Playwright tests | Next.js, TypeScript, Tailwind |
 | [docs/](docs/) | Architecture, plans, tech stack, theme, compliance | |
 
 ## Run it
@@ -25,8 +24,6 @@ cd backend && python -m venv .venv && .venv/Scripts/pip install -e ".[dev,ai]"  
 # Shopkeeper web
 cd shopkeeper-web && npm install && npm run dev
 
-# Shopper app
-cd shopper-flutter && flutter pub get && flutter run
 ```
 
 Regenerate the API types after changing a route: `cd shopkeeper-web && npm run types` (needs the backend installed).

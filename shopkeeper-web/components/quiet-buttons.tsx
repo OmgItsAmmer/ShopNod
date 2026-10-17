@@ -25,7 +25,7 @@ export function QuietButtons({ isDemo, onStart }: { isDemo: boolean; onStart: (d
     onError: (e) => toast.error(errorMessage(e)),
   });
   return (
-    <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
+    <section className="dashboard-signal grid gap-3 sm:grid-cols-[1fr_auto]" aria-label={t('imQuiet')}>
       <Button
         size="lg"
         className="min-h-20 text-2xl"
@@ -47,6 +47,6 @@ export function QuietButtons({ isDemo, onStart }: { isDemo: boolean; onStart: (d
           <FlaskConical className="size-6" aria-hidden /> {t('simulateQuiet')}
         </Button>
       )}
-    </div>
+    </section>
   );
 }

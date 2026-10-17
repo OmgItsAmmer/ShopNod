@@ -422,7 +422,7 @@ class OfferReachStat(Base):
     updated_at: Mapped[datetime] = mapped_column(UTCDateTime(), default=_now)
 
 
-# ── Plan 1 tables (skeleton; Plan 1 owns the real shape) ────────────────
+# ── Plan 1 tables ───────────────────────────────────────────────────────
 class Shopper(Base):
     __tablename__ = "shoppers"
     install_id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid7)
@@ -430,6 +430,8 @@ class Shopper(Base):
     geohash6: Mapped[str | None] = mapped_column(String(6), nullable=True)
     area_slug: Mapped[str | None] = mapped_column(String(64), nullable=True)
     languages: Mapped[list] = mapped_column(JSONType, default=lambda: ["en"])
+    platform: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    last_seen_at: Mapped[datetime | None] = mapped_column(UTCDateTime(), nullable=True, index=True)
     created_at: Mapped[datetime] = created()
     expires_at: Mapped[datetime | None] = mapped_column(UTCDateTime(), nullable=True)
 
@@ -463,7 +465,7 @@ class ShopperPushToken(Base):
     __tablename__ = "shopper_push_tokens"
     id: Mapped[uuid.UUID] = pk()
     install_id: Mapped[uuid.UUID] = mapped_column(index=True)
-    kind: Mapped[str] = mapped_column(String(10))  # expo|webpush
+    kind: Mapped[str] = mapped_column(String(10))  # fcm|webpush
     token: Mapped[str] = mapped_column(Text)
 
 

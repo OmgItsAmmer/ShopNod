@@ -50,10 +50,46 @@ def enqueue(name: str, *args: Any) -> None:
     task.add_done_callback(_background.discard)
 
 
+def enqueue_in(delay_s: float, name: str, *args: Any) -> None:
+    """Like `enqueue`, but runs after `delay_s` seconds (Celery countdown, or a sleeping task inline)."""
+    if delay_s <= 0:
+        enqueue(name, *args)
+        return
+    if get_settings().REDIS_URL:
+        try:
+            from shopnod_worker.celery_app import celery_app
+
+            celery_app.send_task(name, args=list(args), countdown=delay_s)
+            return
+        except Exception:  # noqa: BLE001
+            log.warning("celery enqueue failed; running inline", extra={"task": name})
+    fn = INLINE.get(name)
+    if fn is None:
+        _import_worker_tasks()
+        fn = INLINE.get(name)
+    if fn is None:
+        log.error("no inline handler for task", extra={"task": name})
+        return
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        return
+
+    async def _later() -> None:
+        await asyncio.sleep(delay_s)
+        await _run(name, fn, args)
+
+    task = loop.create_task(_later())
+    _background.add(task)
+    task.add_done_callback(_background.discard)
+
+
 def _import_worker_tasks() -> None:
     try:
         import shopnod_worker.tasks.ops  # noqa: F401
         import shopnod_worker.tasks.shop  # noqa: F401
+        import shopnod_worker.tasks.shopper  # noqa: F401
+        import shopnod_worker.tasks.sim  # noqa: F401
     except Exception:  # noqa: BLE001
         log.exception("could not import worker tasks")
 

@@ -49,7 +49,7 @@ export default function ShopStep() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-3xl">
+        <CardTitle asChild className="text-3xl">
           <h1>{t('shop.title')}</h1>
         </CardTitle>
         <CardDescription>{t('shop.subtitle')}</CardDescription>

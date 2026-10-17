@@ -50,7 +50,7 @@ export default function ReviewStep() {
     <div className="grid gap-6">
       <Card>
         <CardHeader>
-          <CardTitle className="text-3xl">
+          <CardTitle asChild className="text-3xl">
             <h1>{t('title')}</h1>
           </CardTitle>
           <CardDescription>{t('subtitle')}</CardDescription>

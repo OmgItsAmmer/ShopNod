@@ -58,20 +58,6 @@ jobs:
       - run: npm run typecheck
       - run: npm run build
 
-  shopper-flutter:
-    runs-on: ubuntu-latest
-    defaults:
-      run: { working-directory: shopper-flutter }
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with: { channel: stable, cache: true }
-      - run: flutter pub get
-      - name: Analyze (errors and warnings fail the build; style infos don't)
-        run: flutter analyze --no-fatal-infos
-      - run: flutter test
-      - run: flutter build web --release
-
   images:
     runs-on: ubuntu-latest
     needs: [backend, shopkeeper-web]

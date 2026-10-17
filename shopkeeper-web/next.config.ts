@@ -13,6 +13,8 @@ const withSerwist = withSerwistInit({
 const config: NextConfig = {
   // Small Docker image: `.next/standalone` holds only what the server needs.
   output: 'standalone',
+  // The e2e run builds into its own folder so it never fights with a `next dev` running in `.next`.
+  distDir: process.env.NEXT_DIST_DIR || '.next',
   outputFileTracingRoot: __dirname,
   transpilePackages: ['@shopnod/theme', '@shopnod/shared-types'],
   poweredByHeader: false,

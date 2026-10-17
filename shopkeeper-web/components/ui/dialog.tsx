@@ -17,7 +17,7 @@ export function DialogContent({ className, children, ...props }: React.Component
       <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/50" />
       <DialogPrimitive.Content
         className={cn(
-          'fixed start-1/2 top-1/2 z-50 max-h-[92vh] w-[calc(100vw-2rem)] max-w-lg -translate-y-1/2 overflow-y-auto rounded-2xl border border-border bg-card p-6 text-card-foreground shadow-xl focus:outline-none ltr:-translate-x-1/2 rtl:translate-x-1/2',
+          'fixed start-1/2 top-1/2 z-50 max-h-[92vh] w-[calc(100vw-2rem)] max-w-lg -translate-y-1/2 overflow-y-auto rounded-[1.5rem] border-2 border-foreground bg-card p-6 text-card-foreground shadow-none focus:outline-none ltr:-translate-x-1/2 rtl:translate-x-1/2',
           className,
         )}
         {...props}

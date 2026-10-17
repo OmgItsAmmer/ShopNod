@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from 'next';
+import { Geist } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages, getTranslations } from 'next-intl/server';
 import { Providers } from '@/components/providers';
 import { directionOf } from '@/i18n/config';
 import './globals.css';
+
+const geist = Geist({ subsets: ['latin'], variable: '--font-geist', display: 'swap' });
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('meta');
@@ -32,7 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const t = await getTranslations('common');
   return (
     <html lang={locale} dir={directionOf(locale)} suppressHydrationWarning>
-      <body className="min-h-dvh bg-background text-foreground antialiased">
+      <body className={`${geist.variable} min-h-dvh bg-background text-foreground antialiased`}>
         <a href="#main" className="skip-link">
           {t('skipToContent')}
         </a>

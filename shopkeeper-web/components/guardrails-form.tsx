@@ -209,7 +209,7 @@ export function GuardrailsForm() {
         </CardContent>
       </Card>
 
-      <div className="sticky bottom-3 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card p-4 shadow-lg">
+      <div className="sticky bottom-3 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-foreground bg-card p-4 shadow-none">
         <div aria-live="polite" className="min-h-6 text-base">
           {hint ? (
             <StatusChip tone="warning" icon={ShieldCheck}>

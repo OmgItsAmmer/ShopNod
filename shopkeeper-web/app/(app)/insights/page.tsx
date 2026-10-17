@@ -11,7 +11,7 @@ import { useLearning } from '@/lib/queries';
 
 function Stat({ label, value, note, testId }: { label: string; value: string; note?: string; testId?: string }) {
   return (
-    <Card className="grid gap-1 p-4" data-testid={testId}>
+    <Card className="metric-card grid gap-1 p-5" data-testid={testId}>
       <p className="text-base font-semibold text-muted-foreground">{label}</p>
       <p className="text-3xl font-extrabold">{value}</p>
       {note && <p className="text-sm text-muted-foreground">{note}</p>}

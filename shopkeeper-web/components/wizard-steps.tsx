@@ -21,7 +21,7 @@ export function WizardSteps() {
             <li key={s} className="flex flex-1 items-center gap-2" aria-current={active ? 'step' : undefined}>
               <span
                 className={cn(
-                  'grid size-10 shrink-0 place-items-center rounded-full border-2 text-[1.175rem] font-bold',
+                  'grid size-10 shrink-0 place-items-center rounded-lg border-2 text-[1.175rem] font-bold',
                   done && 'border-success bg-success text-white',
                   active && 'border-primary bg-primary text-primary-foreground',
                   !done && !active && 'border-border text-muted-foreground',

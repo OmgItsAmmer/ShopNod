@@ -1,18 +1,15 @@
 import path from 'node:path';
 import { defineConfig, devices } from '@playwright/test';
-
-const root = path.resolve(__dirname, '../..');
-const backend = path.join(root, 'backend');
-const DB = process.env.E2E_DATABASE_URL ?? `sqlite+aiosqlite:///${path.join(backend, 'e2e.db').replaceAll('\\', '/')}`;
-const PY = process.env.E2E_PYTHON ?? path.join(backend, '.venv', process.platform === 'win32' ? 'Scripts/python.exe' : 'bin/python');
+import { BACKEND, DB, PY, ROOT } from './env';
 
 /**
- * `docker compose up` (or the two commands below) must be running. With nothing running, Playwright starts
- * the API and the built web app itself (`reuseExistingServer` keeps your own servers if they are up).
+ * `docker compose up` (from backend/) must be running, or set nothing and Playwright starts the API, the MCP server
+ * and the built web app (shop dashboard + `/shopper`) itself. `reuseExistingServer` keeps your own servers if they are up.
  */
 export default defineConfig({
   testDir: '.',
   testMatch: '*.spec.ts',
+  globalSetup: './global-setup.ts',
   timeout: 90_000,
   expect: { timeout: 15_000 },
   fullyParallel: false,
@@ -31,15 +28,15 @@ export default defineConfig({
     : [
         {
           command: `${PY} -m uvicorn shopnod_api.main:app --port 8000 --log-level warning`,
-          cwd: backend,
+          cwd: BACKEND,
           url: 'http://localhost:8000/healthz',
           reuseExistingServer: true,
           timeout: 60_000,
-          env: { DATABASE_URL: DB, CORS_ORIGINS: 'http://localhost:3000', DEMO_MODE: 'true' },
+          env: { DATABASE_URL: DB, CORS_ORIGINS: 'http://localhost:3000', DEMO_MODE: 'true', WEATHER_ENABLED: 'false' },
         },
         {
           command: `${PY} -m uvicorn shopnod_mcp.server:app --port 8001 --log-level warning`,
-          cwd: backend,
+          cwd: BACKEND,
           url: 'http://localhost:8001/healthz',
           reuseExistingServer: true,
           timeout: 60_000,
@@ -47,11 +44,11 @@ export default defineConfig({
         },
         {
           command: 'npx next start -p 3000',
-          cwd: path.join(root, 'shopkeeper-web'),
+          cwd: path.join(ROOT, 'shopkeeper-web'),
           url: 'http://localhost:3000',
           reuseExistingServer: true,
           timeout: 60_000,
-          env: { API_INTERNAL_URL: 'http://localhost:8000', NEXT_PUBLIC_SHOPPER_WEB_URL: 'http://localhost:8081' },
+          env: { API_INTERNAL_URL: 'http://localhost:8000', NEXT_DIST_DIR: process.env.NEXT_DIST_DIR ?? '.next' },
         },
       ],
 });

@@ -2,7 +2,7 @@
 
 import {
   Activity, Bot, ClipboardList, CreditCard, LayoutDashboard, LineChart, LogOut, Menu, PackageSearch, ScanLine, Settings,
-  ShieldCheck, ShoppingBasket, Wrench, X,
+  ShieldCheck, ShoppingBasket, Smartphone, Wrench, X,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -64,8 +64,8 @@ export function AppShell({ children, isAdmin, shopName, isDemo }: { children: Re
               href={href}
               aria-current={active ? 'page' : undefined}
               className={cn(
-                'flex min-h-11 items-center gap-3 rounded-xl px-4 text-[1.175rem] font-bold transition-colors',
-                active ? 'bg-primary text-primary-foreground' : 'text-foreground hover:bg-muted',
+                'flex min-h-12 items-center gap-3 rounded-full px-5 text-base font-semibold transition-colors duration-150',
+                active ? 'bg-primary-strong text-primary-foreground' : 'app-nav-link',
               )}
             >
               <Icon className="size-5 shrink-0" aria-hidden />
@@ -80,26 +80,32 @@ export function AppShell({ children, isAdmin, shopName, isDemo }: { children: Re
   return (
     <LiveProvider>
       <ServiceWorkerRegister />
-      <div className="min-h-dvh lg:grid lg:grid-cols-[17rem_1fr]">
-        <aside className="hidden border-e border-border bg-card p-4 lg:block" aria-label={t('main')}>
-          <div className="sticky top-4 grid gap-6">
-            <Link href="/dashboard" className="px-2 text-2xl font-extrabold tracking-tight">
-              ShopNod
+      <div className="app-shell-root min-h-dvh bg-background lg:grid lg:grid-cols-[18rem_1fr]">
+        <aside className="app-sidebar hidden border-e-2 border-foreground bg-editorial p-5 text-editorial-foreground lg:block" aria-label={t('main')}>
+          <div className="sticky top-5 grid gap-8">
+            <Link href="/dashboard" className="flex items-center gap-2 px-3 text-2xl font-extrabold tracking-[-0.05em]">
+              <span className="grid size-9 place-items-center rounded-lg border-2 border-current bg-primary-strong text-sm text-primary-foreground">SN</span> ShopNod
             </Link>
             <nav aria-label={t('main')}>{links}</nav>
           </div>
         </aside>
 
         <div className="min-w-0">
-          <header className="sticky top-0 z-30 flex items-center gap-2 border-b border-border bg-card/95 px-4 py-2 backdrop-blur">
+          <header className="sticky top-0 z-30 flex min-h-20 items-center gap-3 border-b-2 border-border bg-card/95 px-4 py-3 backdrop-blur sm:px-6">
             <Button variant="outline" size="icon" className="lg:hidden" onClick={() => setOpen(true)} aria-label={t('openMenu')} aria-expanded={open}>
               <Menu className="size-5" aria-hidden />
             </Button>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-lg font-bold" data-testid="shop-name">{shopName}</p>
+              <p className="truncate text-xl font-bold tracking-[-0.03em]" data-testid="shop-name">{shopName}</p>
               {isDemo && <p className="text-xs font-semibold text-muted-foreground">{tc('demoShop')}</p>}
             </div>
             <LiveBadge />
+            {/* Judges test both sides on one website: the shopper view opens next to the dashboard. */}
+            <Button asChild variant="outline" size="sm" className="hidden md:inline-flex">
+              <Link href="/shopper" target="_blank" rel="noopener" data-testid="open-shopper-view">
+                <Smartphone className="size-5" aria-hidden /> {t('shopperView')}
+              </Link>
+            </Button>
             <div className="hidden items-center gap-2 sm:flex">
               <LanguageSwitcher />
               <ThemeToggle />
@@ -111,15 +117,18 @@ export function AppShell({ children, isAdmin, shopName, isDemo }: { children: Re
 
           {open && (
             <div className="fixed inset-0 z-40 lg:hidden" role="dialog" aria-modal="true" aria-label={t('main')}>
-              <button className="absolute inset-0 bg-black/50" aria-label={tc('close')} onClick={() => setOpen(false)} />
-              <div className="absolute inset-y-0 start-0 grid w-72 max-w-[85vw] content-start gap-4 overflow-y-auto bg-card p-4 shadow-xl">
+              <button className="absolute inset-0 bg-editorial/60" aria-label={tc('close')} onClick={() => setOpen(false)} />
+              <div className="app-sidebar absolute inset-y-0 start-0 grid w-80 max-w-[88vw] content-start gap-5 overflow-y-auto border-e-2 border-foreground bg-editorial p-5 text-editorial-foreground">
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-extrabold">ShopNod</span>
-                  <Button variant="ghost" size="icon" onClick={() => setOpen(false)} aria-label={tc('close')}>
+                  <Button variant="ghost" size="icon" className="app-sidebar-control" onClick={() => setOpen(false)} aria-label={tc('close')}>
                     <X className="size-5" aria-hidden />
                   </Button>
                 </div>
                 <nav aria-label={t('main')}>{links}</nav>
+                <Link href="/shopper" target="_blank" rel="noopener" className="flex min-h-12 items-center gap-3 rounded-full px-5 text-base font-semibold app-nav-link">
+                  <Smartphone className="size-5 shrink-0" aria-hidden /> {t('shopperView')}
+                </Link>
                 <div className="flex gap-2 sm:hidden">
                   <LanguageSwitcher />
                   <ThemeToggle />
@@ -128,7 +137,7 @@ export function AppShell({ children, isAdmin, shopName, isDemo }: { children: Re
             </div>
           )}
 
-          <main id="main" tabIndex={-1} className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-6 sm:px-6">
+          <main id="main" tabIndex={-1} className="app-workspace mx-auto grid w-full max-w-[75rem] gap-8 px-4 py-8 sm:px-8 lg:py-10">
             {children}
           </main>
         </div>

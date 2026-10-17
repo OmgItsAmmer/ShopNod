@@ -10,7 +10,7 @@ WORKDIR /app
 COPY pyproject.toml ./
 COPY api ./api
 COPY core ./core
-COPY mcp ./mcp
+COPY mcp_server ./mcp_server
 COPY worker ./worker
 RUN pip install ".[ai]"
 

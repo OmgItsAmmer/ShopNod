@@ -1,5 +1,5 @@
 # shop-web: Next.js standalone build (small image). Build from shopkeeper-web/:
-#   docker build -t shopnod-shop-web --build-arg NEXT_PUBLIC_SHOPPER_WEB_URL=http://localhost:8081 .
+#   docker build -t shopnod-shop-web .   (serves the shop dashboard and the shopper view at /shopper)
 FROM node:22-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
@@ -11,9 +11,8 @@ RUN npm ci --no-audit --no-fund
 FROM node:22-alpine AS build
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
-ARG NEXT_PUBLIC_SHOPPER_WEB_URL=http://localhost:8081
 ARG NEXT_PUBLIC_VAPID_PUBLIC_KEY=
-ENV NEXT_PUBLIC_SHOPPER_WEB_URL=$NEXT_PUBLIC_SHOPPER_WEB_URL NEXT_PUBLIC_VAPID_PUBLIC_KEY=$NEXT_PUBLIC_VAPID_PUBLIC_KEY
+ENV NEXT_PUBLIC_VAPID_PUBLIC_KEY=$NEXT_PUBLIC_VAPID_PUBLIC_KEY
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build

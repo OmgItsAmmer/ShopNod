@@ -23,7 +23,7 @@ A shopkeeper (or a judge):
 |---|---|
 | Next.js app | `shopkeeper-web/` |
 | API routes | `backend/api/routers/{auth,shop,admin,webhooks}/` |
-| MCP server | `backend/mcp/` |
+| MCP server | `backend/mcp_server/` |
 | Background tasks | `backend/worker/tasks/shop/` (Shop Agent, Copy Agent, signals, learning, billing, shopkeeper push) |
 | Guardrail validator | `backend/core/guardrails/` |
 | Tables this plan writes | `users`, `shops`, `guardrails`, `items`, `item_price_history`, `signals`, `proposals`, `offers`, `agent_runs` (shop agents), `shop_learning`, `approval_confirmations`, `audit_log`, `personal_access_tokens`, `subscriptions`, `meter_events`, `shop_push_subscriptions`, `category_templates`, `redemptions` |
@@ -154,7 +154,7 @@ Then: save the proposal as `pending` (it expires when its window starts) and add
 
 **Goal:** the AI drafts proposals, but only through MCP tools, and it has **no way to publish**.
 
-**MCP server (`backend/mcp`, FastMCP, Streamable HTTP at `/mcp`):**
+**MCP server (`backend/mcp_server`, FastMCP, Streamable HTTP at `/mcp`):**
 - [ ] Login: `Authorization: Bearer <PAT>`. The token gives `(shop_id, scopes)`. Every tool checks the scope and the shop.
 - [ ] Tools: the table in [architecture.md §4.1](architecture.md), plus `get_confirmation_status(id)`.
 - [ ] The agent's token (`agent:propose`) is created fresh for each run, signed with `MCP_AGENT_TOKEN_SECRET`, tied to one shop, and expires after 5 minutes.

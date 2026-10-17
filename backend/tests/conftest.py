@@ -30,6 +30,10 @@ async def env(tmp_path, monkeypatch):
     monkeypatch.setenv("STRIPE_SECRET_KEY", "")
     monkeypatch.setenv("STRIPE_WEBHOOK_SECRET", "whsec_test_secret")
     monkeypatch.setenv("DEMO_MODE", "true")
+    monkeypatch.setenv("WEATHER_ENABLED", "false")  # tests never call the network
+    monkeypatch.setenv("SIM_REDEEM_MIN_S", "0")
+    monkeypatch.setenv("SIM_REDEEM_MAX_S", "0")
+    monkeypatch.setenv("SIM_BURST_SPAN_S", "0")
     reset_settings_cache()
     await db.dispose_engine()
     engine = create_async_engine(url)
@@ -43,6 +47,14 @@ async def env(tmp_path, monkeypatch):
     breaker.reset_all()
     clock.set_fixed(DEFAULT_NOW)
     dispatch._pending_inline.clear()
+    from shopnod_core import shopper as _sh
+
+    _sh.clear_feed_cache()
+    from shopnod_core import context as _ctx
+    from shopnod_core import predict as _pr
+
+    _ctx.clear_weather_cache()
+    _pr.clear_caches()
     yield url
     from shopnod_core import outbox
 
@@ -60,6 +72,8 @@ async def client(env):
     app = create_app()
     import shopnod_worker.tasks.ops  # noqa: F401
     import shopnod_worker.tasks.shop  # noqa: F401
+    import shopnod_worker.tasks.shopper  # noqa: F401
+    import shopnod_worker.tasks.sim  # noqa: F401
 
     transport = httpx.ASGITransport(app=app)
     async with httpx.AsyncClient(transport=transport, base_url="http://test", follow_redirects=False) as c:

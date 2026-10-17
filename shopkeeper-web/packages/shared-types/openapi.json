@@ -53,6 +53,36 @@
         "title": "AdminStatusOut",
         "type": "object"
       },
+      "AffinityOut": {
+        "properties": {
+          "categories": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Categories",
+            "type": "array"
+          },
+          "interests": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Interests",
+            "type": "array"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "categories",
+          "updated_at"
+        ],
+        "title": "AffinityOut",
+        "type": "object"
+      },
       "AgentRunOut": {
         "properties": {
           "agent": {
@@ -457,6 +487,139 @@
         "title": "BillingOut",
         "type": "object"
       },
+      "ClaimListItem": {
+        "properties": {
+          "claim_id": {
+            "title": "Claim Id",
+            "type": "string"
+          },
+          "expires_at": {
+            "title": "Expires At",
+            "type": "string"
+          },
+          "offer": {
+            "$ref": "#/components/schemas/FeedOffer"
+          },
+          "offer_id": {
+            "title": "Offer Id",
+            "type": "string"
+          },
+          "qr_payload": {
+            "title": "Qr Payload",
+            "type": "string"
+          },
+          "saved_minor": {
+            "title": "Saved Minor",
+            "type": "integer"
+          },
+          "shop": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Shop",
+            "type": "object"
+          },
+          "short_code": {
+            "title": "Short Code",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "claim_id",
+          "offer_id",
+          "qr_payload",
+          "short_code",
+          "expires_at",
+          "status",
+          "saved_minor",
+          "offer",
+          "shop"
+        ],
+        "title": "ClaimListItem",
+        "type": "object"
+      },
+      "ClaimOut": {
+        "properties": {
+          "claim_id": {
+            "title": "Claim Id",
+            "type": "string"
+          },
+          "expires_at": {
+            "title": "Expires At",
+            "type": "string"
+          },
+          "offer_id": {
+            "title": "Offer Id",
+            "type": "string"
+          },
+          "qr_payload": {
+            "title": "Qr Payload",
+            "type": "string"
+          },
+          "short_code": {
+            "title": "Short Code",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "claim_id",
+          "offer_id",
+          "qr_payload",
+          "short_code",
+          "expires_at",
+          "status"
+        ],
+        "title": "ClaimOut",
+        "type": "object"
+      },
+      "ClaimStatusOut": {
+        "properties": {
+          "claim_id": {
+            "title": "Claim Id",
+            "type": "string"
+          },
+          "offer_id": {
+            "title": "Offer Id",
+            "type": "string"
+          },
+          "redeemed_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Redeemed At"
+          },
+          "saved_minor": {
+            "title": "Saved Minor",
+            "type": "integer"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "claim_id",
+          "offer_id",
+          "status",
+          "saved_minor",
+          "redeemed_at"
+        ],
+        "title": "ClaimStatusOut",
+        "type": "object"
+      },
       "CompleteOut": {
         "properties": {
           "items": {
@@ -524,6 +687,429 @@
           "created_at"
         ],
         "title": "ConfirmationOut",
+        "type": "object"
+      },
+      "ConsentsIn": {
+        "properties": {
+          "analytics": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analytics"
+          },
+          "list": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "List"
+          },
+          "location": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location"
+          },
+          "notifications": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notifications"
+          },
+          "personalisation": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Personalisation"
+          },
+          "policy_version": {
+            "default": "1.0",
+            "maxLength": 16,
+            "title": "Policy Version",
+            "type": "string"
+          }
+        },
+        "title": "ConsentsIn",
+        "type": "object"
+      },
+      "ConsentsOut": {
+        "properties": {
+          "analytics": {
+            "title": "Analytics",
+            "type": "boolean"
+          },
+          "list": {
+            "title": "List",
+            "type": "boolean"
+          },
+          "location": {
+            "title": "Location",
+            "type": "boolean"
+          },
+          "notifications": {
+            "title": "Notifications",
+            "type": "boolean"
+          },
+          "personalisation": {
+            "title": "Personalisation",
+            "type": "boolean"
+          },
+          "policy_version": {
+            "default": "1.0",
+            "title": "Policy Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "location",
+          "notifications",
+          "list",
+          "personalisation",
+          "analytics"
+        ],
+        "title": "ConsentsOut",
+        "type": "object"
+      },
+      "ContextOut": {
+        "description": "What the app knows about the moment: shown as 'Rainy evening · 24°C' above the feed.",
+        "properties": {
+          "daypart": {
+            "title": "Daypart",
+            "type": "string"
+          },
+          "demo_mode": {
+            "title": "Demo Mode",
+            "type": "boolean"
+          },
+          "pretend": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Pretend",
+            "type": "object"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          },
+          "temp_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temp C"
+          },
+          "weather": {
+            "title": "Weather",
+            "type": "string"
+          }
+        },
+        "required": [
+          "weather",
+          "temp_c",
+          "daypart",
+          "summary",
+          "demo_mode",
+          "pretend"
+        ],
+        "title": "ContextOut",
+        "type": "object"
+      },
+      "DemoContextIn": {
+        "properties": {
+          "daypart": {
+            "anyOf": [
+              {
+                "enum": [
+                  "morning",
+                  "midday",
+                  "evening",
+                  "night"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daypart"
+          },
+          "weather": {
+            "anyOf": [
+              {
+                "enum": [
+                  "rain",
+                  "hot",
+                  "cold",
+                  "clear"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weather"
+          }
+        },
+        "title": "DemoContextIn",
+        "type": "object"
+      },
+      "EventIn": {
+        "properties": {
+          "offer_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Offer Id"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "maxLength": 120,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "type": {
+            "maxLength": 20,
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "EventIn",
+        "type": "object"
+      },
+      "FeedItem": {
+        "properties": {
+          "copy_source": {
+            "title": "Copy Source",
+            "type": "string"
+          },
+          "distance_m": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Distance M"
+          },
+          "offer": {
+            "$ref": "#/components/schemas/FeedOffer"
+          },
+          "reasons": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Reasons",
+            "type": "array"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score"
+          },
+          "shop": {
+            "$ref": "#/components/schemas/FeedShop"
+          },
+          "source": {
+            "enum": [
+              "ai",
+              "rules"
+            ],
+            "title": "Source",
+            "type": "string"
+          },
+          "why": {
+            "title": "Why",
+            "type": "string"
+          }
+        },
+        "required": [
+          "offer",
+          "shop",
+          "distance_m",
+          "score",
+          "why",
+          "source",
+          "copy_source"
+        ],
+        "title": "FeedItem",
+        "type": "object"
+      },
+      "FeedOffer": {
+        "properties": {
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "copy_source": {
+            "title": "Copy Source",
+            "type": "string"
+          },
+          "currency": {
+            "title": "Currency",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "discount_pct": {
+            "title": "Discount Pct",
+            "type": "integer"
+          },
+          "ends_at": {
+            "title": "Ends At",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "now_price": {
+            "title": "Now Price",
+            "type": "integer"
+          },
+          "remaining": {
+            "title": "Remaining",
+            "type": "integer"
+          },
+          "shop_id": {
+            "title": "Shop Id",
+            "type": "string"
+          },
+          "starts_at": {
+            "title": "Starts At",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags",
+            "type": "array"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "was_price": {
+            "title": "Was Price",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "shop_id",
+          "title",
+          "description",
+          "category",
+          "discount_pct",
+          "was_price",
+          "now_price",
+          "currency",
+          "starts_at",
+          "ends_at",
+          "remaining",
+          "status",
+          "copy_source",
+          "tags",
+          "items"
+        ],
+        "title": "FeedOffer",
+        "type": "object"
+      },
+      "FeedShop": {
+        "properties": {
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "category"
+        ],
+        "title": "FeedShop",
         "type": "object"
       },
       "FlagIn": {
@@ -767,6 +1353,50 @@
         "title": "HTTPValidationError",
         "type": "object"
       },
+      "InstallIn": {
+        "properties": {
+          "age_confirmed": {
+            "default": false,
+            "title": "Age Confirmed",
+            "type": "boolean"
+          },
+          "languages": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 10,
+            "title": "Languages",
+            "type": "array"
+          },
+          "platform": {
+            "default": "web",
+            "maxLength": 16,
+            "title": "Platform",
+            "type": "string"
+          }
+        },
+        "title": "InstallIn",
+        "type": "object"
+      },
+      "InstallOut": {
+        "properties": {
+          "install_id": {
+            "format": "uuid",
+            "title": "Install Id",
+            "type": "string"
+          },
+          "install_token": {
+            "title": "Install Token",
+            "type": "string"
+          }
+        },
+        "required": [
+          "install_id",
+          "install_token"
+        ],
+        "title": "InstallOut",
+        "type": "object"
+      },
       "ItemIn": {
         "properties": {
           "active": {
@@ -951,85 +1581,70 @@
         "title": "ItemOut",
         "type": "object"
       },
-      "LocationIn": {
+      "ListIn": {
         "properties": {
-          "currency": {
-            "anyOf": [
-              {
-                "maxLength": 3,
-                "minLength": 3,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Currency"
-          },
-          "is_eu": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Is Eu"
-          },
-          "lat": {
-            "anyOf": [
-              {
-                "maximum": 90.0,
-                "minimum": -90.0,
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Lat"
-          },
-          "lng": {
-            "anyOf": [
-              {
-                "maximum": 180.0,
-                "minimum": -180.0,
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Lng"
-          },
-          "market": {
-            "anyOf": [
-              {
-                "maxLength": 64,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Market slug, e.g. 'demo'",
-            "title": "Market"
-          },
-          "timezone": {
-            "anyOf": [
-              {
-                "maxLength": 64,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Timezone"
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 50,
+            "title": "Items",
+            "type": "array"
           }
         },
-        "title": "LocationIn",
+        "title": "ListIn",
+        "type": "object"
+      },
+      "ListOut": {
+        "properties": {
+          "expires_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At"
+          },
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "ListOut",
+        "type": "object"
+      },
+      "LocationOut": {
+        "properties": {
+          "geohash6": {
+            "title": "Geohash6",
+            "type": "string"
+          },
+          "market_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Market Name"
+          }
+        },
+        "required": [
+          "geohash6"
+        ],
+        "title": "LocationOut",
         "type": "object"
       },
       "MagicLinkIn": {
@@ -1266,6 +1881,137 @@
           }
         },
         "title": "OkOut",
+        "type": "object"
+      },
+      "PreferencesIn": {
+        "properties": {
+          "categories": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 30,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Categories"
+          },
+          "daily_limit": {
+            "anyOf": [
+              {
+                "maximum": 20.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daily Limit"
+          },
+          "dietary": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 10,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dietary"
+          },
+          "languages": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 10,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Languages"
+          },
+          "max_distance_m": {
+            "anyOf": [
+              {
+                "maximum": 20000.0,
+                "minimum": 100.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Distance M"
+          },
+          "muted_categories": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 50,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Muted Categories"
+          },
+          "muted_shops": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 200,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Muted Shops"
+          },
+          "quiet_end": {
+            "anyOf": [
+              {
+                "pattern": "^\\d{2}:\\d{2}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quiet End"
+          },
+          "quiet_start": {
+            "anyOf": [
+              {
+                "pattern": "^\\d{2}:\\d{2}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quiet Start"
+          }
+        },
+        "title": "PreferencesIn",
         "type": "object"
       },
       "ProposalItem": {
@@ -1523,6 +2269,47 @@
         "title": "PushSubscriptionIn",
         "type": "object"
       },
+      "PushTokenIn": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "fcm",
+              "webpush"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "subscription": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subscription"
+          },
+          "token": {
+            "anyOf": [
+              {
+                "maxLength": 4096,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Token"
+          }
+        },
+        "required": [
+          "kind"
+        ],
+        "title": "PushTokenIn",
+        "type": "object"
+      },
       "PushUnsubscribeIn": {
         "properties": {
           "endpoint": {
@@ -1720,6 +2507,34 @@
           "reason"
         ],
         "title": "RejectIn",
+        "type": "object"
+      },
+      "SavingsOut": {
+        "properties": {
+          "amount_minor": {
+            "title": "Amount Minor",
+            "type": "integer"
+          },
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "currency": {
+            "title": "Currency",
+            "type": "string"
+          },
+          "period": {
+            "title": "Period",
+            "type": "string"
+          }
+        },
+        "required": [
+          "amount_minor",
+          "currency",
+          "count",
+          "period"
+        ],
+        "title": "SavingsOut",
         "type": "object"
       },
       "ShopCreateIn": {
@@ -2246,6 +3061,24 @@
         "title": "TemplateOut",
         "type": "object"
       },
+      "TicketOut": {
+        "properties": {
+          "expires_in_s": {
+            "title": "Expires In S",
+            "type": "integer"
+          },
+          "ticket": {
+            "title": "Ticket",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ticket",
+          "expires_in_s"
+        ],
+        "title": "TicketOut",
+        "type": "object"
+      },
       "TokenCreateIn": {
         "properties": {
           "expires_in_days": {
@@ -2543,6 +3376,127 @@
           "end"
         ],
         "title": "WindowIn",
+        "type": "object"
+      },
+      "shopnod_api__routers__shopper__LocationIn": {
+        "properties": {
+          "lat": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lat"
+          },
+          "lng": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lng"
+          },
+          "market": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Market"
+          }
+        },
+        "title": "LocationIn",
+        "type": "object"
+      },
+      "shopnod_api__schemas__LocationIn": {
+        "properties": {
+          "currency": {
+            "anyOf": [
+              {
+                "maxLength": 3,
+                "minLength": 3,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency"
+          },
+          "is_eu": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Eu"
+          },
+          "lat": {
+            "anyOf": [
+              {
+                "maximum": 90.0,
+                "minimum": -90.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lat"
+          },
+          "lng": {
+            "anyOf": [
+              {
+                "maximum": 180.0,
+                "minimum": -180.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lng"
+          },
+          "market": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Market slug, e.g. 'demo'",
+            "title": "Market"
+          },
+          "timezone": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timezone"
+          }
+        },
+        "title": "LocationIn",
         "type": "object"
       }
     }
@@ -4383,7 +5337,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LocationIn"
+                "$ref": "#/components/schemas/shopnod_api__schemas__LocationIn"
               }
             }
           },
@@ -4588,6 +5542,943 @@
         "summary": "Revoke Token",
         "tags": [
           "shop"
+        ]
+      }
+    },
+    "/v1/shopper/affinity": {
+      "delete": {
+        "description": "Forget what we learned from your activity. Your own choices (list, categories) stay.",
+        "operationId": "reset_affinity_v1_shopper_affinity_delete",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Reset Affinity",
+        "tags": [
+          "shopper"
+        ]
+      },
+      "get": {
+        "description": "What the app learned about you (category interest).",
+        "operationId": "get_affinity_v1_shopper_affinity_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AffinityOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Affinity",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/claims": {
+      "get": {
+        "operationId": "list_claims_v1_shopper_claims_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ClaimListItem"
+                  },
+                  "title": "Response List Claims V1 Shopper Claims Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Claims",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/claims/{claim_id}": {
+      "get": {
+        "description": "Poll fallback for the live 'Redeemed' event.",
+        "operationId": "get_claim_v1_shopper_claims__claim_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "claim_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Claim Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimStatusOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Claim",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/consents": {
+      "get": {
+        "operationId": "get_consents_v1_shopper_consents_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsentsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Consents",
+        "tags": [
+          "shopper"
+        ]
+      },
+      "put": {
+        "operationId": "put_consents_v1_shopper_consents_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsentsIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsentsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Put Consents",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/context": {
+      "get": {
+        "description": "The time of day and weather for your area (no permission needed): they shape what we show first.",
+        "operationId": "get_context_v1_shopper_context_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContextOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Context",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/demo-context": {
+      "put": {
+        "description": "Demo only: pretend it is a different time of day or weather, for this shopper only.",
+        "operationId": "set_demo_context_v1_shopper_demo_context_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DemoContextIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContextOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Set Demo Context",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/events": {
+      "post": {
+        "description": "open / dismiss / save / why_up / why_down. Kept 30 days.",
+        "operationId": "post_event_v1_shopper_events_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Post Event",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/feed": {
+      "get": {
+        "description": "Top 10 offers near you, ranked for you, each with 'why you see this'.",
+        "operationId": "get_feed_v1_shopper_feed_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 8,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lang"
+            }
+          },
+          {
+            "description": "optional, only for distance; never stored",
+            "in": "query",
+            "name": "lat",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 90,
+                  "minimum": -90,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "optional, only for distance; never stored",
+              "title": "Lat"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lng",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 180,
+                  "minimum": -180,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lng"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/FeedItem"
+                  },
+                  "title": "Response Get Feed V1 Shopper Feed Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Feed",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/installs": {
+      "post": {
+        "description": "No account: a random install id and a 180-day token. Shoppers must confirm they are 18 or older.",
+        "operationId": "create_install_v1_shopper_installs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstallIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstallOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Install",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/list": {
+      "get": {
+        "operationId": "get_list_v1_shopper_list_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get List",
+        "tags": [
+          "shopper"
+        ]
+      },
+      "put": {
+        "description": "Deleted after 30 days.",
+        "operationId": "put_list_v1_shopper_list_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Put List",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/location": {
+      "post": {
+        "description": "Saves only the last area (geohash6) and the time. Never raw coordinates or a history.",
+        "operationId": "post_location_v1_shopper_location_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/shopnod_api__routers__shopper__LocationIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Post Location",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/me": {
+      "delete": {
+        "description": "Deletes everything about you. Redemptions stay for the shop's billing, without your install id.",
+        "operationId": "delete_me_v1_shopper_me_delete",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Delete Me",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/me/export": {
+      "get": {
+        "description": "Everything we hold about you, as JSON.",
+        "operationId": "export_me_v1_shopper_me_export_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Export Me V1 Shopper Me Export Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Export Me",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/offers/{offer_id}": {
+      "get": {
+        "operationId": "get_offer_v1_shopper_offers__offer_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "offer_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Offer Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lang",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 8,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lang"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedItem"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Offer",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/offers/{offer_id}/claim": {
+      "post": {
+        "description": "One active claim per shopper per offer. The same Idempotency-Key returns the same claim.",
+        "operationId": "claim_offer_v1_shopper_offers__offer_id__claim_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "offer_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Offer Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Claim Offer",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/preferences": {
+      "get": {
+        "operationId": "get_preferences_v1_shopper_preferences_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Preferences V1 Shopper Preferences Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Preferences",
+        "tags": [
+          "shopper"
+        ]
+      },
+      "put": {
+        "operationId": "put_preferences_v1_shopper_preferences_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreferencesIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Put Preferences V1 Shopper Preferences Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Put Preferences",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/push-tokens": {
+      "delete": {
+        "operationId": "remove_push_token_v1_shopper_push_tokens_delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PushTokenIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Remove Push Token",
+        "tags": [
+          "shopper"
+        ]
+      },
+      "post": {
+        "description": "Only allowed with the `notifications` consent.",
+        "operationId": "add_push_token_v1_shopper_push_tokens_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PushTokenIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Add Push Token",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/savings": {
+      "get": {
+        "operationId": "get_savings_v1_shopper_savings_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "period",
+            "required": false,
+            "schema": {
+              "default": "month",
+              "enum": [
+                "month",
+                "all"
+              ],
+              "title": "Period",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SavingsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Savings",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/stream": {
+      "get": {
+        "description": "Live updates: offer.matched, claim.redeemed, offer.ended. Heartbeat every 15 s.",
+        "operationId": "stream_v1_shopper_stream_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ticket",
+            "required": true,
+            "schema": {
+              "maxLength": 2000,
+              "title": "Ticket",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Stream",
+        "tags": [
+          "shopper"
+        ]
+      }
+    },
+    "/v1/shopper/stream-ticket": {
+      "post": {
+        "description": "`EventSource` can't send headers, so open the stream with this short-lived ticket.",
+        "operationId": "stream_ticket_v1_shopper_stream_ticket_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Stream Ticket",
+        "tags": [
+          "shopper"
         ]
       }
     },

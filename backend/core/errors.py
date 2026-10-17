@@ -40,6 +40,8 @@ class ErrorCode(str, enum.Enum):
     demo_only = "demo_only"
     billing_unavailable = "billing_unavailable"
     conflict = "conflict"
+    consent_required = "consent_required"
+    age_required = "age_required"
 
 
 class AppError(Exception):

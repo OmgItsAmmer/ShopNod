@@ -29,7 +29,18 @@ class Settings(BaseSettings):
     VAPID_PUBLIC_KEY: str = ""
     VAPID_PRIVATE_KEY: str = ""
     VAPID_SUBJECT: str = "mailto:admin@shopnod.local"
-    EXPO_ACCESS_TOKEN: str = ""
+    EXPO_ACCESS_TOKEN: str = ""  # unused since the shopper app moved to Flutter; kept so old .env files still load
+    FIREBASE_CREDENTIALS: str = ""  # service-account JSON, base64 (FCM push to the Flutter app)
+    # Simulated shoppers (Plan 3 Phase 2): delay before a simulated claim is redeemed, and claim likelihood
+    SIM_REDEEM_MIN_S: float = 30.0
+    SIM_REDEEM_MAX_S: float = 120.0
+    SIM_SHOPPERS: int = 40
+    SIM_BURST_SPAN_S: float = 20.0  # "burst" spreads 5 redemptions over this many seconds
+
+    # Prediction context (weather for the shopper's area; Open-Meteo is free and needs no key)
+    WEATHER_ENABLED: bool = True
+    WEATHER_URL: str = "https://api.open-meteo.com/v1/forecast"
+    WEATHER_TIMEOUT_S: float = 2.0
 
     STRIPE_SECRET_KEY: str = ""
     STRIPE_WEBHOOK_SECRET: str = ""
@@ -39,11 +50,11 @@ class Settings(BaseSettings):
 
     EMAIL_PROVIDER_KEY: str = ""
     SHOP_WEB_URL: str = "http://localhost:3000"
-    SHOPPER_WEB_URL: str = "http://localhost:8081"
+    SHOPPER_WEB_URL: str = "http://localhost:3000/shopper"  # the shopper view lives in the same web app
     API_PUBLIC_URL: str = "http://localhost:8000"
     MCP_PUBLIC_URL: str = "http://localhost:8001"
     DEMO_MODE: bool = True
-    CORS_ORIGINS: str = "http://localhost:8081,http://localhost:3000"
+    CORS_ORIGINS: str = "http://localhost:3000"
     MCP_AGENT_TOKEN_SECRET: str = _DEV_MCP
     MCP_INTERNAL_URL: str = "http://localhost:8001/mcp"
 

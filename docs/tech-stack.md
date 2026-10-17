@@ -111,7 +111,7 @@ shopnod/
 ├── backend/             # Python
 │   ├── api/             # FastAPI
 │   ├── core/            # shared package (models, auth, guardrails, agents …)
-│   ├── mcp/             # ShopNod MCP server
+│   ├── mcp_server/      # ShopNod MCP server
 │   ├── worker/          # Celery workers, agents, scheduler
 │   ├── migrations/      # Alembic
 │   ├── seed/            # demo market, category templates

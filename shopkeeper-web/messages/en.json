@@ -33,7 +33,8 @@
     "audit": "Approvals log",
     "billing": "Billing",
     "settings": "Settings",
-    "admin": "Demo tools"
+    "admin": "Demo tools",
+    "shopperView": "Shopper view"
   },
   "live": {
     "live": "Live",
@@ -47,7 +48,42 @@
   },
   "landing": {
     "headline": "Your AI drafts the offer. You decide.",
+    "headlineLead": "Your AI drafts the offer.",
+    "headlineAccent": "You decide.",
     "subhead": "When your shop is quiet or stock is about to expire, ShopNod suggests a discount inside the limits you set. Nothing goes live until you approve it.",
+    "eyebrow": "Human-approved offers for independent shops",
+    "navLabel": "Landing page navigation",
+    "seeMore": "See how ShopNod works",
+    "capabilities": "ShopNod capabilities",
+    "quickActions": "Start with ShopNod",
+    "demoBadge": "90 sec demo",
+    "proofTitle": "Why shopkeepers stay in control",
+    "proofOneStrong": "You set the limits.",
+    "proofOne": "The AI cannot cross them.",
+    "proofTwoStrong": "Nothing goes live",
+    "proofTwo": "until you approve it.",
+    "proofThreeStrong": "Every decision",
+    "proofThree": "is visible and logged.",
+    "showcaseTitle": "What ShopNod handles",
+    "processHeadline": "Your shop sets the rules. ShopNod handles the busywork.",
+    "ctaLead": "Quiet shop?",
+    "ctaAccent": "Make the right offer.",
+    "ctaBody": "Start a demo shop and see the complete approval flow.",
+    "trustTitle": "Trust the process.",
+    "trustPill": "Human in the loop, every time",
+    "humanApproved": "Human approved",
+    "trustCardTitle": "AI helps. Your rules decide.",
+    "trustCardBody": "Every draft is checked against price, discount, stock and budget limits before you ever see it.",
+    "guardrailLine": "Guardrails checked",
+    "approvalLine": "Shopkeeper decision",
+    "passed": "Passed",
+    "logged": "Logged",
+    "aiLabel": "AI-written",
+    "approve": "Approve",
+    "edit": "Edit",
+    "reject": "Reject",
+    "explore": "Explore",
+    "start": "Get started",
     "tryAsJudge": "Try as a judge",
     "signIn": "Sign in",
     "judgeNote": "No password, no card. Set up a demo shop in about 90 seconds.",
@@ -65,7 +101,8 @@
     "step3Body": "Approve, edit or reject. Nothing is published without you. Every decision teaches the next draft.",
     "step4Title": "Scan at the counter",
     "step4Body": "Nearby shoppers get the offer. They show a QR code, you scan it, and you pay only per redemption.",
-    "footer": "ShopNod. Same price for everyone, honest discounts, and a human always in charge."
+    "footer": "ShopNod. Same price for everyone, honest discounts, and a human always in charge.",
+    "tryAsShopper": "Try as a shopper"
   },
   "login": {
     "title": "Sign in",
@@ -85,7 +122,11 @@
     "progress": "Setup progress",
     "next": "Continue",
     "back": "Back",
-    "steps": { "shop": "Your shop", "location": "Location", "review": "Review" },
+    "steps": {
+      "shop": "Your shop",
+      "location": "Location",
+      "review": "Review"
+    },
     "shop": {
       "title": "Tell us about your shop",
       "subtitle": "Step 1 of 3. Pick the closest type and we pre-fill everything else.",
@@ -213,8 +254,16 @@
     "liveTitle": "Live offers",
     "noneLive": "No offer is live right now.",
     "empty": "No offers here yet.",
-    "tabs": { "active": "Live", "ended": "Ended", "all": "All" },
-    "status": { "active": "Live", "ended": "Ended", "sold_out": "Sold out" },
+    "tabs": {
+      "active": "Live",
+      "ended": "Ended",
+      "all": "All"
+    },
+    "status": {
+      "active": "Live",
+      "ended": "Ended",
+      "sold_out": "Sold out"
+    },
     "redeemedOf": "{n} of {cap} redeemed",
     "details": "Details",
     "endNow": "End now",
@@ -361,7 +410,11 @@
     "blocked": "{n} stopped completely",
     "approvalChannels": "Where you approve",
     "approvalChannelsHelp": "Dashboard or your AI assistant (after you confirm).",
-    "channels": { "dashboard": "Dashboard", "mcp_confirmed": "AI assistant, confirmed", "mcp": "AI assistant" },
+    "channels": {
+      "dashboard": "Dashboard",
+      "mcp_confirmed": "AI assistant, confirmed",
+      "mcp": "AI assistant"
+    },
     "rejectionReasons": "Why you reject",
     "noRejections": "No rejections yet.",
     "learnedByCategory": "Learned discount by category",
@@ -372,7 +425,11 @@
     "title": "AI activity",
     "subtitle": "Every time an agent runs: what it saw, which tools it used, and whether the rules took over.",
     "empty": "No agent runs yet.",
-    "agents": { "all": "All", "shop_agent": "Offer drafting", "copy": "Offer text" },
+    "agents": {
+      "all": "All",
+      "shop_agent": "Offer drafting",
+      "copy": "Offer text"
+    },
     "when": "When",
     "agent": "Agent",
     "result": "Result",
@@ -422,8 +479,17 @@
     "who": "By",
     "channel": "Channel",
     "details": "Details",
-    "actors": { "user": "You", "agent": "AI agent", "system": "ShopNod", "mcp": "AI assistant" },
-    "channels": { "dashboard": "Dashboard", "mcp_confirmed": "AI assistant, confirmed by you", "mcp": "AI assistant" },
+    "actors": {
+      "user": "You",
+      "agent": "AI agent",
+      "system": "ShopNod",
+      "mcp": "AI assistant"
+    },
+    "channels": {
+      "dashboard": "Dashboard",
+      "mcp_confirmed": "AI assistant, confirmed by you",
+      "mcp": "AI assistant"
+    },
     "detail": {
       "approved": "Approved at {pct}%",
       "edited": "Edited from {from}% to {to}%",
@@ -453,8 +519,21 @@
   "settings": {
     "title": "Settings",
     "saved": "Saved.",
-    "tabs": { "profile": "Shop", "hours": "Hours", "notifications": "Alerts", "assistant": "AI assistant" },
-    "days": { "mon": "Mon", "tue": "Tue", "wed": "Wed", "thu": "Thu", "fri": "Fri", "sat": "Sat", "sun": "Sun" },
+    "tabs": {
+      "profile": "Shop",
+      "hours": "Hours",
+      "notifications": "Alerts",
+      "assistant": "AI assistant"
+    },
+    "days": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    },
     "profile": {
       "title": "Your shop",
       "name": "Shop name",
@@ -538,9 +617,17 @@
     "burst": "Burst: 5 redemptions",
     "burstSent": "Burst requested.",
     "outbox": "Outbox",
-    "outboxStatus": { "pending": "Waiting", "sent": "Sent", "dead": "Failed" },
+    "outboxStatus": {
+      "pending": "Waiting",
+      "sent": "Sent",
+      "dead": "Failed"
+    },
     "breakers": "Circuit breakers",
-    "breakerState": { "closed": "OK", "open": "Open", "half_open": "Testing" },
+    "breakerState": {
+      "closed": "OK",
+      "open": "Open",
+      "half_open": "Testing"
+    },
     "queue": "Queue",
     "queueInline": "Running inline (no Redis)",
     "queueTasks": "tasks waiting",
@@ -550,5 +637,186 @@
     "agent": "Agent",
     "result": "Result",
     "latency": "Time"
+  },
+  "shopper": {
+    "title": "Shopper view",
+    "tagline": "Deals from shops near you",
+    "shopView": "Shop dashboard",
+    "backToShop": "Back to the shop dashboard",
+    "tabs": {
+      "feed": "For you",
+      "list": "My list",
+      "wallet": "Wallet",
+      "settings": "Settings",
+      "label": "Shopper menu"
+    },
+    "onboarding": {
+      "step": "Step {n} of {total}",
+      "ageTitle": "Welcome to ShopNod",
+      "ageBody": "Get offers from local shops when they're quiet or have stock to sell. No account, no password.",
+      "ageConfirm": "I'm 18 or older",
+      "ageNote": "You must be 18 or older to use ShopNod.",
+      "consentTitle": "Your choices",
+      "consentBody": "Each switch is one purpose. You can change them any time in Settings.",
+      "interestsTitle": "What do you shop for?",
+      "categories": "Categories",
+      "dietary": "Dietary needs",
+      "listLabel": "Shopping list (optional)",
+      "listHint": "Comma separated, e.g. bread, milk, eggs",
+      "listOff": "Turn on 'Shopping list' to save one.",
+      "locationTitle": "Find offers around you",
+      "locationBody": "We save only a broad area (about 1 km), never your exact coordinates or a history.",
+      "joinDemo": "Join Demo Market",
+      "joinDemoInstead": "Join Demo Market instead",
+      "useLocation": "Use my location",
+      "locationOff": "Turn on 'Approximate location' to use it.",
+      "fromShop": "You came from a shop's QR code: its offers come first.",
+      "continue": "Continue",
+      "back": "Back",
+      "starting": "Setting things up…",
+      "consents": {
+        "location": {
+          "label": "Approximate location",
+          "help": "Find offers within your chosen distance. We keep only a broad area, never your exact position."
+        },
+        "notifications": {
+          "label": "Notifications",
+          "help": "Tell me when a matching offer goes live."
+        },
+        "list": {
+          "label": "Shopping list",
+          "help": "Use my list to rank offers. Deleted after 30 days."
+        },
+        "personalisation": {
+          "label": "Personalisation",
+          "help": "Rank offers using my choices and activity."
+        },
+        "analytics": {
+          "label": "Anonymous analytics",
+          "help": "Help improve ShopNod. Optional."
+        }
+      },
+      "interestsOptional": "All optional: skip anything. We work out what suits you from the time, the weather and what you do."
+    },
+    "feed": {
+      "title": "For you",
+      "subtitle": "Fresh offers from {market}",
+      "empty": "No matching offers yet",
+      "emptyHelp": "Offers appear here the moment a nearby shop approves one.",
+      "error": "Couldn't load offers",
+      "retry": "Try again",
+      "updated": "Updated just now",
+      "newOffer": "New offer: {title}",
+      "off": "OFF",
+      "ends": "ends in {time}",
+      "left": "{count} left",
+      "why": "Why you see this",
+      "aiCopy": "AI-written, approved by the shop",
+      "rules": "Rule-based",
+      "aiRanked": "AI-ranked",
+      "samePrice": "Everyone sees the same price",
+      "notForMe": "Not for me",
+      "muteShop": "Mute this shop",
+      "muted": "Muted. You won't see this shop.",
+      "dismissed": "Hidden. Thanks for the feedback.",
+      "live": "Live",
+      "polling": "Checking every 10 s"
+    },
+    "offer": {
+      "back": "Back to offers",
+      "getOffer": "Get offer",
+      "getting": "Getting your offer…",
+      "items": "What's included",
+      "was": "was",
+      "now": "now",
+      "window": "Valid until {time}",
+      "soldOut": "Sold out",
+      "ended": "This offer has ended",
+      "whyHelpful": "Was this useful?",
+      "thanks": "Thanks, feedback saved."
+    },
+    "claim": {
+      "title": "Your offer",
+      "showAt": "Show this at {shop}",
+      "scanOnce": "The shop scans it once at checkout.",
+      "codeHelp": "Use this code if the camera can't scan",
+      "expiresIn": "Expires in {time}",
+      "expired": "Expired",
+      "redeemed": "Redeemed!",
+      "saved": "You saved {amount}",
+      "savedNote": "Nice one, and less food went to waste.",
+      "copy": "Copy QR text",
+      "copied": "QR text copied",
+      "waiting": "Waiting for the shop to scan…",
+      "notFound": "This claim isn't available",
+      "toWallet": "Go to wallet"
+    },
+    "wallet": {
+      "title": "Wallet",
+      "savedMonth": "Saved this month",
+      "savedCount": "{count, plural, =0 {No redemptions yet} one {# redemption} other {# redemptions}}",
+      "empty": "No claimed offers yet",
+      "emptyHelp": "Tap 'Get offer' on any offer to get a QR code.",
+      "open": "Open",
+      "statusIssued": "Ready to use",
+      "statusRedeemed": "Redeemed",
+      "statusExpired": "Expired"
+    },
+    "list": {
+      "title": "My list",
+      "help": "We match offers to these items. The list is deleted after 30 days.",
+      "add": "Add",
+      "placeholder": "e.g. bread",
+      "remove": "Remove {item}",
+      "saved": "List saved",
+      "needsConsent": "Turn on 'Shopping list' in Settings to keep a list.",
+      "empty": "Your list is empty."
+    },
+    "settings": {
+      "title": "Settings",
+      "consents": "Privacy choices",
+      "preferences": "Preferences",
+      "maxDistance": "Maximum distance (metres)",
+      "dailyLimit": "Notifications per day",
+      "quietStart": "Quiet from",
+      "quietEnd": "Quiet until",
+      "save": "Save",
+      "saved": "Saved",
+      "learned": "What we predict for you",
+      "learnedHelp": "Learned from what you open, claim and redeem, and what you dismiss. The more you do, the more we trust it. Older activity counts less.",
+      "learnedEmpty": "Nothing yet. Open or claim an offer and this fills in straight away.",
+      "resetLearning": "Forget what we learned",
+      "resetDone": "Forgotten. Your list and categories are unchanged.",
+      "myData": "My data",
+      "export": "Export my data",
+      "exported": "Your data was downloaded as JSON.",
+      "delete": "Delete my data",
+      "deleteConfirm": "Delete everything ShopNod holds about you? Shops keep only anonymous redemption totals.",
+      "deleted": "Your data was deleted.",
+      "language": "Language",
+      "privacy": "We never store your exact location, your name or a location history. One offer has one price for everyone.",
+      "learnedItems": "Items you like"
+    },
+    "context": {
+      "title": "Right now",
+      "help": "We use the time and weather in your area to show what suits the moment first.",
+      "pretend": "Pretend it's… (demo)",
+      "pretending": "Pretending",
+      "time": "Time of day",
+      "weather": "Weather",
+      "useReal": "Use the real time and weather",
+      "daypart": {
+        "morning": "Morning",
+        "midday": "Midday",
+        "evening": "Evening",
+        "night": "Night"
+      },
+      "kind": {
+        "clear": "Clear",
+        "rain": "Rainy",
+        "hot": "Hot",
+        "cold": "Cold"
+      }
+    }
   }
 }

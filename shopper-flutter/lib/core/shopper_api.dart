@@ -18,6 +18,9 @@ abstract class ShopperApi {
   Future<List<Offer>> feed(String language);
   Future<Claim> claim(Offer offer, String key);
   Future<List<Claim>> claims();
+
+  /// Live status of one claim: `{status: issued|redeemed|expired, saved_minor: int}`.
+  Future<Map<String, dynamic>> claimStatus(String claimId);
   Future<void> saveList(List<String> items);
   Future<void> event(String type, Offer offer, {String? reason});
   Future<Map<String, dynamic>> affinity();
@@ -116,6 +119,10 @@ class RemoteShopperApi implements ShopperApi {
   @override
   Future<List<Claim>> claims() async => []; // hydrated locally; feed details are needed to render cards
   @override
+  Future<Map<String, dynamic>> claimStatus(String claimId) async =>
+      ((await _dio.get('/v1/shopper/claims/$claimId')).data as Map)
+          .cast<String, dynamic>();
+  @override
   Future<void> saveList(List<String> i) async =>
       _dio.put('/v1/shopper/list', data: {'items': i});
   @override
@@ -178,6 +185,15 @@ class DemoShopperApi implements ShopperApi {
   };
   @override
   Future<List<Claim>> claims() async => List.unmodifiable(_claims);
+  @override
+  Future<Map<String, dynamic>> claimStatus(String claimId) async {
+    final c = _claims.where((x) => x.id == claimId).firstOrNull;
+    return {
+      'status': c?.status.name ?? 'expired',
+      'saved_minor': c?.savedMinor ?? 0,
+    };
+  }
+
   @override
   Future<List<Offer>> feed(String language) async {
     await Future<void>.delayed(const Duration(milliseconds: 450));

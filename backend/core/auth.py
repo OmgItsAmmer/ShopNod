@@ -15,7 +15,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from . import clock
 from .db import get_maker
 from .errors import AppError, ErrorCode, forbidden, unauthorized
-from .models import PersonalAccessToken, Shop, User
+from .models import PersonalAccessToken, Shop, Shopper, User
 from .settings import get_settings
 
 SESSION_COOKIE = "sn_session"
@@ -25,6 +25,9 @@ SCOPE_APPROVE = "shopkeeper:approve"
 USER_SCOPES = (SCOPE_READ, SCOPE_APPROVE)
 PAT_PREFIX = "snpat_"
 AGENT_TOKEN_TTL = timedelta(minutes=5)
+INSTALL_TOKEN_TTL = timedelta(days=180)
+STREAM_TICKET_TTL = timedelta(seconds=60)
+LAST_SEEN_EVERY = timedelta(minutes=5)
 
 
 # ── Session JWT (cookie) ─────────────────────────────────────────────────
@@ -202,3 +205,68 @@ async def admin_user(su: ShopUser = Depends(shop_user)) -> ShopUser:
     if not su.user.is_admin:
         raise forbidden("Admins only.")
     return su
+
+
+# ── Shopper app: install token (Bearer) ──────────────────────────────────
+def create_install_token(install_id: uuid.UUID) -> str:
+    now = clock.now()
+    return jwt.encode(
+        {"typ": "install", "sub": str(install_id), "iat": int(now.timestamp()), "exp": int((now + INSTALL_TOKEN_TTL).timestamp())},
+        get_settings().JWT_SIGNING_KEY,
+        algorithm="HS256",
+    )
+
+
+def create_stream_ticket(install_id: uuid.UUID) -> str:
+    """`EventSource` can't send headers, so the stream URL carries this short-lived ticket instead."""
+    now = clock.now()
+    return jwt.encode(
+        {"typ": "stream", "sub": str(install_id), "exp": int((now + STREAM_TICKET_TTL).timestamp())},
+        get_settings().JWT_SIGNING_KEY,
+        algorithm="HS256",
+    )
+
+
+def _decode_typed(token: str, typ: str) -> uuid.UUID | None:
+    try:
+        data = jwt.decode(token, get_settings().JWT_SIGNING_KEY, algorithms=["HS256"], options={"verify_exp": False})
+    except jwt.PyJWTError:
+        return None
+    if data.get("typ") != typ or data.get("exp", 0) <= int(clock.now().timestamp()):
+        return None
+    try:
+        return uuid.UUID(data["sub"])
+    except (KeyError, ValueError):
+        return None
+
+
+def decode_install_token(token: str) -> uuid.UUID | None:
+    return _decode_typed(token, "install")
+
+
+def decode_stream_ticket(ticket: str) -> uuid.UUID | None:
+    return _decode_typed(ticket, "stream")
+
+
+async def shopper(request: Request) -> Shopper:
+    """The calling shopper install (`Authorization: Bearer <install_token>`).
+
+    A deleted shopper's token stops working because the row is gone. `last_seen_at` is refreshed at most every
+    5 minutes; matching only notifies shoppers seen in the last 7 days.
+    """
+    header = request.headers.get("authorization", "")
+    if not header.lower().startswith("bearer "):
+        raise unauthorized("Please restart the app to sign in again.")
+    install_id = decode_install_token(header[7:].strip())
+    if install_id is None:
+        raise unauthorized("Please restart the app to sign in again.")
+    async with get_maker()() as s:
+        row = await s.get(Shopper, install_id)
+        if row is None:
+            raise unauthorized("Please restart the app to sign in again.")
+        now = clock.now()
+        if row.last_seen_at is None or now - row.last_seen_at >= LAST_SEEN_EVERY:
+            row.last_seen_at = now
+            await s.commit()
+    request.state.install_id = install_id
+    return row

@@ -140,6 +140,7 @@ export function ItemsManager({ compact = false }: { compact?: boolean }) {
   const [open, setOpen] = useState(false);
   const currency = shop?.currency ?? 'USD';
   const tz = shop?.timezone ?? 'UTC';
+  const Heading = compact ? 'h2' : 'h1';
 
   const remove = useMutation({
     mutationFn: (id: string) => api(`/v1/shop/items/${id}`, { method: 'DELETE' }),
@@ -151,11 +152,11 @@ export function ItemsManager({ compact = false }: { compact?: boolean }) {
   });
 
   return (
-    <section aria-labelledby="items-heading" className="grid gap-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 id="items-heading" className="text-xl font-bold">
+    <section aria-labelledby="items-heading" className="grid min-w-0 gap-4">
+      <div className={`flex flex-wrap items-center justify-between gap-3 ${compact ? '' : 'app-page-intro'}`}>
+        <Heading id="items-heading" className={compact ? 'text-xl font-bold' : ''}>
           {t('title')}
-        </h2>
+        </Heading>
         <Button
           onClick={() => {
             setEditing(null);
@@ -169,8 +170,9 @@ export function ItemsManager({ compact = false }: { compact?: boolean }) {
       {error && <p role="alert" className="text-destructive-text">{errorMessage(error)}</p>}
       {items && items.length === 0 && <Card className="p-6 text-center text-muted-foreground">{t('empty')}</Card>}
       {items && items.length > 0 && (
-        <Card className="overflow-x-auto">
-          <table className="w-full text-start text-base">
+        <Card className="w-full min-w-0 max-w-full overflow-hidden">
+          <div className="max-w-full overflow-x-auto">
+            <table className="w-full text-start text-base">
             <caption className="sr-only">{t('title')}</caption>
             <thead className="bg-muted text-sm text-muted-foreground">
               <tr>
@@ -180,7 +182,7 @@ export function ItemsManager({ compact = false }: { compact?: boolean }) {
                 {!compact && <th scope="col" className="px-4 py-3 text-start font-semibold">{t('cost')}</th>}
                 <th scope="col" className="px-4 py-3 text-start font-semibold">{t('quantity')}</th>
                 {!compact && <th scope="col" className="px-4 py-3 text-start font-semibold">{t('expires')}</th>}
-                <th scope="col" className="px-4 py-3"><span className="sr-only">{tc('actions')}</span></th>
+                <th scope="col" className="px-4 py-3" aria-label={tc('actions')} />
               </tr>
             </thead>
             <tbody>
@@ -224,7 +226,8 @@ export function ItemsManager({ compact = false }: { compact?: boolean }) {
                 </tr>
               ))}
             </tbody>
-          </table>
+            </table>
+          </div>
         </Card>
       )}
       <ItemDialog item={editing} open={open} onOpenChange={setOpen} />

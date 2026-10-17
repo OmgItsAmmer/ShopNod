@@ -13,6 +13,9 @@ Future<void> main() async {
   final storage = AppStorage();
   final app = AppController(storage);
   await app.init();
+  // The dashboard QR opens `/?market=demo&shop=<id>`. On the web the router uses `/#/…` URLs, so read the
+  // query from the page address itself (on mobile Uri.base has no query and this does nothing).
+  app.configureDeepLink(Uri.base);
   runApp(
     ProviderScope(
       overrides: [

@@ -184,8 +184,13 @@ async def test_offers_list_stats_and_end_now(client, shopkeeper):
     # reach is shown only when >= 10
     from shopnod_core.models import OfferReachStat
 
-    async with session_scope() as s:
-        s.add(OfferReachStat(offer_id=uuid.UUID(offer["id"]), reach=42, notified=9))
+    await settle()  # let Plan 1's matcher finish writing its own row first
+    async with session_scope() as s:  # Plan 1's matcher already made the row (0 shoppers nearby); set bigger numbers
+        row = await s.get(OfferReachStat, uuid.UUID(offer["id"]))
+        if row is None:
+            s.add(OfferReachStat(offer_id=uuid.UUID(offer["id"]), reach=42, notified=9))
+        else:
+            row.reach, row.notified = 42, 9
     st = (await client.get(f"/v1/shop/offers/{offer['id']}/stats")).json()
     assert st["reach"]["value"] == 42 and st["notified"]["label"] == "fewer than 10"
     key = idem()

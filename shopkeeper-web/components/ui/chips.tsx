@@ -66,7 +66,7 @@ export function PctBadge({ pct, className, size = 'lg' }: { pct: number; classNa
   return (
     <span
       className={cn(
-        'inline-flex items-baseline rounded-2xl bg-secondary font-extrabold text-secondary-foreground',
+        'inline-flex items-baseline rounded-xl border-2 border-foreground bg-secondary font-extrabold text-secondary-foreground',
         size === 'xl' ? 'px-5 py-2 text-6xl' : size === 'lg' ? 'px-4 py-1.5 text-4xl' : 'px-3 py-1 text-xl',
         className,
       )}

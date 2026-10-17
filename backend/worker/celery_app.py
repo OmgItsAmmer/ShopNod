@@ -17,6 +17,8 @@ _s = get_settings()
 celery_app = Celery("shopnod", broker=_s.REDIS_URL or "memory://", backend=None, include=[
     "shopnod_worker.tasks.ops.tasks",
     "shopnod_worker.tasks.shop.tasks",
+    "shopnod_worker.tasks.shopper.tasks",
+    "shopnod_worker.tasks.sim.tasks",
 ])
 celery_app.conf.update(
     task_serializer="json",
@@ -34,6 +36,8 @@ celery_app.conf.update(
         "expiry-sweep": {"task": "shop.expiry_sweep", "schedule": 900.0},
         "recompute-learning": {"task": "shop.recompute_learning", "schedule": crontab(hour=2, minute=0)},
         "purge-idempotency": {"task": "ops.purge_idempotency", "schedule": crontab(hour=3, minute=30)},
+        "shopper-retention": {"task": "shopper.retention_sweep", "schedule": crontab(hour=3, minute=0)},
+        "shopper-affinity": {"task": "shopper.recompute_affinity", "schedule": crontab(hour=2, minute=30)},
     },
 )
 

@@ -36,17 +36,17 @@ export default function BillingPage() {
       {b.test_mode && <StatusChip tone="info" className="w-fit">{t('testMode')}</StatusChip>}
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <Card className="grid gap-1 p-5" data-testid="billable-count">
+        <Card className="metric-card grid gap-1 p-5" data-testid="billable-count">
           <p className="text-base font-semibold text-muted-foreground">{t('billable', { month: b.month })}</p>
           <p className="text-4xl font-extrabold" data-testid="billable-number">{b.billable_redemptions}</p>
           <p className="text-sm text-muted-foreground">{t('perRedemption', { fee: usd(b.fee_per_redemption_usd_cents) })}</p>
         </Card>
-        <Card className="grid gap-1 p-5">
+        <Card className="metric-card grid gap-1 p-5">
           <p className="text-base font-semibold text-muted-foreground">{t('upcoming')}</p>
           <p className="text-4xl font-extrabold">{usd(b.upcoming_invoice_usd_cents)}</p>
           <p className="text-sm text-muted-foreground">{pro ? t('includedInPro') : t('estimateNote')}</p>
         </Card>
-        <Card className="grid gap-1 p-5">
+        <Card className="metric-card grid gap-1 p-5">
           <p className="text-base font-semibold text-muted-foreground">{t('meterEvents')}</p>
           <p className="text-4xl font-extrabold" data-testid="meter-events">{b.meter_events_sent}</p>
           <p className="text-sm text-muted-foreground">{b.stripe_configured ? t('sentToStripe') : t('stripeOff')}</p>

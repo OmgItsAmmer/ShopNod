@@ -874,6 +874,399 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/shopper/affinity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Affinity
+         * @description What the app learned about you (category interest).
+         */
+        get: operations["get_affinity_v1_shopper_affinity_get"];
+        put?: never;
+        post?: never;
+        /**
+         * Reset Affinity
+         * @description Forget what we learned from your activity. Your own choices (list, categories) stay.
+         */
+        delete: operations["reset_affinity_v1_shopper_affinity_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/claims": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Claims */
+        get: operations["list_claims_v1_shopper_claims_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/claims/{claim_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Claim
+         * @description Poll fallback for the live 'Redeemed' event.
+         */
+        get: operations["get_claim_v1_shopper_claims__claim_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/consents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Consents */
+        get: operations["get_consents_v1_shopper_consents_get"];
+        /** Put Consents */
+        put: operations["put_consents_v1_shopper_consents_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/context": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Context
+         * @description The time of day and weather for your area (no permission needed): they shape what we show first.
+         */
+        get: operations["get_context_v1_shopper_context_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/demo-context": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Set Demo Context
+         * @description Demo only: pretend it is a different time of day or weather, for this shopper only.
+         */
+        put: operations["set_demo_context_v1_shopper_demo_context_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Post Event
+         * @description open / dismiss / save / why_up / why_down. Kept 30 days.
+         */
+        post: operations["post_event_v1_shopper_events_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/feed": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Feed
+         * @description Top 10 offers near you, ranked for you, each with 'why you see this'.
+         */
+        get: operations["get_feed_v1_shopper_feed_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/installs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create Install
+         * @description No account: a random install id and a 180-day token. Shoppers must confirm they are 18 or older.
+         */
+        post: operations["create_install_v1_shopper_installs_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get List */
+        get: operations["get_list_v1_shopper_list_get"];
+        /**
+         * Put List
+         * @description Deleted after 30 days.
+         */
+        put: operations["put_list_v1_shopper_list_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/location": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Post Location
+         * @description Saves only the last area (geohash6) and the time. Never raw coordinates or a history.
+         */
+        post: operations["post_location_v1_shopper_location_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete Me
+         * @description Deletes everything about you. Redemptions stay for the shop's billing, without your install id.
+         */
+        delete: operations["delete_me_v1_shopper_me_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/me/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export Me
+         * @description Everything we hold about you, as JSON.
+         */
+        get: operations["export_me_v1_shopper_me_export_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/offers/{offer_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Offer */
+        get: operations["get_offer_v1_shopper_offers__offer_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/offers/{offer_id}/claim": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Claim Offer
+         * @description One active claim per shopper per offer. The same Idempotency-Key returns the same claim.
+         */
+        post: operations["claim_offer_v1_shopper_offers__offer_id__claim_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/preferences": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Preferences */
+        get: operations["get_preferences_v1_shopper_preferences_get"];
+        /** Put Preferences */
+        put: operations["put_preferences_v1_shopper_preferences_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/push-tokens": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Add Push Token
+         * @description Only allowed with the `notifications` consent.
+         */
+        post: operations["add_push_token_v1_shopper_push_tokens_post"];
+        /** Remove Push Token */
+        delete: operations["remove_push_token_v1_shopper_push_tokens_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/savings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Savings */
+        get: operations["get_savings_v1_shopper_savings_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/stream": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stream
+         * @description Live updates: offer.matched, claim.redeemed, offer.ended. Heartbeat every 15 s.
+         */
+        get: operations["stream_v1_shopper_stream_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/shopper/stream-ticket": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Stream Ticket
+         * @description `EventSource` can't send headers, so open the stream with this short-lived ticket.
+         */
+        post: operations["stream_ticket_v1_shopper_stream_ticket_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/webhooks/stripe": {
         parameters: {
             query?: never;
@@ -916,6 +1309,19 @@ export interface components {
             };
             /** Queue Length */
             queue_length: number | null;
+        };
+        /** AffinityOut */
+        AffinityOut: {
+            /** Categories */
+            categories: {
+                [key: string]: unknown;
+            }[];
+            /** Interests */
+            interests?: {
+                [key: string]: unknown;
+            }[];
+            /** Updated At */
+            updated_at: string;
         };
         /** AgentRunOut */
         AgentRunOut: {
@@ -1046,6 +1452,56 @@ export interface components {
             /** Upcoming Invoice Usd Cents */
             upcoming_invoice_usd_cents: number;
         };
+        /** ClaimListItem */
+        ClaimListItem: {
+            /** Claim Id */
+            claim_id: string;
+            /** Expires At */
+            expires_at: string;
+            offer: components["schemas"]["FeedOffer"];
+            /** Offer Id */
+            offer_id: string;
+            /** Qr Payload */
+            qr_payload: string;
+            /** Saved Minor */
+            saved_minor: number;
+            /** Shop */
+            shop: {
+                [key: string]: string;
+            };
+            /** Short Code */
+            short_code: string;
+            /** Status */
+            status: string;
+        };
+        /** ClaimOut */
+        ClaimOut: {
+            /** Claim Id */
+            claim_id: string;
+            /** Expires At */
+            expires_at: string;
+            /** Offer Id */
+            offer_id: string;
+            /** Qr Payload */
+            qr_payload: string;
+            /** Short Code */
+            short_code: string;
+            /** Status */
+            status: string;
+        };
+        /** ClaimStatusOut */
+        ClaimStatusOut: {
+            /** Claim Id */
+            claim_id: string;
+            /** Offer Id */
+            offer_id: string;
+            /** Redeemed At */
+            redeemed_at: string | null;
+            /** Saved Minor */
+            saved_minor: number;
+            /** Status */
+            status: string;
+        };
         /** CompleteOut */
         CompleteOut: {
             /** Items */
@@ -1079,6 +1535,144 @@ export interface components {
             proposal_id: string;
             /** Status */
             status: string;
+        };
+        /** ConsentsIn */
+        ConsentsIn: {
+            /** Analytics */
+            analytics?: boolean | null;
+            /** List */
+            list?: boolean | null;
+            /** Location */
+            location?: boolean | null;
+            /** Notifications */
+            notifications?: boolean | null;
+            /** Personalisation */
+            personalisation?: boolean | null;
+            /**
+             * Policy Version
+             * @default 1.0
+             */
+            policy_version: string;
+        };
+        /** ConsentsOut */
+        ConsentsOut: {
+            /** Analytics */
+            analytics: boolean;
+            /** List */
+            list: boolean;
+            /** Location */
+            location: boolean;
+            /** Notifications */
+            notifications: boolean;
+            /** Personalisation */
+            personalisation: boolean;
+            /**
+             * Policy Version
+             * @default 1.0
+             */
+            policy_version: string;
+        };
+        /**
+         * ContextOut
+         * @description What the app knows about the moment: shown as 'Rainy evening · 24°C' above the feed.
+         */
+        ContextOut: {
+            /** Daypart */
+            daypart: string;
+            /** Demo Mode */
+            demo_mode: boolean;
+            /** Pretend */
+            pretend: {
+                [key: string]: string | null;
+            };
+            /** Summary */
+            summary: string;
+            /** Temp C */
+            temp_c: number | null;
+            /** Weather */
+            weather: string;
+        };
+        /** DemoContextIn */
+        DemoContextIn: {
+            /** Daypart */
+            daypart?: ("morning" | "midday" | "evening" | "night") | null;
+            /** Weather */
+            weather?: ("rain" | "hot" | "cold" | "clear") | null;
+        };
+        /** EventIn */
+        EventIn: {
+            /** Offer Id */
+            offer_id?: string | null;
+            /** Reason */
+            reason?: string | null;
+            /** Type */
+            type: string;
+        };
+        /** FeedItem */
+        FeedItem: {
+            /** Copy Source */
+            copy_source: string;
+            /** Distance M */
+            distance_m: number | null;
+            offer: components["schemas"]["FeedOffer"];
+            /** Reasons */
+            reasons?: string[];
+            /** Score */
+            score: number | null;
+            shop: components["schemas"]["FeedShop"];
+            /**
+             * Source
+             * @enum {string}
+             */
+            source: "ai" | "rules";
+            /** Why */
+            why: string;
+        };
+        /** FeedOffer */
+        FeedOffer: {
+            /** Category */
+            category: string;
+            /** Copy Source */
+            copy_source: string;
+            /** Currency */
+            currency: string;
+            /** Description */
+            description: string;
+            /** Discount Pct */
+            discount_pct: number;
+            /** Ends At */
+            ends_at: string;
+            /** Id */
+            id: string;
+            /** Items */
+            items: {
+                [key: string]: unknown;
+            }[];
+            /** Now Price */
+            now_price: number;
+            /** Remaining */
+            remaining: number;
+            /** Shop Id */
+            shop_id: string;
+            /** Starts At */
+            starts_at: string;
+            /** Status */
+            status: string;
+            /** Tags */
+            tags: string[];
+            /** Title */
+            title: string;
+            /** Was Price */
+            was_price: number;
+        };
+        /** FeedShop */
+        FeedShop: {
+            /** Category */
+            category: string;
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
         };
         /** FlagIn */
         FlagIn: {
@@ -1164,6 +1758,31 @@ export interface components {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
+        /** InstallIn */
+        InstallIn: {
+            /**
+             * Age Confirmed
+             * @default false
+             */
+            age_confirmed: boolean;
+            /** Languages */
+            languages?: string[];
+            /**
+             * Platform
+             * @default web
+             */
+            platform: string;
+        };
+        /** InstallOut */
+        InstallOut: {
+            /**
+             * Install Id
+             * Format: uuid
+             */
+            install_id: string;
+            /** Install Token */
+            install_token: string;
+        };
         /** ItemIn */
         ItemIn: {
             /**
@@ -1222,23 +1841,24 @@ export interface components {
             /** Regular Price Since */
             regular_price_since?: string | null;
         };
-        /** LocationIn */
-        LocationIn: {
-            /** Currency */
-            currency?: string | null;
-            /** Is Eu */
-            is_eu?: boolean | null;
-            /** Lat */
-            lat?: number | null;
-            /** Lng */
-            lng?: number | null;
-            /**
-             * Market
-             * @description Market slug, e.g. 'demo'
-             */
-            market?: string | null;
-            /** Timezone */
-            timezone?: string | null;
+        /** ListIn */
+        ListIn: {
+            /** Items */
+            items?: string[];
+        };
+        /** ListOut */
+        ListOut: {
+            /** Expires At */
+            expires_at?: string | null;
+            /** Items */
+            items: string[];
+        };
+        /** LocationOut */
+        LocationOut: {
+            /** Geohash6 */
+            geohash6: string;
+            /** Market Name */
+            market_name?: string | null;
         };
         /** MagicLinkIn */
         MagicLinkIn: {
@@ -1334,6 +1954,27 @@ export interface components {
              */
             ok: boolean;
         };
+        /** PreferencesIn */
+        PreferencesIn: {
+            /** Categories */
+            categories?: string[] | null;
+            /** Daily Limit */
+            daily_limit?: number | null;
+            /** Dietary */
+            dietary?: string[] | null;
+            /** Languages */
+            languages?: string[] | null;
+            /** Max Distance M */
+            max_distance_m?: number | null;
+            /** Muted Categories */
+            muted_categories?: string[] | null;
+            /** Muted Shops */
+            muted_shops?: string[] | null;
+            /** Quiet End */
+            quiet_end?: string | null;
+            /** Quiet Start */
+            quiet_start?: string | null;
+        };
         /** ProposalItem */
         ProposalItem: {
             /** Category */
@@ -1422,6 +2063,20 @@ export interface components {
             /** P256Dh */
             p256dh: string;
         };
+        /** PushTokenIn */
+        PushTokenIn: {
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "fcm" | "webpush";
+            /** Subscription */
+            subscription?: {
+                [key: string]: unknown;
+            } | null;
+            /** Token */
+            token?: string | null;
+        };
         /** PushUnsubscribeIn */
         PushUnsubscribeIn: {
             /** Endpoint */
@@ -1482,6 +2137,17 @@ export interface components {
              * @enum {string}
              */
             reason: "wrong_items" | "wrong_time" | "too_generous" | "other";
+        };
+        /** SavingsOut */
+        SavingsOut: {
+            /** Amount Minor */
+            amount_minor: number;
+            /** Count */
+            count: number;
+            /** Currency */
+            currency: string;
+            /** Period */
+            period: string;
         };
         /** ShopCreateIn */
         ShopCreateIn: {
@@ -1653,6 +2319,13 @@ export interface components {
             /** Sample Items */
             sample_items: components["schemas"]["TemplateItemOut"][];
         };
+        /** TicketOut */
+        TicketOut: {
+            /** Expires In S */
+            expires_in_s: number;
+            /** Ticket */
+            ticket: string;
+        };
         /** TokenCreateIn */
         TokenCreateIn: {
             /**
@@ -1765,6 +2438,33 @@ export interface components {
              * Format: date-time
              */
             start: string;
+        };
+        /** LocationIn */
+        shopnod_api__routers__shopper__LocationIn: {
+            /** Lat */
+            lat?: number | null;
+            /** Lng */
+            lng?: number | null;
+            /** Market */
+            market?: string | null;
+        };
+        /** LocationIn */
+        shopnod_api__schemas__LocationIn: {
+            /** Currency */
+            currency?: string | null;
+            /** Is Eu */
+            is_eu?: boolean | null;
+            /** Lat */
+            lat?: number | null;
+            /** Lng */
+            lng?: number | null;
+            /**
+             * Market
+             * @description Market slug, e.g. 'demo'
+             */
+            market?: string | null;
+            /** Timezone */
+            timezone?: string | null;
         };
     };
     responses: never;
@@ -3101,7 +3801,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["LocationIn"];
+                "application/json": components["schemas"]["shopnod_api__schemas__LocationIn"];
             };
         };
         responses: {
@@ -3265,6 +3965,702 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_affinity_v1_shopper_affinity_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AffinityOut"];
+                };
+            };
+        };
+    };
+    reset_affinity_v1_shopper_affinity_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OkOut"];
+                };
+            };
+        };
+    };
+    list_claims_v1_shopper_claims_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClaimListItem"][];
+                };
+            };
+        };
+    };
+    get_claim_v1_shopper_claims__claim_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                claim_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClaimStatusOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_consents_v1_shopper_consents_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConsentsOut"];
+                };
+            };
+        };
+    };
+    put_consents_v1_shopper_consents_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConsentsIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConsentsOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_context_v1_shopper_context_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContextOut"];
+                };
+            };
+        };
+    };
+    set_demo_context_v1_shopper_demo_context_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DemoContextIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContextOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    post_event_v1_shopper_events_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EventIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OkOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_feed_v1_shopper_feed_get: {
+        parameters: {
+            query?: {
+                lang?: string | null;
+                /** @description optional, only for distance; never stored */
+                lat?: number | null;
+                lng?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeedItem"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_install_v1_shopper_installs_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InstallIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InstallOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_list_v1_shopper_list_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListOut"];
+                };
+            };
+        };
+    };
+    put_list_v1_shopper_list_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ListIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    post_location_v1_shopper_location_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["shopnod_api__routers__shopper__LocationIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LocationOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_me_v1_shopper_me_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OkOut"];
+                };
+            };
+        };
+    };
+    export_me_v1_shopper_me_export_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
+    get_offer_v1_shopper_offers__offer_id__get: {
+        parameters: {
+            query?: {
+                lang?: string | null;
+            };
+            header?: never;
+            path: {
+                offer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeedItem"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    claim_offer_v1_shopper_offers__offer_id__claim_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "Idempotency-Key"?: string | null;
+            };
+            path: {
+                offer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClaimOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_preferences_v1_shopper_preferences_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
+    put_preferences_v1_shopper_preferences_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PreferencesIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    add_push_token_v1_shopper_push_tokens_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PushTokenIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OkOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    remove_push_token_v1_shopper_push_tokens_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PushTokenIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OkOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_savings_v1_shopper_savings_get: {
+        parameters: {
+            query?: {
+                period?: "month" | "all";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SavingsOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    stream_v1_shopper_stream_get: {
+        parameters: {
+            query: {
+                ticket: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    stream_ticket_v1_shopper_stream_ticket_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TicketOut"];
                 };
             };
         };

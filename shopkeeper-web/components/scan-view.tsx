@@ -235,7 +235,7 @@ export function ScanView() {
       </div>
 
       <Card className="overflow-hidden">
-        <div className="relative grid aspect-[4/3] max-h-[60vh] w-full place-items-center bg-black sm:aspect-video" data-testid="camera-area">
+        <div className="relative grid aspect-[4/3] max-h-[60vh] w-full place-items-center bg-editorial sm:aspect-video" data-testid="camera-area">
           {camera.native ? (
             <video ref={camera.videoRef} playsInline muted className={cn('size-full object-cover', camera.state !== 'running' && 'hidden')} aria-label={t('cameraLabel')} />
           ) : (

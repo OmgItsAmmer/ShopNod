@@ -7,13 +7,13 @@ import { cn } from '@/lib/utils';
 /** Big buttons: every size has a 44px+ touch target and labels are 18.8px+ bold, so white-on-primary (4.45:1) counts as
  * WCAG "large text" (theme.md §5). Small primary fills use `primary-strong` instead. */
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 rounded-xl text-[1.175rem] font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:bg-button-disabled disabled:text-muted-foreground disabled:border-transparent select-none',
+  'inline-flex items-center justify-center gap-2 rounded-full text-[1.175rem] font-bold transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:bg-button-disabled disabled:text-muted-foreground disabled:border-transparent select-none',
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground hover:bg-primary-strong',
+        default: 'border-2 border-transparent bg-primary text-primary-foreground hover:bg-primary-strong',
         secondary: 'bg-secondary text-secondary-foreground hover:brightness-95',
-        outline: 'border border-border bg-card text-foreground hover:bg-muted',
+        outline: 'border-2 border-border bg-card text-foreground hover:bg-muted',
         ghost: 'text-foreground hover:bg-muted',
         danger: 'text-destructive-text hover:bg-error-tint',
         success: 'bg-success text-white hover:brightness-95',
@@ -22,7 +22,7 @@ const buttonVariants = cva(
       size: {
         default: 'min-h-11 px-5',
         sm: 'min-h-11 px-4',
-        lg: 'min-h-14 px-7 text-xl',
+        lg: 'min-h-14 px-8 text-xl',
         icon: 'size-11',
       },
     },

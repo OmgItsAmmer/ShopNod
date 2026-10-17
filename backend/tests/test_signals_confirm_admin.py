@@ -439,7 +439,7 @@ async def test_redemption_and_sold_out_events_on_stream(client, shopkeeper):
 async def test_admin_status_flags_and_permissions(client, shopkeeper):
     await shopkeeper.quiet(simulated=True)
     st = (await client.get("/v1/admin/status")).json()
-    assert st["outbox"]["sent"] >= 1 and st["outbox"]["dead"] == 0 and st["breakers"] == {"openai": "closed", "push": "closed", "stripe": "closed"}
+    assert st["outbox"]["sent"] >= 1 and st["outbox"]["dead"] == 0 and st["breakers"] == {"openai": "closed", "push": "closed", "stripe": "closed", "weather": "closed"}
     assert st["flags"] == {"ai_outage": False, "sim_enabled": False} and st["last_agent_runs"][0]["agent"] == "shop_agent"
     assert (await client.post("/v1/admin/sim", json={"enabled": True})).status_code == 200
     assert (await client.post("/v1/admin/sim", json={"burst": True})).status_code == 200

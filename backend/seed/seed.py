@@ -1,4 +1,5 @@
-"""Seed: category templates, the Demo Market and 5 demo shops with items and guardrails. Idempotent.
+"""Seed: category templates, the Demo Market, 5 demo shops with items and guardrails, and 40 simulated shoppers.
+Idempotent.
 
     python seed/seed.py
 """
@@ -46,7 +47,9 @@ async def seed() -> dict[str, int]:
             templates.set_location(shop, lat, lng, area)
             await templates.apply_template(s, shop, cat)
             created += 1
-    return {"created_shops": created}
+    from shopnod_worker.tasks.sim.sim import seed_shoppers
+
+    return {"created_shops": created, "created_sim_shoppers": await seed_shoppers()}
 
 
 if __name__ == "__main__":

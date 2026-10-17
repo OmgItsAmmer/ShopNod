@@ -1,4 +1,4 @@
-"""FastAPI app: REST + SSE for the shopkeeper web app (and, in Plan 1, the shopper app)."""
+"""FastAPI app: REST + SSE for the shopkeeper web app and the shopper app."""
 from __future__ import annotations
 
 import logging
@@ -36,6 +36,8 @@ async def lifespan(app: FastAPI):
     # In inline mode (no Redis) the API process also runs the outbox handlers and tasks.
     import shopnod_worker.tasks.ops  # noqa: F401
     import shopnod_worker.tasks.shop  # noqa: F401
+    import shopnod_worker.tasks.shopper  # noqa: F401
+    import shopnod_worker.tasks.sim  # noqa: F401
 
     yield
     await db.dispose_engine()
@@ -46,6 +48,7 @@ def create_app() -> FastAPI:
     from shopnod_api.routers.admin import router as admin_router
     from shopnod_api.routers.auth import router as auth_router
     from shopnod_api.routers.shop import router as shop_router
+    from shopnod_api.routers.shopper import router as shopper_router
     from shopnod_api.routers.webhooks import router as webhooks_router
 
     app = FastAPI(title="ShopNod API", version="0.1.0", lifespan=lifespan)
@@ -74,6 +77,7 @@ def create_app() -> FastAPI:
     app.include_router(health.router)
     app.include_router(auth_router, prefix="/v1/auth", tags=["auth"])
     app.include_router(shop_router, prefix="/v1/shop", tags=["shop"])
+    app.include_router(shopper_router, prefix="/v1/shopper", tags=["shopper"])
     app.include_router(admin_router, prefix="/v1/admin", tags=["admin"])
     app.include_router(webhooks_router, prefix="/webhooks", tags=["webhooks"])
     return app

@@ -16,7 +16,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
   }
 
   return (
-    <label className={`inline-flex min-h-11 items-center gap-2 rounded-xl border border-border bg-card px-3 text-base ${className ?? ''}`}>
+    <label className={`inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-border bg-card px-3 text-base ${className ?? ''}`}>
       <Languages className="size-5 text-icon" aria-hidden />
       <span className="sr-only">{t('language')}</span>
       <select

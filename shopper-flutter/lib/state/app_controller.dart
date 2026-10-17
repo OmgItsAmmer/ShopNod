@@ -41,9 +41,10 @@ class AppController extends ChangeNotifier with WidgetsBindingObserver {
     api = apiUrl.isEmpty ? DemoShopperApi() : RemoteShopperApi(apiUrl, token);
     claimItems = _readCachedClaims();
     if (onboarded) await refresh(silent: true);
+    // New offers show up within ~10 s while the app is open (the server caches ranking, so this is cheap).
     _refresh = Timer.periodic(
-      const Duration(seconds: 60),
-      (_) => refresh(silent: true),
+      const Duration(seconds: 10),
+      (_) => onboarded ? refresh(silent: true) : null,
     );
   }
 
@@ -130,6 +131,7 @@ class AppController extends ChangeNotifier with WidgetsBindingObserver {
       } else {
         await api.saveLocation(market: 'demo');
       }
+      if (consents.list) await api.saveList(shoppingList);
       onboarded = true;
       await storage.prefs.setBool('onboarded', true);
       await refresh(silent: true);
@@ -193,6 +195,29 @@ class AppController extends ChangeNotifier with WidgetsBindingObserver {
     } finally {
       busy = false;
       notifyListeners();
+    }
+  }
+
+  /// Ask the API whether the shop has scanned this claim yet (the QR screen polls this).
+  Future<void> syncClaim(String claimId) async {
+    final i = claimItems.indexWhere((c) => c.id == claimId);
+    if (i < 0 || claimItems[i].status != ClaimStatus.issued) return;
+    try {
+      final s = await api.claimStatus(claimId);
+      final status = ClaimStatus.values.firstWhere(
+        (v) => v.name == s['status'],
+        orElse: () => ClaimStatus.issued,
+      );
+      if (status == ClaimStatus.issued) return;
+      final c = claimItems[i];
+      claimItems[i] = c.copyWith(
+        status: status,
+        savedMinor: (s['saved_minor'] as num?)?.round() ?? c.savedMinor,
+      );
+      await _saveClaims();
+      notifyListeners();
+    } catch (_) {
+      // Offline or a blip: the next poll tries again.
     }
   }
 

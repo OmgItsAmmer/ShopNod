@@ -9,16 +9,16 @@ export default async function OnboardingLayout({ children }: { children: React.R
   if (!me) redirect('/login');
   if (me.shop?.onboarding_status === 'complete') redirect('/dashboard');
   return (
-    <div className="mx-auto flex min-h-dvh max-w-3xl flex-col gap-6 px-4 py-6 sm:px-6">
-      <header className="flex items-center justify-between gap-3">
-        <span className="text-2xl font-extrabold tracking-tight">ShopNod</span>
+    <div className="mx-auto flex min-h-dvh max-w-4xl flex-col gap-8 px-4 py-6 sm:px-8">
+      <header className="flex items-center justify-between gap-3 border-b-2 border-border pb-5">
+        <span className="text-2xl font-extrabold tracking-[-0.05em]">ShopNod</span>
         <div className="flex gap-2">
           <LanguageSwitcher />
           <ThemeToggle />
         </div>
       </header>
       <WizardSteps />
-      <main id="main" className="grid gap-6 pb-10">
+      <main id="main" className="editorial-workspace grid gap-6 pb-10">
         {children}
       </main>
     </div>

@@ -1,5 +1,5 @@
 # Everything for local development and CI (run from backend/):  docker compose --env-file .env up --build
-# Shopkeeper app: http://localhost:3000   API: http://localhost:8000/docs   MCP: http://localhost:8001/mcp
+# Shop dashboard: http://localhost:3000   Shopper view: http://localhost:3000/shopper   API: http://localhost:8000/docs   MCP: http://localhost:8001/mcp
 name: shopnod
 
 x-python-env: &python-env
@@ -17,7 +17,7 @@ x-python-env: &python-env
   VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY:-}
   VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY:-}
   VAPID_SUBJECT: ${VAPID_SUBJECT:-mailto:admin@shopnod.local}
-  EXPO_ACCESS_TOKEN: ${EXPO_ACCESS_TOKEN:-}
+  FIREBASE_CREDENTIALS: ${FIREBASE_CREDENTIALS:-}
   STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
   STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
   STRIPE_METER_EVENT_NAME: ${STRIPE_METER_EVENT_NAME:-shopnod_redemption}
@@ -26,11 +26,11 @@ x-python-env: &python-env
   EMAIL_PROVIDER_KEY: ${EMAIL_PROVIDER_KEY:-}
   SENTRY_DSN: ${SENTRY_DSN:-}
   SHOP_WEB_URL: ${SHOP_WEB_URL:-http://localhost:3000}
-  SHOPPER_WEB_URL: ${SHOPPER_WEB_URL:-http://localhost:8081}
+  SHOPPER_WEB_URL: ${SHOPPER_WEB_URL:-http://localhost:3000/shopper}
   API_PUBLIC_URL: ${API_PUBLIC_URL:-http://localhost:8000}
   MCP_PUBLIC_URL: ${MCP_PUBLIC_URL:-http://localhost:8001}
   DEMO_MODE: ${DEMO_MODE:-true}
-  CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://localhost:8081}
+  CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
 
 services:
   postgres:
@@ -67,14 +67,11 @@ services:
     build:
       context: ../shopkeeper-web
       args:
-        NEXT_PUBLIC_SHOPPER_WEB_URL: ${SHOPPER_WEB_URL:-http://localhost:8081}
         NEXT_PUBLIC_VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY:-}
     environment:
       API_INTERNAL_URL: http://api:8000
     ports: ["3000:3000"]
     depends_on: { api: { condition: service_healthy } }
-
-  # Plan 3 adds `shopper-web` (Flutter web build from ../shopper-flutter) here.
 
 volumes:
   pgdata:
