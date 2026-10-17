@@ -15,6 +15,7 @@ class Settings(BaseSettings):
 
     DATABASE_URL: str = "sqlite+aiosqlite:///./shopnod.db"
     REDIS_URL: str = ""
+    RUN_WORKER_INLINE: bool = True
     APP_ENV: str = "local"
     LOG_LEVEL: str = "INFO"
 

@@ -25,7 +25,8 @@ def inline(name: str):
 
 def enqueue(name: str, *args: Any) -> None:
     """Fire-and-forget. `name` is the Celery task name (e.g. 'shop.run_shop_agent')."""
-    if get_settings().REDIS_URL:
+    s = get_settings()
+    if s.REDIS_URL and not s.RUN_WORKER_INLINE:
         try:
             from shopnod_worker.celery_app import celery_app
 
@@ -55,7 +56,8 @@ def enqueue_in(delay_s: float, name: str, *args: Any) -> None:
     if delay_s <= 0:
         enqueue(name, *args)
         return
-    if get_settings().REDIS_URL:
+    s = get_settings()
+    if s.REDIS_URL and not s.RUN_WORKER_INLINE:
         try:
             from shopnod_worker.celery_app import celery_app
 
