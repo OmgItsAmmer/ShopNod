@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.env
+*.db
+*.db-*
+node_modules/
+.next/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+coverage/
+.coverage
+test-results/
+playwright-report/
+celerybeat-schedule*

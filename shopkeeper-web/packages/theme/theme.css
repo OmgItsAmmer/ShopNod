@@ -1,0 +1,62 @@
+:root {
+  --background: #F5F5F5;  --foreground: #272727;
+  --card: #FFFFFF;        --card-foreground: #272727;
+  --popover: #FFFFFF;     --popover-foreground: #272727;
+  --primary: #4B68FF;     --primary-foreground: #FFFFFF;
+  --primary-strong: #3A56F0;
+  --secondary: #FFE24B;   --secondary-foreground: #272727;
+  --muted: #F6F6F6;       --muted-foreground: #656565;
+  --accent: #B0C7FF;      --accent-foreground: #272727;
+  --destructive: #D32F2F; --destructive-foreground: #FFFFFF;
+  --success: #388E3C;  --warning: #F57C00;  --info: #1976D2;
+  --border: #D9D9D9;  --input: #D9D9D9;  --ring: #B0C7FF;
+  --icon: #8D8D8D;
+  --button-secondary: #6C757D;  --button-disabled: #C4C4C4;
+  --link: #3A56F0;
+  --editorial: #232323; --editorial-foreground: #FFFFFF;
+  --section-gutter: clamp(1.5rem, 8.333vw, 7.5rem);
+  --section-space: clamp(5rem, 9vw, 8rem);
+  --radius-frame: 1.75rem;
+  --ease-editorial: cubic-bezier(.22, 1, .36, 1);
+  --destructive-text: #D32F2F;
+  --success-tint: #388E3C1F;  --warning-tint: #F57C001F;  --error-tint: #D32F2F1F;  --info-tint: #1976D21F;
+}
+
+.dark {
+  --background: #121212;  --foreground: #F6F6F6;
+  --card: #2A2A2A;        --card-foreground: #F6F6F6;
+  --popover: #2A2A2A;     --popover-foreground: #F6F6F6;
+  --primary: #4B68FF;     --primary-foreground: #FFFFFF;
+  --secondary: #FFE24B;   --secondary-foreground: #272727;
+  --muted: rgba(255,255,255,.05); --muted-foreground: rgba(246,246,246,.6);
+  --accent: #B0C7FF;      --accent-foreground: #272727;
+  --destructive: #D32F2F; --destructive-foreground: #FFFFFF;
+  --border: #313131;  --input: #313131;  --ring: #B0C7FF;
+  --icon: #939393;
+  --button-disabled: rgba(255,255,255,.12);
+  --link: #B0C7FF;
+  --editorial: #000000; --editorial-foreground: #F6F6F6;
+  --destructive-text: #FF8A80;
+}
+
+@theme inline {
+  --color-background: var(--background);   --color-foreground: var(--foreground);
+  --color-card: var(--card);                --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);          --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);          --color-primary-foreground: var(--primary-foreground);
+  --color-primary-strong: var(--primary-strong);
+  --color-secondary: var(--secondary);      --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);              --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);            --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-text: var(--destructive-text);
+  --color-success: var(--success);  --color-warning: var(--warning);  --color-info: var(--info);
+  --color-border: var(--border);  --color-input: var(--input);  --color-ring: var(--ring);
+  --color-icon: var(--icon);  --color-link: var(--link);
+  --color-editorial: var(--editorial); --color-editorial-foreground: var(--editorial-foreground);
+  --color-button-secondary: var(--button-secondary);  --color-button-disabled: var(--button-disabled);
+  --color-success-tint: var(--success-tint);  --color-warning-tint: var(--warning-tint);
+  --color-error-tint: var(--error-tint);  --color-info-tint: var(--info-tint);
+}
+
+body { background: var(--background); color: var(--foreground); }

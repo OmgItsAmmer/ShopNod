@@ -1,0 +1,8 @@
+.next/
+node_modules/
+public/sw.js
+public/sw.js.map
+public/swe-worker-*.js
+next-env.d.ts
+tsconfig.tsbuildinfo
+.next-e2e/
